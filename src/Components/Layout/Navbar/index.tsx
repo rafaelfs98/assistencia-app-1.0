@@ -1,4 +1,12 @@
-import { Divider, Menu, Navbar, NavLink } from "@mantine/core";
+import {
+  Burger,
+  Divider,
+  MediaQuery,
+  Menu,
+  Navbar,
+  NavLink,
+  useMantineTheme,
+} from "@mantine/core";
 import {
   IconAddressBook,
   IconArticle,
@@ -24,17 +32,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserAvatar from "../UserAvatar";
 
-const NavbarApp: React.FC = () => {
-  const [opened, setOpened] = useState(false);
+const NavbarSectionsApp = () => {
   const navigate = useNavigate();
 
   return (
-    <Navbar
-      p="md"
-      hiddenBreakpoint="sm"
-      width={{ sm: 200, lg: 250 }}
-      hidden={opened}
-    >
+    <>
       <Navbar.Section p="xs">Suite OS</Navbar.Section>
       <Divider my="sm" />
 
@@ -118,8 +120,8 @@ const NavbarApp: React.FC = () => {
         <Divider my="sm" />
         {<UserAvatar />}
       </Navbar.Section>
-    </Navbar>
+    </>
   );
 };
 
-export default NavbarApp;
+export default NavbarSectionsApp;
