@@ -1,28 +1,15 @@
 import { useContext } from "react";
 
-import { Alert } from "@mantine/core";
+import { Alert, Header } from "@mantine/core";
+import Breadcrumb from "../Breadcrumb";
 
 const HeaderApp: React.FC = () => {
-  const style = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-  };
-
-  const currencyFormatter = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(value);
-  };
-
   return (
-    <>
-      <div style={style}>
-        <div>Assistencia Tecnica</div>
+    <Header height={{ base: 50, md: 70 }} p="md">
+      <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
+        <Breadcrumb />
       </div>
-    </>
+    </Header>
   );
 };
 export default HeaderApp;

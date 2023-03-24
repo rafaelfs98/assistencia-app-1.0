@@ -1,15 +1,7 @@
-import {
-  AppShell,
-  Navbar,
-  Header,
-  Footer,
-  Aside,
-  Text,
-  MediaQuery,
-  Burger,
-  useMantineTheme,
-} from "@mantine/core";
-import Sidebar from "./Sidebar";
+import { AppShell, useMantineTheme } from "@mantine/core";
+import { Outlet } from "react-router-dom";
+import HeaderApp from "./Header";
+import NavbarApp from "./Sidebar";
 
 export default function AppShellDemo() {
   const theme = useMantineTheme();
@@ -25,9 +17,11 @@ export default function AppShellDemo() {
         },
       }}
       navbarOffsetBreakpoint="sm"
-      navbar={<Sidebar />}
+      navbar={<NavbarApp />}
+      header={<HeaderApp />}
+      layout="alt"
     >
-      {"..."}
+      <Outlet />
     </AppShell>
   );
 }
