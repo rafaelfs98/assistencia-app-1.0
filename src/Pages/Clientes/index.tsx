@@ -1,9 +1,18 @@
-import { Button, Group, Loader, Table } from "@mantine/core";
+import { Button, Code, Group, Loader, Table, Text } from "@mantine/core";
 import { IconArticle, IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
+type ClientesData = {
+  email: string;
+  endereco: string;
+  nome: string;
+  telefone: string;
+};
+
 const Clientes = () => {
   const navigate = useNavigate();
+
+  const clienteString = localStorage.getItem("clientes");
 
   return (
     <>
@@ -16,13 +25,15 @@ const Clientes = () => {
       <Table>
         <thead>
           <tr>
-            <th>Element position</th>
-            <th>Element name</th>
-            <th>Symbol</th>
-            <th>Atomic mass</th>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Email</th>
+            <th>Endereço</th>
           </tr>
         </thead>
       </Table>
+
+      <Text>{clienteString}</Text>
     </>
   );
 };
