@@ -1,12 +1,16 @@
 import {
   Burger,
+  Button,
   Divider,
   MediaQuery,
   Menu,
   Navbar,
   NavLink,
+  Text,
+  UnstyledButton,
   useMantineTheme,
 } from "@mantine/core";
+import { ButtonGroup } from "@mantine/core/lib/Button/ButtonGroup/ButtonGroup";
 import {
   IconAddressBook,
   IconArticle,
@@ -76,7 +80,11 @@ const NavbarApp = () => {
         </MediaQuery>
       </div>
 
-      <Navbar.Section p="xs">Suite OS</Navbar.Section>
+      <Navbar.Section p="xs">
+        <UnstyledButton onClick={() => navigateTo("/")}>
+          Suite OS
+        </UnstyledButton>
+      </Navbar.Section>
       <Divider my="sm" />
 
       <Navbar.Section grow mt="md">
