@@ -12,7 +12,7 @@ import NavbarContext, { NavbarTypes } from "../../../Context/Navbarcontext";
 
 const HeaderApp: React.FC = () => {
   const theme = useMantineTheme();
-  const [opened, setOpened] = useState<boolean>(false);
+  const [opened, setOpened] = useState<boolean>(true);
   const [state, dispatch] = useContext(NavbarContext);
 
   const NavbarOpened = useCallback(() => {
@@ -33,7 +33,7 @@ const HeaderApp: React.FC = () => {
           <Burger
             opened={state.navBarVisible}
             onClick={() => {
-              setOpened((opened: boolean) => !opened);
+              setOpened((opened) => !opened);
             }}
             size="sm"
             color={theme.colors.gray[6]}
