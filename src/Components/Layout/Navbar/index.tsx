@@ -36,12 +36,12 @@ import UserAvatar from "../UserAvatar";
 const NavbarApp = () => {
   const navigate = useNavigate();
   const theme = useMantineTheme();
-  const [opened, setOpened] = useState<boolean>(false);
+  const [opened, setOpened] = useState<boolean>();
   const [state, dispatch] = useContext(NavbarContext);
 
   const NavbarOpened = useCallback(() => {
     dispatch({
-      payload: opened,
+      payload: opened as boolean,
       type: NavbarTypes.SET_NAVBAR_VISIBLE,
     });
   }, []);
@@ -49,6 +49,11 @@ const NavbarApp = () => {
   useEffect(() => {
     NavbarOpened();
   }, [opened]);
+
+  const navigateTo = (resource: string) => {
+    navigate(resource);
+    setOpened(!opened);
+  };
 
   return (
     <Navbar
@@ -63,7 +68,7 @@ const NavbarApp = () => {
           <Burger
             opened={state.navBarVisible}
             onClick={() => {
-              setOpened((opened: boolean) => !opened);
+              setOpened((opened) => !opened);
             }}
             size="sm"
             color={theme.colors.gray[6]}
@@ -83,7 +88,7 @@ const NavbarApp = () => {
           <NavLink
             label="Clientes"
             icon={<IconUsers size="1rem" stroke={1.5} />}
-            onClick={() => navigate("/clientes")}
+            onClick={() => navigateTo("clientes")}
           />
           <NavLink
             label="Categorias"

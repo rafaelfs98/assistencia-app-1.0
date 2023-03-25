@@ -16,7 +16,7 @@ type InitialState = {
 };
 
 export const initialState: InitialState = {
-  navBarVisible: false,
+  navBarVisible: true,
 };
 
 export enum NavbarTypes {
