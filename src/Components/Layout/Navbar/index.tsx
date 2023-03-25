@@ -81,7 +81,12 @@ const NavbarApp = () => {
       </div>
 
       <Navbar.Section p="xs">
-        <UnstyledButton onClick={() => navigateTo("/")}>
+        <UnstyledButton
+          onClick={() => {
+            navigateTo("/");
+            localStorage.clear();
+          }}
+        >
           Suite OS
         </UnstyledButton>
       </Navbar.Section>

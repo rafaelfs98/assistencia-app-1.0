@@ -1,52 +1,68 @@
 import { useState } from "react";
-import { useForm } from "@mantine/form";
+
 import { TextInput, Button, Box, Code, Input } from "@mantine/core";
 import { IMaskInput } from "react-imask";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
+type ClientesFormData = {
+  email: string;
+  endereco: string;
+  nome: string;
+  telefone: string;
+};
 
 const ClientesForm = () => {
-  const [submittedValues, setSubmittedValues] = useState("");
+  const navigate = useNavigate();
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+    setValue,
+    watch,
+  } = useForm<ClientesFormData>();
 
-  const form = useForm({
-    initialValues: {
-      firstName: "Jane",
-      lastName: "Doe",
-      age: "33",
-    },
+  const onSubmit = handleSubmit((clientes) => {
+    const clienteString = localStorage.getItem("clientes");
+    localStorage.setItem("clientes", clienteString + JSON.stringify(clientes));
 
-    transformValues: (values) => ({
-      fullName: `${values.firstName} ${values.lastName}`,
-      age: Number(values.age) || 0,
-    }),
+    navigate(-1);
   });
 
   return (
     <Box maw={400} mx="auto">
-      <form
-        onSubmit={form.onSubmit((values) =>
-          setSubmittedValues(JSON.stringify(values, null, 2))
-        )}
-      >
-        <TextInput required label="Nome" placeholder="Informe Nome" />
+      <form onSubmit={onSubmit}>
+        <TextInput
+          label="Nome"
+          placeholder="Informe Nome"
+          {...register("nome")}
+        />
         <TextInput
           type={"email"}
           label="Email"
-          required
           placeholder="Informe Email"
           mt="md"
+          {...register("email")}
         />
-        <Input.Wrapper label="Your phone" required maw={320} mt="md">
-          <Input<any>
-            component={IMaskInput}
-            mask="+55 (00) 00000-0000"
-            placeholder="Your phone"
-          />
-        </Input.Wrapper>
+        <TextInput
+          type={"text"}
+          label="Endereço"
+          placeholder="Informe Email"
+          mt="md"
+          {...register("endereco")}
+        />
+        <TextInput
+          type={"text"}
+          label="telefone"
+          placeholder="Informe Email"
+          mt="md"
+          {...register("telefone")}
+        />
+
         <Button type="submit" mt="md">
           Submit
         </Button>
       </form>
-
-      {submittedValues && <Code block>{submittedValues}</Code>}
     </Box>
   );
 };
