@@ -1,19 +1,13 @@
-import {
-  AppShell,
-  Burger,
-  Header,
-  MediaQuery,
-  Navbar,
-  NavLink,
-  useMantineTheme,
-} from "@mantine/core";
-import { useState } from "react";
+import { AppShell, useMantineTheme } from "@mantine/core";
+import { useContext, useState } from "react";
 import { Outlet } from "react-router-dom";
+import HeaderApp from "./Header";
+import NavbarApp from "./Navbar";
+
 import NavbarSectionsApp from "./Navbar";
 
 export default function AppShellDemo() {
   const theme = useMantineTheme();
-  const [opened, setOpened] = useState<boolean>(false);
 
   return (
     <AppShell
@@ -28,45 +22,8 @@ export default function AppShellDemo() {
       layout="alt"
       fixed
       navbarOffsetBreakpoint="sm"
-      navbar={
-        <Navbar
-          py="sm"
-          px="md"
-          hiddenBreakpoint="sm"
-          width={{ sm: 200, lg: 250 }}
-          hidden={!opened}
-        >
-          <div style={{ display: "flex", justifyContent: "end" }}>
-            <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-              <Burger
-                opened={opened}
-                onClick={() => setOpened((o) => !o)}
-                size="sm"
-                color={theme.colors.gray[6]}
-              />
-            </MediaQuery>
-          </div>
-
-          <NavbarSectionsApp />
-        </Navbar>
-      }
-      header={
-        <Header height={{ base: 50, md: 70 }} p="md">
-          <div
-            style={{ display: "flex", alignItems: "center", height: "100%" }}
-          >
-            <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-              <Burger
-                opened={opened}
-                onClick={() => setOpened((o) => !o)}
-                size="sm"
-                color={theme.colors.gray[6]}
-                mr="xl"
-              />
-            </MediaQuery>
-          </div>
-        </Header>
-      }
+      navbar={<NavbarApp />}
+      header={<HeaderApp />}
     >
       <Outlet />
     </AppShell>

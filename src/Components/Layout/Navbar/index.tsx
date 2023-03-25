@@ -28,15 +28,49 @@ import {
   IconUserCircle,
   IconUsers,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import NavbarContext, { NavbarTypes } from "../../../Context/Navbarcontext";
 import UserAvatar from "../UserAvatar";
 
-const NavbarSectionsApp = () => {
+const NavbarApp = () => {
   const navigate = useNavigate();
+  const theme = useMantineTheme();
+  const [opened, setOpened] = useState<boolean>(false);
+  const [state, dispatch] = useContext(NavbarContext);
+
+  const NavbarOpened = useCallback(() => {
+    dispatch({
+      payload: opened,
+      type: NavbarTypes.SET_NAVBAR_VISIBLE,
+    });
+  }, []);
+
+  useEffect(() => {
+    NavbarOpened();
+  }, [opened]);
 
   return (
-    <>
+    <Navbar
+      py="sm"
+      px="md"
+      hiddenBreakpoint="sm"
+      width={{ sm: 200, lg: 250 }}
+      hidden={!state.navBarVisible}
+    >
+      <div style={{ display: "flex", justifyContent: "end" }}>
+        <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+          <Burger
+            opened={state.navBarVisible}
+            onClick={() => {
+              setOpened((opened: boolean) => !opened);
+            }}
+            size="sm"
+            color={theme.colors.gray[6]}
+          />
+        </MediaQuery>
+      </div>
+
       <Navbar.Section p="xs">Suite OS</Navbar.Section>
       <Divider my="sm" />
 
@@ -120,8 +154,8 @@ const NavbarSectionsApp = () => {
         <Divider my="sm" />
         {<UserAvatar />}
       </Navbar.Section>
-    </>
+    </Navbar>
   );
 };
 
-export default NavbarSectionsApp;
+export default NavbarApp;
