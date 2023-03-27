@@ -4,6 +4,8 @@ import { TextInput, Button, Box, Code, Input } from "@mantine/core";
 import { IMaskInput } from "react-imask";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../../services/supabase/supabaseClient";
+import { insertClientes } from "../../services/Clientes";
 
 type ClientesFormData = {
   email: string;
@@ -26,6 +28,7 @@ const ClientesForm = () => {
     const clienteString = localStorage.getItem("clientes");
     localStorage.setItem("clientes", clienteString + JSON.stringify(clientes));
 
+    insertClientes(clientes);
     navigate(-1);
   });
 

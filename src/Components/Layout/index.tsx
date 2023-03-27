@@ -4,8 +4,6 @@ import { Outlet } from "react-router-dom";
 import HeaderApp from "./Header";
 import NavbarApp from "./Navbar";
 
-import NavbarSectionsApp from "./Navbar";
-
 export default function AppShellDemo() {
   const theme = useMantineTheme();
 
