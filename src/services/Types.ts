@@ -1,7 +1,12 @@
 export type ClientesFormData = {
+  bairro: string;
+  cep: string;
+  cidade: string;
+  complemento: string;
   email: string;
-  endereco: string;
-  nome: string;
+  logradouro: string;
+  name: string;
+  numero: number;
   telefone: string;
 };
 export type apiData = {

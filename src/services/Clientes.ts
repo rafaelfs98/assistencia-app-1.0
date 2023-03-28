@@ -3,8 +3,14 @@ import { ClientesFormData } from "./Types";
 
 export const insertClientes = async (clientes: ClientesFormData) => {
   await supabase.from("clientes").insert({
-    name: clientes.nome,
+    bairro: clientes.bairro,
+    cep: clientes.cep,
+    cidade: clientes.cidade,
+    complemento: clientes.complemento,
     email: clientes.email,
-    endereco: clientes.endereco,
+    logradouro: clientes.logradouro,
+    name: clientes.name,
+    numero: clientes.numero,
+    telefone: clientes.telefone,
   });
 };
