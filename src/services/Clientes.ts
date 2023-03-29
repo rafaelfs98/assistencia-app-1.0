@@ -34,3 +34,6 @@ export const updateCliente = async (
     })
     .eq("id", clienteId);
 };
+export const deleteCliente = async (clienteId: string) => {
+  await supabase.from("clientes").delete().eq("id", clienteId);
+};

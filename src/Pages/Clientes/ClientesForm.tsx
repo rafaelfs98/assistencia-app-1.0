@@ -39,7 +39,7 @@ const ClientesForm = () => {
   } = useFormActions();
 
   const { handleSubmit, setValue, register, watch } = useForm<ClientesFormData>(
-    { defaultValues: context.cliente ? context?.cliente[0] : {} }
+    { defaultValues: context?.cliente ? context?.cliente[0] : {} }
   );
 
   const cepWatch = watch("cep");

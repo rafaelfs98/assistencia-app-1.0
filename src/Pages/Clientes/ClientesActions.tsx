@@ -9,6 +9,7 @@ import { IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 import { Text } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import { deleteCliente } from "../../services/Clientes";
 
 type ClientesActionsProps = {
   clienteId: string;
@@ -31,7 +32,18 @@ const ClientesActions: React.FC<ClientesActionsProps> = ({ clienteId }) => {
         >
           Edit
         </Menu.Item>
-        <Menu.Item icon={<IconTrash size={14} />}>Delete</Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            if (!confirm("deseja excluir este cliente?")) {
+              return;
+            }
+            deleteCliente(clienteId);
+            window.location.reload();
+          }}
+          icon={<IconTrash size={14} />}
+        >
+          Delete
+        </Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );
