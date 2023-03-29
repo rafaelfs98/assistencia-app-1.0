@@ -9,7 +9,7 @@ import {
 
 import { IconDotsVertical, IconPlus, IconTrademark } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { supabase } from "../../services/supabase/supabaseClient";
 import { ClientesFormData } from "../../services/Types";
@@ -24,8 +24,9 @@ const Clientes: React.FC = () => {
     supabase
       .from("clientes")
       .select()
+      .order("id", { ascending: true })
       .then((response) => setItemList(response?.data as any));
-  }, [itemList]);
+  }, []);
 
   const ths = (
     <tr>
@@ -39,7 +40,7 @@ const Clientes: React.FC = () => {
 
   const rows = itemList?.map((item, index) => (
     <tr key={index}>
-      <td>{item.name}</td>
+      <td onClick={() => navigate(`${item?.id}/view`)}>{item.name}</td>
       <td>{item.telefone}</td>
       <td>{item.email}</td>
       <td>
@@ -55,7 +56,7 @@ const Clientes: React.FC = () => {
       </td>
 
       <td>
-        <ClientesActions />
+        <ClientesActions clienteId={String(item?.id)} />
       </td>
     </tr>
   ));

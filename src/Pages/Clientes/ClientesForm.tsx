@@ -7,12 +7,13 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import { useForm } from "react-hook-form";
-import { insertClientes } from "../../services/Clientes";
+import { insertCliente, updateCliente } from "../../services/Clientes";
 import useFormActions from "../../hooks/useFormActions";
 import { ClientesFormData } from "../../services/Types";
 import { IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
 import apiBuscaCep from "../../services/buscaCep/apiBuscaCep";
+import { useLocation, useOutletContext, useParams } from "react-router-dom";
 
 type enderco = {
   bairro: string;
@@ -22,17 +23,33 @@ type enderco = {
 };
 
 const ClientesForm = () => {
+  const context: {
+    cliente: ClientesFormData[];
+  } = useOutletContext();
+
+  const { clienteId } = useParams();
+
+  const { pathname } = useLocation();
+
+  const viewTrue = pathname === "/clientes/1/view";
+
   const [cep, setCep] = useState<enderco>();
   const {
     form: { onError, onSave, onClose },
   } = useFormActions();
 
-  const { handleSubmit, register, watch } = useForm<ClientesFormData>();
+  const { handleSubmit, setValue, register, watch } = useForm<ClientesFormData>(
+    { defaultValues: context.cliente ? context?.cliente[0] : {} }
+  );
 
   const cepWatch = watch("cep");
 
   const _onSubmit = async (form: ClientesFormData) => {
-    await insertClientes(form).then(onSave).catch(onError);
+    if (clienteId) {
+      return await updateCliente(form, clienteId).then(onSave).catch(onError);
+    }
+
+    await insertCliente(form).then(onSave).catch(onError);
   };
 
   const cepSearch = async () => {
@@ -42,6 +59,10 @@ const ClientesForm = () => {
     } catch {
       alert("Opa! Tem algum erro aí");
     }
+
+    setValue("logradouro", cep?.logradouro as string);
+    setValue("cidade", cep?.localidade as string);
+    setValue("bairro", cep?.bairro as string);
   };
 
   return (
@@ -65,11 +86,16 @@ const ClientesForm = () => {
             />
           </Group>
 
-          <Group>
-            <TextInput type={"text"} label="CEP" mt="md" {...register("cep")} />
+          <Group spacing="xs">
+            <TextInput
+              type={"text"}
+              label="CEP"
+              mt="md"
+              {...register("cep")}
+            ></TextInput>
 
-            <Button onClick={cepSearch} mt="lg" ml="sm">
-              {<IconSearch />}
+            <Button onClick={cepSearch} mt="40px" compact disabled={viewTrue}>
+              {<IconSearch size="1rem" stroke={1.5} />}
             </Button>
           </Group>
 
@@ -94,6 +120,9 @@ const ClientesForm = () => {
               mt="md"
               {...register("complemento")}
             />
+          </Group>
+
+          <Group spacing="xl" grow>
             <TextInput
               defaultValue={cep?.bairro}
               type={"text"}
@@ -112,7 +141,7 @@ const ClientesForm = () => {
 
           <Button.Group mt={"lg"}>
             <div>
-              <Button type="submit" mt="md">
+              <Button type="submit" mt="md" disabled={viewTrue}>
                 Submit
               </Button>
             </div>

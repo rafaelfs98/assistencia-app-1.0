@@ -8,8 +8,14 @@ import {
 import { IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 import { Text } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 
-const ClientesActions: React.FC = () => {
+type ClientesActionsProps = {
+  clienteId: string;
+};
+
+const ClientesActions: React.FC<ClientesActionsProps> = ({ clienteId }) => {
+  const navigate = useNavigate();
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
@@ -19,8 +25,12 @@ const ClientesActions: React.FC = () => {
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Label>Application</Menu.Label>
-        <Menu.Item icon={<IconPencil size={14} />}>Edit</Menu.Item>
+        <Menu.Item
+          onClick={() => navigate(`${clienteId}/update`)}
+          icon={<IconPencil size={14} />}
+        >
+          Edit
+        </Menu.Item>
         <Menu.Item icon={<IconTrash size={14} />}>Delete</Menu.Item>
       </Menu.Dropdown>
     </Menu>

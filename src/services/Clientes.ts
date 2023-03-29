@@ -1,16 +1,36 @@
 import { supabase } from "./supabase/supabaseClient";
 import { ClientesFormData } from "./Types";
 
-export const insertClientes = async (clientes: ClientesFormData) => {
+export const insertCliente = async (cliente: ClientesFormData) => {
   await supabase.from("clientes").insert({
-    bairro: clientes.bairro,
-    cep: clientes.cep,
-    cidade: clientes.cidade,
-    complemento: clientes.complemento,
-    email: clientes.email,
-    logradouro: clientes.logradouro,
-    name: clientes.name,
-    numero: clientes.numero,
-    telefone: clientes.telefone,
+    bairro: cliente.bairro,
+    cep: cliente.cep,
+    cidade: cliente.cidade,
+    complemento: cliente.complemento,
+    email: cliente.email,
+    logradouro: cliente.logradouro,
+    name: cliente.name,
+    numero: cliente.numero,
+    telefone: cliente.telefone,
   });
+};
+
+export const updateCliente = async (
+  cliente: ClientesFormData,
+  clienteId: string
+) => {
+  await supabase
+    .from("clientes")
+    .update({
+      bairro: cliente.bairro,
+      cep: cliente.cep,
+      cidade: cliente.cidade,
+      complemento: cliente.complemento,
+      email: cliente.email,
+      logradouro: cliente.logradouro,
+      name: cliente.name,
+      numero: cliente.numero,
+      telefone: cliente.telefone,
+    })
+    .eq("id", clienteId);
 };

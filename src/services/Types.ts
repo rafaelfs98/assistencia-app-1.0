@@ -1,4 +1,5 @@
 export type ClientesFormData = {
+  id?: number;
   bairro: string;
   cep: string;
   cidade: string;
