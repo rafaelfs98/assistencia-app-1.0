@@ -1,13 +1,6 @@
-import {
-  Button,
-  Menu,
-  Popover,
-  TextInput,
-  UnstyledButton,
-} from "@mantine/core";
+import { Menu, UnstyledButton } from "@mantine/core";
 import { IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
-import { useState } from "react";
-import { Text } from "@mantine/core";
+
 import { useNavigate } from "react-router-dom";
 import { deleteCliente } from "../../services/Clientes";
 
@@ -37,8 +30,7 @@ const ClientesActions: React.FC<ClientesActionsProps> = ({ clienteId }) => {
             if (!confirm("deseja excluir este cliente?")) {
               return;
             }
-            deleteCliente(clienteId);
-            window.location.reload();
+            deleteCliente(clienteId).then(() => window.location.reload());
           }}
           icon={<IconTrash size={14} />}
         >
