@@ -24,7 +24,7 @@ const ClientesForm = () => {
 
   const { pathname } = useLocation();
 
-  const viewTrue = pathname === "/clientes/1/view";
+  const viewTrue = pathname.includes("view");
 
   const [cep, setCep] = useState<enderco>();
   const {
