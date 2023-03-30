@@ -13,3 +13,9 @@ export type ClientesFormData = {
 export type apiData = {
   [x: string]: any;
 }[];
+
+export type LoginForm = {
+  name: string;
+  email: string;
+  password: string;
+};

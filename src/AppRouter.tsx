@@ -5,15 +5,17 @@ import OutletBridge from "./OutletBridge";
 import Clientes from "./Pages/Clientes";
 import ClientesForm from "./Pages/Clientes/ClientesForm";
 import ClientesOutlet from "./Pages/Clientes/ClientesOutlet";
-import Login from "./Pages/Login/Auth";
+import CreateLogin from "./Pages/Login/CreateLogin";
+import Login from "./Pages/Login/LoginPage";
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<Layout />} path="/">
+        <Route element={<Login />} path="/" />
+        <Route element={<CreateLogin />} path="/createLogin" />
+        <Route element={<Layout />} path="/inicial">
           <Route element={<Home />} index />
-          <Route element={<Login />} path="/login" />
           <Route element={<OutletBridge />} path="clientes">
             <Route element={<Clientes />} index />
             <Route element={<ClientesForm />} path="create" />

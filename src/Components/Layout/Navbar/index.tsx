@@ -83,7 +83,7 @@ const NavbarApp = () => {
       <Navbar.Section p="xs">
         <UnstyledButton
           onClick={() => {
-            navigateTo("/");
+            navigateTo("/inicial");
             localStorage.clear();
           }}
         >
@@ -153,22 +153,6 @@ const NavbarApp = () => {
         />
       </Navbar.Section>
       <Navbar.Section>
-        <Menu shadow="md" width={200} position="left-end">
-          <Menu.Target>
-            <NavLink
-              label="Gerencial"
-              icon={<IconSettings size="1rem" stroke={1.5} />}
-            />
-          </Menu.Target>
-
-          <Menu.Dropdown>
-            <Menu.Item icon={<IconTrademark size={14} />}>Empresa</Menu.Item>
-            <Menu.Item icon={<IconUser size={14} />}>Perfil</Menu.Item>
-            <Menu.Item icon={<IconSettings size={14} />}>
-              Configuracao de Relatorio
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
         <Divider my="sm" />
         {<UserAvatar />}
       </Navbar.Section>
