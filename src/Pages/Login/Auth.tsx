@@ -1,18 +1,17 @@
-// import { Auth } from '@supabase/auth-ui-react'
-// import {
-//   // Import predefined theme
-//   ThemeSupa,
-// } from '@supabase/auth-ui-shared'
+import { Auth } from "@supabase/auth-ui-react";
+import {
+  // Import predefined theme
+  ThemeSupa,
+} from "@supabase/auth-ui-shared";
+import { supabase } from "../../services/supabase/supabaseClient";
 
-// const supabase = createClient(
-//   '<INSERT PROJECT URL>',
-//   '<INSERT PROJECT ANON API KEY>'
-// )
+const Login = () => (
+  <Auth
+    supabaseClient={supabase}
+    appearance={{ theme: ThemeSupa }}
+    theme="dark"
+    providers={["google"]}
+  />
+);
 
-// const App = () => (
-//   <Auth
-//     supabaseClient={supabase}
-//     {/* Apply predefined theme */}
-//     appearance={{ theme: ThemeSupa }}
-//   />
-// )
+export default Login;

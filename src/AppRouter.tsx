@@ -5,6 +5,7 @@ import OutletBridge from "./OutletBridge";
 import Clientes from "./Pages/Clientes";
 import ClientesForm from "./Pages/Clientes/ClientesForm";
 import ClientesOutlet from "./Pages/Clientes/ClientesOutlet";
+import Login from "./Pages/Login/Auth";
 
 const AppRouter = () => {
   return (
@@ -12,6 +13,7 @@ const AppRouter = () => {
       <Routes>
         <Route element={<Layout />} path="/">
           <Route element={<Home />} index />
+          <Route element={<Login />} path="/login" />
           <Route element={<OutletBridge />} path="clientes">
             <Route element={<Clientes />} index />
             <Route element={<ClientesForm />} path="create" />
