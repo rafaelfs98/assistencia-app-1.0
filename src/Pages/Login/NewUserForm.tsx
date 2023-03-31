@@ -1,23 +1,24 @@
 import {
-  TextInput,
-  PasswordInput,
-  Checkbox,
   Anchor,
-  Paper,
-  Title,
-  Text,
+  Button,
+  Checkbox,
   Container,
   Group,
-  Button,
+  Paper,
+  PasswordInput,
+  Text,
+  TextInput,
+  Title,
 } from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import useFormActions from "../../hooks/useFormActions";
+
+import { insertUser } from "../../services/Users";
 import { supabase } from "../../services/supabase/supabaseClient";
 import { LoginForm } from "../../services/Types";
-import { insertUser } from "../../services/Users";
+import useFormActions from "../../hooks/useFormActions";
 
-const CreateLogin = () => {
+const NewUserForm = () => {
   const {
     form: { onError, onSave },
   } = useFormActions();
@@ -26,16 +27,23 @@ const CreateLogin = () => {
 
   const { handleSubmit, setValue, register, watch } = useForm<LoginForm>();
 
-  const _onSubmit = async (form: LoginForm) => {
-    const { data } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
-    });
+  const handleFormSubmit = async (form: LoginForm) => {
+    try {
+      const { data } = await supabase.auth.signUp({
+        email: form.email,
+        password: form.password,
+      });
 
-    if (data.session) {
-      return await insertUser(form).then(onSave).catch(onError);
+      if (data.session) {
+        await insertUser(form);
+        onSave();
+      }
+    } catch (error) {
+      onError();
+      console.error(error);
     }
   };
+
   return (
     <Container size={420} my={40}>
       <Title
@@ -48,7 +56,7 @@ const CreateLogin = () => {
         Welcome New User!
       </Title>
 
-      <form onSubmit={handleSubmit(_onSubmit)}>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <TextInput
             label="Name"
@@ -56,12 +64,14 @@ const CreateLogin = () => {
             required
             {...register("name")}
           />
+
           <TextInput
             label="Email"
             placeholder="you@mantine.dev"
             required
             {...register("email")}
           />
+
           <PasswordInput
             label="Password"
             placeholder="Your password"
@@ -69,8 +79,9 @@ const CreateLogin = () => {
             mt="md"
             {...register("password")}
           />
+
           <Button type="submit" fullWidth mt="xl">
-            Creat Acount
+            Create Account
           </Button>
         </Paper>
       </form>
@@ -78,4 +89,4 @@ const CreateLogin = () => {
   );
 };
 
-export default CreateLogin;
+export default NewUserForm;

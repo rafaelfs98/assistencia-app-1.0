@@ -1,5 +1,6 @@
 import { Menu, UnstyledButton } from "@mantine/core";
 import { IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
+import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { deleteCliente } from "../../services/Clientes";
@@ -10,6 +11,24 @@ type ClientesActionsProps = {
 
 const ClientesActions: React.FC<ClientesActionsProps> = ({ clienteId }) => {
   const navigate = useNavigate();
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!confirm("Deseja excluir este cliente?")) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      await deleteCliente(clienteId);
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      setIsDeleting(false);
+      alert("Ocorreu um erro ao excluir o cliente.");
+    }
+  };
+
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
@@ -23,18 +42,14 @@ const ClientesActions: React.FC<ClientesActionsProps> = ({ clienteId }) => {
           onClick={() => navigate(`${clienteId}/update`)}
           icon={<IconPencil size={14} />}
         >
-          Edit
+          Editar
         </Menu.Item>
         <Menu.Item
-          onClick={() => {
-            if (!confirm("deseja excluir este cliente?")) {
-              return;
-            }
-            deleteCliente(clienteId).then(() => window.location.reload());
-          }}
+          onClick={handleDelete}
           icon={<IconTrash size={14} />}
+          disabled={isDeleting}
         >
-          Delete
+          {isDeleting ? "Excluindo..." : "Excluir"}
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

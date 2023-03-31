@@ -1,7 +1,7 @@
+import { useState } from "react";
 import {
   TextInput,
   PasswordInput,
-  Checkbox,
   Anchor,
   Paper,
   Title,
@@ -12,30 +12,32 @@ import {
 } from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import useFormActions from "../../hooks/useFormActions";
 import { supabase } from "../../services/supabase/supabaseClient";
 import { LoginForm } from "../../services/Types";
-import CreateLogin from "./CreateLogin";
 
 const Login = () => {
-  const {
-    form: { onError, onSave, onClose },
-  } = useFormActions();
-
   const navigate = useNavigate();
-
-  const { handleSubmit, setValue, register, watch } = useForm<LoginForm>();
+  const { handleSubmit, register } = useForm<LoginForm>();
+  const [error, setError] = useState<string>("");
 
   const _onSubmit = async (form: LoginForm) => {
-    const { data } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: form.email,
       password: form.password,
     });
 
-    if (data.session) {
-      navigate("/inicial");
+    if (error) {
+      setError(error.message);
+      return;
     }
+
+    navigate("/inicial");
   };
+
+  const handleCreateAccountClick = () => {
+    navigate("/createLogin");
+  };
+
   return (
     <Container size={420} my={40}>
       <Title
@@ -49,16 +51,17 @@ const Login = () => {
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
         Do not have an account yet?{" "}
-        <Anchor
-          size="sm"
-          component="button"
-          onClick={() => navigate("createLogin")}
-        >
+        <Anchor size="sm" component="button" onClick={handleCreateAccountClick}>
           Create account
         </Anchor>
       </Text>
       <form onSubmit={handleSubmit(_onSubmit)}>
-        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        {error && (
+          <Paper withBorder shadow="md" p={20} mt={20} radius="md" color="red">
+            {error}
+          </Paper>
+        )}
+        <Paper withBorder shadow="md" p={30} mt={error ? 10 : 30} radius="md">
           <TextInput
             label="Email"
             placeholder="you@mantine.dev"
