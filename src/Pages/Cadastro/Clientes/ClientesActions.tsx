@@ -3,7 +3,7 @@ import { IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { deleteCliente } from "../../services/Clientes";
+import { deleteCliente } from "../../../services/Clientes";
 
 type ClientesActionsProps = {
   clienteId: string;

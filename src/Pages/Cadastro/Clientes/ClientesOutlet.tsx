@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
-import { supabase } from "../../services/supabase/supabaseClient";
-import { ClientesFormData } from "../../services/Types";
+import { supabase } from "../../../services/supabase/supabaseClient";
+import { ClientesFormData } from "../../../services/Types";
 
 type ClienteOutletContextType = {
   cliente: ClientesFormData[];

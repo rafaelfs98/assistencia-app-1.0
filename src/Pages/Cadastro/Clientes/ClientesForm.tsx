@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { useLocation, useOutletContext, useParams } from "react-router-dom";
 import { Box, Button, Container, Group, TextInput } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { ClientesFormData } from "../../services/Types";
-import { insertCliente, updateCliente } from "../../services/Clientes";
-import useFormActions from "../../hooks/useFormActions";
-import apiBuscaCep from "../../services/buscaCep/apiBuscaCep";
+import { ClientesFormData } from "../../../services/Types";
+import { insertCliente, updateCliente } from "../../../services/Clientes";
+import useFormActions from "../../../hooks/useFormActions";
+import apiBuscaCep from "../../../services/buscaCep/apiBuscaCep";
 
 type Endereco = {
   bairro: string;

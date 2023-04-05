@@ -2,12 +2,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./Components/Layout";
 import Home from "./Home";
 import OutletBridge from "./OutletBridge";
-import Clientes from "./Pages/Clientes";
-import ClientesForm from "./Pages/Clientes/ClientesForm";
-import ClientesOutlet from "./Pages/Clientes/ClientesOutlet";
+
 import CreateLogin from "./Pages/Login/NewUserForm";
 import Login from "./Pages/Login/LoginPage";
 import NewUserForm from "./Pages/Login/NewUserForm";
+import Clientes from "./Pages/Cadastro/Clientes";
+import ClientesForm from "./Pages/Cadastro/Clientes/ClientesForm";
+import ClientesOutlet from "./Pages/Cadastro/Clientes/ClientesOutlet";
 
 const AppRouter = () => {
   return (

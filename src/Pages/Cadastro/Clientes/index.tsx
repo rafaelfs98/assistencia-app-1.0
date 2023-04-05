@@ -2,8 +2,9 @@ import { Button, Group, Table } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../services/supabase/supabaseClient";
-import { ClientesFormData } from "../../services/Types";
+import { supabase } from "../../../services/supabase/supabaseClient";
+import { ClientesFormData } from "../../../services/Types";
+
 import ClientesActions from "./ClientesActions";
 
 const Clientes: React.FC = () => {
