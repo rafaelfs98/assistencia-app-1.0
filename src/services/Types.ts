@@ -10,6 +10,10 @@ export type ClientesFormData = {
   numero: number;
   telefone: string;
 };
+export type CategoriasFormData = {
+  id?: number;
+  name: string;
+};
 export type apiData = {
   [x: string]: any;
 }[];
