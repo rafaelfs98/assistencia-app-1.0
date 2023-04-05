@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { MantineProvider, Text } from "@mantine/core";
+import { MantineProvider } from "@mantine/core";
 import { theme } from "./theme";
 import AppRouter from "./AppRouter";
 import { NavbarContextProvider } from "./Context/Navbarcontext";

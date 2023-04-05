@@ -106,6 +106,7 @@ const NavbarApp = () => {
           <NavLink
             label="Categorias"
             icon={<IconCategory size="1rem" stroke={1.5} />}
+            onClick={() => navigateTo("categorias")}
           />
           <NavLink
             label="Equipamentos"

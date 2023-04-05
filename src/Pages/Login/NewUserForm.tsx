@@ -1,12 +1,8 @@
 import {
-  Anchor,
   Button,
-  Checkbox,
   Container,
-  Group,
   Paper,
   PasswordInput,
-  Text,
   TextInput,
   Title,
 } from "@mantine/core";
@@ -23,9 +19,7 @@ const NewUserForm = () => {
     form: { onError, onSave },
   } = useFormActions();
 
-  const navigate = useNavigate();
-
-  const { handleSubmit, setValue, register, watch } = useForm<LoginForm>();
+  const { handleSubmit, register } = useForm<LoginForm>();
 
   const handleFormSubmit = async (form: LoginForm) => {
     try {
