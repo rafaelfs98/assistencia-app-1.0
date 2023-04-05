@@ -30,29 +30,31 @@ const ClientesActions: React.FC<ClientesActionsProps> = ({ clienteId }) => {
   };
 
   return (
-    <Menu shadow="md" width={200}>
-      <Menu.Target>
-        <UnstyledButton>
-          <IconDotsVertical />
-        </UnstyledButton>
-      </Menu.Target>
+    <div style={{ display: "flex", justifyContent: "end" }}>
+      <Menu shadow="md" width={200}>
+        <Menu.Target>
+          <UnstyledButton>
+            <IconDotsVertical />
+          </UnstyledButton>
+        </Menu.Target>
 
-      <Menu.Dropdown>
-        <Menu.Item
-          onClick={() => navigate(`${clienteId}/update`)}
-          icon={<IconPencil size={14} />}
-        >
-          Editar
-        </Menu.Item>
-        <Menu.Item
-          onClick={handleDelete}
-          icon={<IconTrash size={14} />}
-          disabled={isDeleting}
-        >
-          {isDeleting ? "Excluindo..." : "Excluir"}
-        </Menu.Item>
-      </Menu.Dropdown>
-    </Menu>
+        <Menu.Dropdown>
+          <Menu.Item
+            onClick={() => navigate(`${clienteId}/update`)}
+            icon={<IconPencil size={14} />}
+          >
+            Editar
+          </Menu.Item>
+          <Menu.Item
+            onClick={handleDelete}
+            icon={<IconTrash size={14} />}
+            disabled={isDeleting}
+          >
+            {isDeleting ? "Excluindo..." : "Excluir"}
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
+    </div>
   );
 };
 
