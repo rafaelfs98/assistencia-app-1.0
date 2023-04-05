@@ -71,7 +71,7 @@ const UserAvatar: React.FC = () => {
           onClick={async () => {
             await supabase.auth.signOut();
 
-            navigate("/");
+            navigate("/login");
           }}
           icon={<IconPower size={14} />}
         >

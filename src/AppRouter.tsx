@@ -13,9 +13,9 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<Login />} path="/" />
+        <Route element={<Login />} path="/login" />
         <Route element={<NewUserForm />} path="/createLogin" />
-        <Route element={<Layout />} path="/inicial">
+        <Route element={<Layout />} path="/">
           <Route element={<Home />} index />
           <Route element={<OutletBridge />} path="clientes">
             <Route element={<Clientes />} index />

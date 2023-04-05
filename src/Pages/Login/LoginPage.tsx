@@ -31,7 +31,7 @@ const Login = () => {
       return;
     }
 
-    navigate("/inicial");
+    navigate("/");
   };
 
   const handleCreateAccountClick = () => {
