@@ -1,4 +1,4 @@
-import { Button, Group, Loader, Table } from "@mantine/core";
+import { Button, Group, Table } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,8 @@ import { supabase } from "../../../services/supabase/supabaseClient";
 import { CategoriasFormData } from "../../../services/Types";
 import CategoriasActions from "./CategoriasActions";
 import { useSupabase } from "../../../hooks/useSupabase";
+import Loader from "../../../Components/Layout/Loader";
+import Loading from "../../../Components/Layout/Loader";
 
 const Categorias: React.FC = () => {
   const navigate = useNavigate();
@@ -33,7 +35,7 @@ const Categorias: React.FC = () => {
   ));
 
   if (isLoading) {
-    return <Loader />;
+    return <Loading />;
   }
 
   return (

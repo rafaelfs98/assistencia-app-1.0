@@ -7,6 +7,7 @@ import { ClientesFormData } from "../../../services/Types";
 import { insertCliente, updateCliente } from "../../../services/Clientes";
 import useFormActions from "../../../hooks/useFormActions";
 import apiBuscaCep from "../../../services/buscaCep/apiBuscaCep";
+import { KeyedMutator } from "swr";
 
 type Endereco = {
   bairro: string;
@@ -19,7 +20,11 @@ const ClientesForm = () => {
   const { clienteId } = useParams();
   const { pathname } = useLocation();
   const viewTrue = pathname.includes("view");
-  const context = useOutletContext<{ cliente: ClientesFormData[] }>();
+  const context = useOutletContext<{
+    cliente: ClientesFormData[];
+    mutateCliente: KeyedMutator<ClientesFormData>;
+  }>();
+
   const [cep, setCep] = useState<Endereco>();
 
   const {
@@ -33,7 +38,7 @@ const ClientesForm = () => {
     watch,
     formState: { errors },
   } = useForm<ClientesFormData>({
-    defaultValues: context?.cliente ? context.cliente[0] : {},
+    defaultValues: context ? context?.cliente[0] : {},
   });
 
   const cepWatch = watch("cep");

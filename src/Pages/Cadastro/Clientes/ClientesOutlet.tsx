@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
+import { useSupabase } from "../../../hooks/useSupabase";
 import { supabase } from "../../../services/supabase/supabaseClient";
 import { ClientesFormData } from "../../../services/Types";
 
@@ -10,31 +11,23 @@ type ClienteOutletContextType = {
 const ClientesOutlet = () => {
   const { clienteId } = useParams<{ clienteId: string }>();
 
-  const [cliente, setCliente] = useState<ClientesFormData[]>();
-
-  useEffect(() => {
-    const fetchCliente = async () => {
-      const { data, error } = await supabase
-        .from("clientes")
-        .select()
-        .eq("id", clienteId);
-
-      if (error) {
-        console.error("Erro ao buscar cliente:", error);
-      } else {
-        setCliente(data as ClientesFormData[]);
-      }
-    };
-
-    fetchCliente();
-  }, [clienteId]);
+  const { data: cliente, mutate: mutateCliente } =
+    useSupabase<ClientesFormData>({
+      table: "clientes",
+      order: "id",
+      ascending: true,
+      eq: { value: "id", id: clienteId as string },
+    });
 
   if (cliente) {
-    const contextValue: ClienteOutletContextType = {
-      cliente,
-    };
-
-    return <Outlet context={contextValue} />;
+    return (
+      <Outlet
+        context={{
+          cliente,
+          mutateCliente,
+        }}
+      />
+    );
   }
 
   return null;

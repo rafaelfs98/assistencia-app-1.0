@@ -13,6 +13,7 @@ const CategoriasOutlet = () => {
       table: "categorias",
       order: "id",
       ascending: true,
+      eq: { value: "id", id: categoriaId as string },
     });
 
   if (categoria) {

@@ -1,8 +1,8 @@
 import { Button, Group, Table } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../../services/supabase/supabaseClient";
+import Loading from "../../../Components/Layout/Loader";
+import { useSupabase } from "../../../hooks/useSupabase";
 import { ClientesFormData } from "../../../services/Types";
 
 import ClientesActions from "./ClientesActions";
@@ -10,15 +10,11 @@ import ClientesActions from "./ClientesActions";
 const Clientes: React.FC = () => {
   const navigate = useNavigate();
 
-  const [itemList, setItemList] = useState<ClientesFormData[]>();
-
-  useEffect(() => {
-    supabase
-      .from("clientes")
-      .select()
-      .order("id", { ascending: true })
-      .then((response) => setItemList(response?.data as any));
-  }, []);
+  const { data, isLoading } = useSupabase<ClientesFormData>({
+    table: "clientes",
+    order: "id",
+    ascending: true,
+  });
 
   const ths = (
     <tr>
@@ -29,7 +25,7 @@ const Clientes: React.FC = () => {
     </tr>
   );
 
-  const rows = itemList?.map((item, index) => (
+  const rows = data?.map((item, index) => (
     <tr key={index}>
       <td onClick={() => navigate(`${item?.id}/view`)}>{item.name}</td>
       <td>{item.telefone}</td>
@@ -40,6 +36,10 @@ const Clientes: React.FC = () => {
       </td>
     </tr>
   ));
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
