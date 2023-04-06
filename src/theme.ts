@@ -1,6 +1,7 @@
 import { MantineThemeOverride } from "@mantine/core";
 
 export const theme: MantineThemeOverride = {
+  loader: "oval",
   colorScheme: "dark",
   breakpoints: {
     xs: "30em",

@@ -11,12 +11,14 @@ export const updateCategoria = async (
   categoria: CategoriasFormData,
   categoriaId: string
 ) => {
-  await supabase
+  const { data } = await supabase
     .from("categorias")
     .update({
       name: categoria.name,
     })
     .eq("id", categoriaId);
+
+  return data;
 };
 export const deleteCategoria = async (categoria: string) => {
   await supabase.from("categorias").delete().eq("id", categoria);

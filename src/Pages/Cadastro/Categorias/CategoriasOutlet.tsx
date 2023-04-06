@@ -2,39 +2,28 @@ import { useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import { supabase } from "../../../services/supabase/supabaseClient";
 import { CategoriasFormData } from "../../../services/Types";
-
-type CategoriaOutletContextType = {
-  categoria: CategoriasFormData[];
-};
+import useSWR from "swr";
+import { useSupabase } from "../../../hooks/useSupabase";
 
 const CategoriasOutlet = () => {
   const { categoriaId } = useParams<{ categoriaId: string }>();
 
-  const [categoria, setCategoria] = useState<CategoriasFormData[]>();
-
-  useEffect(() => {
-    const fetchCliente = async () => {
-      const { data, error } = await supabase
-        .from("categorias")
-        .select()
-        .eq("id", categoriaId);
-
-      if (error) {
-        console.error("Erro ao buscar cliente:", error);
-      } else {
-        setCategoria(data as CategoriasFormData[]);
-      }
-    };
-
-    fetchCliente();
-  }, [categoriaId]);
+  const { data: categoria, mutate: mutateCategoria } =
+    useSupabase<CategoriasFormData>({
+      table: "categorias",
+      order: "id",
+      ascending: true,
+    });
 
   if (categoria) {
-    const contextValue: CategoriaOutletContextType = {
-      categoria,
-    };
-
-    return <Outlet context={contextValue} />;
+    return (
+      <Outlet
+        context={{
+          categoria,
+          mutateCategoria,
+        }}
+      />
+    );
   }
 
   return null;

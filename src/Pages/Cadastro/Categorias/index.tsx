@@ -1,23 +1,20 @@
-import { Button, Group, Table } from "@mantine/core";
+import { Button, Group, Loader, Table } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../../services/supabase/supabaseClient";
 import { CategoriasFormData } from "../../../services/Types";
 import CategoriasActions from "./CategoriasActions";
+import { useSupabase } from "../../../hooks/useSupabase";
 
 const Categorias: React.FC = () => {
   const navigate = useNavigate();
 
-  const [itemList, setItemList] = useState<CategoriasFormData[]>();
-
-  useEffect(() => {
-    supabase
-      .from("categorias")
-      .select()
-      .order("id", { ascending: true })
-      .then((response) => setItemList(response?.data as any));
-  }, []);
+  const { data, isLoading } = useSupabase<CategoriasFormData>({
+    table: "categorias",
+    order: "id",
+    ascending: true,
+  });
 
   const ths = (
     <tr>
@@ -26,7 +23,7 @@ const Categorias: React.FC = () => {
     </tr>
   );
 
-  const rows = itemList?.map((item, index) => (
+  const rows = data?.map((item, index) => (
     <tr key={index}>
       <td>{item.name}</td>
       <td>
@@ -34,6 +31,10 @@ const Categorias: React.FC = () => {
       </td>
     </tr>
   ));
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>

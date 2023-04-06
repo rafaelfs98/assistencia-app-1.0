@@ -5,27 +5,29 @@ import { CategoriasFormData, ClientesFormData } from "../../../services/Types";
 import useFormActions from "../../../hooks/useFormActions";
 
 import { insertCategoria, updateCategoria } from "../../../services/Categorias";
+import { KeyedMutator } from "swr";
 
 const CategoriasForm = () => {
   const { categoriaId } = useParams();
-  const context = useOutletContext<{ categoria: CategoriasFormData[] }>();
+  const context = useOutletContext<{
+    categoria: ClientesFormData[];
+    mutateCategoria: KeyedMutator<CategoriasFormData>;
+  }>();
 
   const {
     form: { onError, onSave, onClose },
   } = useFormActions();
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<ClientesFormData>({
-    defaultValues: context?.categoria ? context.categoria[0] : {},
+  const { handleSubmit, register } = useForm<ClientesFormData>({
+    defaultValues: context ? context?.categoria[0] : {},
   });
 
   const onSubmit = async (form: ClientesFormData) => {
     try {
       if (categoriaId) {
-        await updateCategoria(form, categoriaId);
+        await updateCategoria(form, categoriaId).then(
+          context.mutateCategoria as any
+        );
       } else {
         await insertCategoria(form);
       }
