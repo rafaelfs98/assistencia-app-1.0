@@ -7,9 +7,10 @@ import NewUserForm from "./Pages/Login/NewUserForm";
 import Clientes from "./Pages/Cadastro/Clientes";
 import ClientesForm from "./Pages/Cadastro/Clientes/ClientesForm";
 import ClientesOutlet from "./Pages/Cadastro/Clientes/ClientesOutlet";
-import Categorias from "./Pages/Cadastro/Categorias/index";
-import CategoriasForm from "./Pages/Cadastro/Categorias/CategoriasForm";
-import CategoriasOutlet from "./Pages/Cadastro/Categorias/CategoriasOutlet";
+import Statuss from "./Pages/Cadastro/Status/index";
+import StatussForm from "./Pages/Cadastro/Status/StatusForm";
+import StatussOutlet from "./Pages/Cadastro/Status/StatusOutlet";
+import Status from "./Pages/Cadastro/Status/index";
 
 const AppRouter = () => {
   return (
@@ -27,11 +28,11 @@ const AppRouter = () => {
               <Route element={<ClientesForm />} path="view" />
             </Route>
           </Route>
-          <Route element={<OutletBridge />} path="categorias">
-            <Route element={<Categorias />} index />
-            <Route element={<CategoriasForm />} path="create" />
-            <Route element={<CategoriasOutlet />} path=":categoriaId">
-              <Route element={<CategoriasForm />} path="update" />
+          <Route element={<OutletBridge />} path="status">
+            <Route element={<Status />} index />
+            <Route element={<StatussForm />} path="create" />
+            <Route element={<StatussOutlet />} path=":statusId">
+              <Route element={<StatussForm />} path="update" />
             </Route>
           </Route>
         </Route>

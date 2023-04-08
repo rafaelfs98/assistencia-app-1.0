@@ -103,20 +103,7 @@ const NavbarApp = () => {
             icon={<IconUsers size="1rem" stroke={1.5} />}
             onClick={() => navigateTo("clientes")}
           />
-          <NavLink
-            label="Categorias"
-            icon={<IconCategory size="1rem" stroke={1.5} />}
-            onClick={() => navigateTo("categorias")}
-          />
-          <NavLink
-            label="Equipamentos"
-            icon={<IconDevices size="1rem" stroke={1.5} />}
-          />
-          <NavLink
-            label="Fornecedores"
-            icon={<IconAddressBook size="1rem" stroke={1.5} />}
-          />
-          <NavLink label="Marcas" icon={<IconTag size="1rem" stroke={1.5} />} />
+
           <NavLink
             label="Servicos"
             icon={<IconTool size="1rem" stroke={1.5} />}
@@ -124,6 +111,7 @@ const NavbarApp = () => {
           <NavLink
             label="Status"
             icon={<IconHierarchy size="1rem" stroke={1.5} />}
+            onClick={() => navigateTo("status")}
           />
           <NavLink
             label="Formas de Pagamentos"
@@ -133,21 +121,8 @@ const NavbarApp = () => {
         <NavLink
           label="Ordem de Sevicos"
           icon={<IconClipboardList size="1rem" stroke={1.5} />}
-          rightSection={<IconChevronRight />}
-        >
-          <NavLink
-            label="Criar uma O.S"
-            icon={<IconPlus size="1rem" stroke={1.5} />}
-          />
-          <NavLink
-            label="Listar Todas O.S"
-            icon={<IconListDetails size="1rem" stroke={1.5} />}
-          />
-          <NavLink
-            label="Abrir uma O.S"
-            icon={<IconFile size="1rem" stroke={1.5} />}
-          />
-        </NavLink>
+        />
+
         <NavLink
           label="Orcamento"
           icon={<IconCoin size="1rem" stroke={1.5} />}
