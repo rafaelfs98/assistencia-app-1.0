@@ -1,26 +1,21 @@
 import { Button, Group, Table } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../../services/supabase/supabaseClient";
-import { CategoriasFormData } from "../../../services/Types";
-import CategoriasActions from "./CategoriasActions";
+import { StatusFormData } from "../../../services/Types";
+import StatussActions from "./StatusActions";
 import { useSupabase } from "../../../hooks/useSupabase";
-import Loader from "../../../Components/Layout/Loader";
 import Loading from "../../../Components/Layout/Loader";
 
-const Categorias: React.FC = () => {
+const Statuss: React.FC = () => {
   const navigate = useNavigate();
 
-  const { data, isLoading } = useSupabase<CategoriasFormData>({
-    table: "categorias",
-    order: "id",
-    ascending: true,
+  const { data, isLoading } = useSupabase<StatusFormData>({
+    uri: "/status?order=id.asc",
   });
 
   const ths = (
     <tr>
-      <th>Categoria</th>
+      <th>Status</th>
       <th></th>
     </tr>
   );
@@ -29,7 +24,7 @@ const Categorias: React.FC = () => {
     <tr key={index}>
       <td>{item.name}</td>
       <td>
-        <CategoriasActions categoriaId={String(item?.id)} />
+        <StatussActions StatusId={String(item?.id)} />
       </td>
     </tr>
   ));
@@ -54,4 +49,4 @@ const Categorias: React.FC = () => {
   );
 };
 
-export default Categorias;
+export default Statuss;

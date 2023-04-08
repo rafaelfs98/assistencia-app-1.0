@@ -11,9 +11,7 @@ const Clientes: React.FC = () => {
   const navigate = useNavigate();
 
   const { data, isLoading } = useSupabase<ClientesFormData>({
-    table: "clientes",
-    order: "id",
-    ascending: true,
+    uri: `/clientes?order=id.asc`,
   });
 
   const ths = (

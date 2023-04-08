@@ -1,35 +1,33 @@
 import { useForm } from "react-hook-form";
 import { useOutletContext, useParams } from "react-router-dom";
 import { Box, Button, Container, TextInput } from "@mantine/core";
-import { CategoriasFormData, ClientesFormData } from "../../../services/Types";
+import { StatusFormData } from "../../../services/Types";
 import useFormActions from "../../../hooks/useFormActions";
 
-import { insertCategoria, updateCategoria } from "../../../services/Categorias";
+import { insertStatus, updateStatus } from "../../../services/Status";
 import { KeyedMutator } from "swr";
 
-const CategoriasForm = () => {
-  const { categoriaId } = useParams();
+const StatussForm = () => {
+  const { StatusId } = useParams();
   const context = useOutletContext<{
-    categoria: ClientesFormData[];
-    mutateCategoria: KeyedMutator<CategoriasFormData>;
+    status: StatusFormData[];
+    mutateStatus: KeyedMutator<StatusFormData>;
   }>();
 
   const {
     form: { onError, onSave, onClose },
   } = useFormActions();
 
-  const { handleSubmit, register } = useForm<ClientesFormData>({
-    defaultValues: context ? context?.categoria[0] : {},
+  const { handleSubmit, register } = useForm<StatusFormData>({
+    defaultValues: context ? context?.status[0] : {},
   });
 
-  const onSubmit = async (form: ClientesFormData) => {
+  const onSubmit = async (form: StatusFormData) => {
     try {
-      if (categoriaId) {
-        await updateCategoria(form, categoriaId).then(
-          context.mutateCategoria as any
-        );
+      if (StatusId) {
+        await updateStatus(form, StatusId).then(context.mutateStatus as any);
       } else {
-        await insertCategoria(form);
+        await insertStatus(form);
       }
       onSave();
     } catch (error) {
@@ -58,4 +56,4 @@ const CategoriasForm = () => {
   );
 };
 
-export default CategoriasForm;
+export default StatussForm;

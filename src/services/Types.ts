@@ -10,7 +10,7 @@ export type ClientesFormData = {
   numero: number;
   telefone: string;
 };
-export type CategoriasFormData = {
+export type StatusFormData = {
   id?: number;
   name: string;
 };

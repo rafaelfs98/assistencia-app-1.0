@@ -2,37 +2,35 @@ import { Menu, UnstyledButton } from "@mantine/core";
 import { IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteCategoria } from "../../../services/Categorias";
+import { deleteStatus } from "../../../services/Status";
 
-type CategoriasActionsProps = {
-  categoriaId: string;
+type StatussActionsProps = {
+  StatusId: string;
 };
 
-const CategoriasActions: React.FC<CategoriasActionsProps> = ({
-  categoriaId,
-}) => {
+const StatussActions: React.FC<StatussActionsProps> = ({ StatusId }) => {
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
-    if (!confirm("Deseja excluir esta Categoria?")) {
+    if (!window.confirm("Deseja excluir esta Status?")) {
       return;
     }
 
     setIsDeleting(true);
     try {
-      await deleteCategoria(categoriaId);
+      await deleteStatus(StatusId);
       window.location.reload();
     } catch (error) {
       console.error(error);
       setIsDeleting(false);
-      alert("Ocorreu um erro ao excluir o categoria.");
+      alert("Ocorreu um erro ao excluir a Status.");
     }
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "end" }}>
-      <Menu shadow="md" width={200} styles={{}}>
+    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <Menu shadow="md" width={200}>
         <Menu.Target>
           <UnstyledButton>
             <IconDotsVertical />
@@ -41,7 +39,7 @@ const CategoriasActions: React.FC<CategoriasActionsProps> = ({
 
         <Menu.Dropdown>
           <Menu.Item
-            onClick={() => navigate(`${categoriaId}/update`)}
+            onClick={() => navigate(`${StatusId}/update`)}
             icon={<IconPencil size={14} />}
           >
             Editar
@@ -59,4 +57,4 @@ const CategoriasActions: React.FC<CategoriasActionsProps> = ({
   );
 };
 
-export default CategoriasActions;
+export default StatussActions;
