@@ -2,34 +2,22 @@ import useSWR from "swr";
 import { supabase } from "../services/supabase/supabaseClient";
 
 interface Query {
-  table: string;
-  order?: string;
-  ascending?: boolean;
-  eq?: { value: string; id: string };
+  uri: string;
 }
 
-export function useSupabase<T>(query: Query) {
-  const { data, error, mutate } = useSWR<T[]>(
-    JSON.stringify(query),
-    async () => {
-      const { data, error } = await supabase
-        .from(query.table)
-        .select()
-        .order(query.order ?? "", { ascending: query.ascending })
-        .eq(query.eq?.value ?? "", query.eq?.id ?? "");
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return data ?? [];
+export function useSupabase<T>({ uri }: Query) {
+  const fetcher = async (url: string) => {
+    console.log(url);
+    const { data, error } = await supabase.from(url).select("*");
+    if (error) {
+      throw new Error(error.message);
     }
-  );
-
-  return {
-    data,
-    isLoading: !error && !data,
-    isError: error,
-    mutate,
+    return data;
   };
+
+  const { data, error, mutate } = useSWR<T[]>(uri, fetcher);
+
+  const isLoading = !error && !data;
+
+  return { data, isLoading, isError: error, mutate };
 }
