@@ -7,10 +7,11 @@ import NewUserForm from "./Pages/Login/NewUserForm";
 import Clientes from "./Pages/Cadastro/Clientes";
 import ClientesForm from "./Pages/Cadastro/Clientes/ClientesForm";
 import ClientesOutlet from "./Pages/Cadastro/Clientes/ClientesOutlet";
-import Statuss from "./Pages/Cadastro/Status/index";
-import StatussForm from "./Pages/Cadastro/Status/StatusForm";
-import StatussOutlet from "./Pages/Cadastro/Status/StatusOutlet";
+import StatusForm from "./Pages/Cadastro/Status/StatusForm";
+import StatusOutlet from "./Pages/Cadastro/Status/StatusOutlet";
 import Status from "./Pages/Cadastro/Status/index";
+import Servicos from "./Pages/Cadastro/Servicos";
+import ServicosForm from "./Pages/Cadastro/Servicos/ServicosForm";
 
 const AppRouter = () => {
   return (
@@ -30,9 +31,16 @@ const AppRouter = () => {
           </Route>
           <Route element={<OutletBridge />} path="status">
             <Route element={<Status />} index />
-            <Route element={<StatussForm />} path="create" />
-            <Route element={<StatussOutlet />} path=":statusId">
-              <Route element={<StatussForm />} path="update" />
+            <Route element={<StatusForm />} path="create" />
+            <Route element={<StatusOutlet />} path=":statusId">
+              <Route element={<StatusForm />} path="update" />
+            </Route>
+          </Route>
+          <Route element={<OutletBridge />} path="servicos">
+            <Route element={<Servicos />} index />
+            <Route element={<ServicosForm />} path="create" />
+            <Route element={<ServicosForm />} path=":servicoId">
+              <Route element={<ServicosForm />} path="update" />
             </Route>
           </Route>
         </Route>

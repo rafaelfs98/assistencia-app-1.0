@@ -2,34 +2,30 @@ import { Menu, UnstyledButton } from "@mantine/core";
 import { IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteStatus } from "../../../services/Status";
+import { deleteServicos } from "../../../services/Servicos";
 
-type StatusActionsProps = {
-  StatusId: string;
-};
-
-const StatusActions: React.FC<StatusActionsProps> = ({ StatusId }) => {
+const ServicosActions: React.FC<any> = ({ servicoId }) => {
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
-    if (!window.confirm("Deseja excluir esta Status?")) {
+    if (!confirm("Deseja excluir este servico?")) {
       return;
     }
 
     setIsDeleting(true);
     try {
-      await deleteStatus(StatusId);
+      await deleteServicos(servicoId);
       window.location.reload();
     } catch (error) {
       console.error(error);
       setIsDeleting(false);
-      alert("Ocorreu um erro ao excluir a Status.");
+      alert("Ocorreu um erro ao excluir o servico.");
     }
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+    <div style={{ display: "flex", justifyContent: "end" }}>
       <Menu shadow="md" width={200}>
         <Menu.Target>
           <UnstyledButton>
@@ -39,7 +35,7 @@ const StatusActions: React.FC<StatusActionsProps> = ({ StatusId }) => {
 
         <Menu.Dropdown>
           <Menu.Item
-            onClick={() => navigate(`${StatusId}/update`)}
+            onClick={() => navigate(`${servicoId}/update`)}
             icon={<IconPencil size={14} />}
           >
             Editar
@@ -57,4 +53,4 @@ const StatusActions: React.FC<StatusActionsProps> = ({ StatusId }) => {
   );
 };
 
-export default StatusActions;
+export default ServicosActions;

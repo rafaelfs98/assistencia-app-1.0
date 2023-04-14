@@ -1,21 +1,22 @@
 import { Button, Group, Table } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../../Components/Layout/Loader";
+import { ServicosFormData, StatusFormData } from "../../../services/Types";
 import { useSupabase } from "../../../hooks/useSupabase";
-import { StatusFormData } from "../../../services/Types";
-import StatusActions from "./StatusActions";
+import Loading from "../../../Components/Layout/Loader";
+import ServicosActions from "./ServicosActions";
 
-const Status: React.FC = () => {
+const Servicos: React.FC = () => {
   const navigate = useNavigate();
 
-  const { data, isLoading } = useSupabase<StatusFormData>({
-    uri: "/status?order=id.asc",
+  const { data, isLoading } = useSupabase<ServicosFormData>({
+    uri: "/servicos?order=id.asc",
   });
 
   const ths = (
     <tr>
-      <th>Status</th>
+      <th>Servicos</th>
+      <th>Valor</th>
       <th></th>
     </tr>
   );
@@ -23,8 +24,9 @@ const Status: React.FC = () => {
   const rows = data?.map((item, index) => (
     <tr key={index}>
       <td>{item.name}</td>
+      <td>{item.valor}</td>
       <td>
-        <StatusActions StatusId={String(item?.id)} />
+        <ServicosActions StatusId={String(item?.id)} />
       </td>
     </tr>
   ));
@@ -49,4 +51,4 @@ const Status: React.FC = () => {
   );
 };
 
-export default Status;
+export default Servicos;

@@ -14,6 +14,11 @@ export type StatusFormData = {
   id?: number;
   name: string;
 };
+export type ServicosFormData = {
+  id?: number;
+  name: string;
+  valor: string;
+};
 export type apiData = {
   [x: string]: any;
 }[];

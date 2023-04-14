@@ -107,6 +107,7 @@ const NavbarApp = () => {
           <NavLink
             label="Servicos"
             icon={<IconTool size="1rem" stroke={1.5} />}
+            onClick={() => navigateTo("servicos")}
           />
           <NavLink
             label="Status"

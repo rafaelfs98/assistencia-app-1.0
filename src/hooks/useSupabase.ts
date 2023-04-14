@@ -7,7 +7,6 @@ interface Query {
 
 export function useSupabase<T>({ uri }: Query) {
   const fetcher = async (url: string) => {
-    console.log(url);
     const { data, error } = await supabase.from(url).select("*");
     if (error) {
       throw new Error(error.message);
