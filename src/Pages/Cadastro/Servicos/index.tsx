@@ -1,7 +1,7 @@
 import { Button, Group, Table } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-import { ServicosFormData, StatusFormData } from "../../../services/Types";
+import { ServicosFormData } from "../../../services/Types";
 import { useSupabase } from "../../../hooks/useSupabase";
 import Loading from "../../../Components/Layout/Loader";
 import ServicosActions from "./ServicosActions";
