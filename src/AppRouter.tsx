@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import Layout from "./Components/Layout";
 import Home from "./Home";
 import OutletBridge from "./OutletBridge";
@@ -15,7 +15,7 @@ import ServicosForm from "./Pages/Cadastro/Servicos/ServicosForm";
 
 const AppRouter = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route element={<Login />} path="/login" />
         <Route element={<NewUserForm />} path="/createLogin" />
@@ -45,7 +45,7 @@ const AppRouter = () => {
           </Route>
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
