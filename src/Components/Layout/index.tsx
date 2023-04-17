@@ -1,5 +1,5 @@
 import { AppShell, useMantineTheme } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { supabase } from "../../services/supabase/supabaseClient";
 import HeaderApp from "./Header";

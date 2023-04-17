@@ -1,13 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 
-import {
-  Alert,
-  Burger,
-  Header,
-  MediaQuery,
-  useMantineTheme,
-} from "@mantine/core";
-import Breadcrumb from "../Breadcrumb";
+import { Burger, Header, MediaQuery, useMantineTheme } from "@mantine/core";
 import NavbarContext, { NavbarTypes } from "../../../Context/Navbarcontext";
 
 const HeaderApp: React.FC = () => {
