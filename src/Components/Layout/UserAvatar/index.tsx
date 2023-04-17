@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Divider,
-  Group,
-  Menu,
-  Text,
-  UnstyledButton,
-} from "@mantine/core";
+import { Divider, Group, Menu, Text, UnstyledButton } from "@mantine/core";
 import { supabase } from "../../../services/supabase/supabaseClient";
 import { useEffect, useState } from "react";
 import { LoginForm } from "../../../services/Types";

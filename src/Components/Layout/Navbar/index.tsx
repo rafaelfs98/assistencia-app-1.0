@@ -1,35 +1,20 @@
 import {
   Burger,
-  Button,
   Divider,
   MediaQuery,
-  Menu,
   Navbar,
   NavLink,
-  Text,
   UnstyledButton,
   useMantineTheme,
 } from "@mantine/core";
-import { ButtonGroup } from "@mantine/core/lib/Button/ButtonGroup/ButtonGroup";
 import {
-  IconAddressBook,
   IconArticle,
   IconCash,
-  IconCategory,
   IconChevronRight,
   IconClipboardList,
   IconCoin,
-  IconDevices,
-  IconFile,
   IconHierarchy,
-  IconListDetails,
-  IconPlus,
-  IconSettings,
-  IconTag,
   IconTool,
-  IconTrademark,
-  IconUser,
-  IconUserCircle,
   IconUsers,
 } from "@tabler/icons-react";
 import { useCallback, useContext, useEffect, useState } from "react";

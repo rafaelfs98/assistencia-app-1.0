@@ -1,5 +1,4 @@
-import { Box, Container, Loader, LoadingOverlay } from "@mantine/core";
-import { useState } from "react";
+import { Container, Loader } from "@mantine/core";
 
 const Loading = () => {
   return (
