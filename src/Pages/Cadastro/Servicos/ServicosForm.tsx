@@ -1,29 +1,14 @@
-/// <reference types="react-imask" />
-
 import { useLocation, useOutletContext, useParams } from "react-router-dom";
 import useFormActions from "../../../hooks/useFormActions";
 import { useForm } from "react-hook-form";
 import { IMaskInput } from "react-imask";
-import {
-  Box,
-  Button,
-  Container,
-  Group,
-  InputBase,
-  TextInput,
-} from "@mantine/core";
-import { ServicosFormData } from "../../../services/Types";
-import { KeyedMutator } from "swr";
+import { InputBase, TextInput } from "@mantine/core";
 import IMask from "imask";
 
-interface BlocksConfig {
-  num: {
-    mask: NumberConstructor;
-    scale: number;
-    thousandsSeparator: string;
-    radix: string;
-  };
-}
+import { Box, Button, Container, Group } from "@mantine/core";
+import { ServicosFormData } from "../../../services/Types";
+import { KeyedMutator } from "swr";
+import { insertServicos, updateServicos } from "../../../services/Servicos";
 
 const ServicosForm = () => {
   const { servicoId } = useParams();
@@ -34,45 +19,38 @@ const ServicosForm = () => {
     mutateCliente: KeyedMutator<ServicosFormData>;
   }>();
 
-  const options = {
+  const moneyMask = IMask.createMask({
+    mask: "R$ num",
     blocks: {
       num: {
         mask: Number,
-        scale: 2,
         thousandsSeparator: ".",
         radix: ",",
+        scale: 2,
+        signed: false,
       },
     },
-    radix: ",",
-    unmask: true,
-    normalizeZeros: true,
-  };
+  });
 
   const {
     form: { onError, onSave, onClose },
   } = useFormActions();
 
-  const {
-    handleSubmit,
-    register,
-    watch,
-    formState: { errors },
-  } = useForm<ServicosFormData>({
+  const { setValue, handleSubmit, register } = useForm<ServicosFormData>({
     defaultValues: context ? context?.servicos[0] : {},
   });
 
   const onSubmit = async (form: ServicosFormData) => {
-    console.log(form);
-    // try {
-    //   if (servicoId) {
-    //     await updateServicos(form, servicoId);
-    //   } else {
-    //     await insertServicos(form);
-    //   }
-    //   onSave();
-    // } catch (error) {
-    //   onError(error);
-    // }
+    try {
+      if (servicoId) {
+        await updateServicos(form, servicoId);
+      } else {
+        await insertServicos(form);
+      }
+      onSave();
+    } catch (error) {
+      onError(error);
+    }
   };
 
   return (
@@ -81,7 +59,12 @@ const ServicosForm = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextInput mt="md" required label="Nome" {...register("name")} />
           <Group spacing="xl" grow>
-            <InputBase label="Preço" component={IMaskInput} />
+            <InputBase
+              label="Valor"
+              component={IMaskInput}
+              mask={moneyMask as any}
+              onAccept={(value) => setValue("valor", value as string)}
+            />
           </Group>
 
           <Button.Group mt="lg">
