@@ -1,4 +1,11 @@
-import { Divider, Group, Menu, Text, UnstyledButton } from "@mantine/core";
+import {
+  Avatar,
+  Divider,
+  Group,
+  Menu,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
 import { supabase } from "../../../services/supabase/supabaseClient";
 import { useEffect, useState } from "react";
 import { LoginForm } from "../../../services/Types";
@@ -44,21 +51,15 @@ const UserAvatar: React.FC = () => {
       <Menu.Target>
         <UnstyledButton style={{ display: "block" }}>
           <Group>
-            <div>
-              <Text>{usuario?.map((user) => user?.name)}</Text>
-              <Text size="xs" color="dimmed">
-                {usuario?.map((user) => user?.email)}
-              </Text>
-            </div>
+            <Avatar color="cyan" radius="xl">
+              {usuario?.map((user) => user?.name.substring(0, 2))}
+            </Avatar>
           </Group>
         </UnstyledButton>
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Item icon={<IconTrademark size={14} />}>Empresa</Menu.Item>
         <Menu.Item icon={<IconUser size={14} />}>Perfil</Menu.Item>
-        <Menu.Item icon={<IconSettings size={14} />}>
-          Configuracao de Relatorio
-        </Menu.Item>
         <Divider my="sm" />
         <Menu.Item
           onClick={async () => {

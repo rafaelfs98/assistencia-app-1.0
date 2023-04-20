@@ -1,4 +1,11 @@
-import { Button, Group, Table } from "@mantine/core";
+import {
+  AspectRatio,
+  Button,
+  Center,
+  Container,
+  Group,
+  Table,
+} from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Components/Layout/Loader";
