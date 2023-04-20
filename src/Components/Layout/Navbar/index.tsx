@@ -1,19 +1,19 @@
 import {
-  Burger,
   Divider,
-  MediaQuery,
+  Menu,
   Navbar,
   NavLink,
+  Stack,
   UnstyledButton,
   useMantineTheme,
 } from "@mantine/core";
 import {
   IconArticle,
   IconCash,
-  IconChevronRight,
   IconClipboardList,
   IconCoin,
   IconHierarchy,
+  IconSettings,
   IconTool,
   IconUsers,
 } from "@tabler/icons-react";
@@ -45,78 +45,77 @@ const NavbarApp = () => {
   };
 
   return (
-    <Navbar
-      py="sm"
-      px="md"
-      hiddenBreakpoint="sm"
-      width={{ sm: 200, lg: 250 }}
-      hidden={!state.navBarVisible}
-    >
-      <div style={{ display: "flex", justifyContent: "end" }}>
-        <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-          <Burger
-            opened={state.navBarVisible}
-            onClick={() => {
-              setOpened((opened) => !opened);
-            }}
-            size="sm"
-            color={theme.colors.gray[6]}
-          />
-        </MediaQuery>
-      </div>
-
+    <Navbar width={{ base: 80 }} p="md">
       <Navbar.Section p="xs">
-        <UnstyledButton
-          onClick={() => {
-            navigateTo("/inicial");
-            localStorage.clear();
-          }}
-        >
-          Suite OS
-        </UnstyledButton>
+        <UnstyledButton>Suite os</UnstyledButton>
       </Navbar.Section>
       <Divider my="sm" />
-
-      <Navbar.Section grow mt="md">
-        <NavLink
-          label="Cadastro"
-          icon={<IconArticle size="1rem" stroke={1.5} />}
-          rightSection={<IconChevronRight />}
-        >
+      <Navbar.Section grow>
+        <Stack justify="center" spacing={0}>
           <NavLink
-            label="Clientes"
-            icon={<IconUsers size="1rem" stroke={1.5} />}
-            onClick={() => navigateTo("clientes")}
+            title="Ordem de Servicos"
+            label="Ordem de Sevicos"
+            icon={<IconClipboardList size="1.5rem" stroke={1.5} />}
           />
 
           <NavLink
-            label="Servicos"
-            icon={<IconTool size="1rem" stroke={1.5} />}
-            onClick={() => navigateTo("servicos")}
+            title="Orcamento"
+            label="Orcamento"
+            icon={<IconCoin size="1.5rem" stroke={1.5} />}
           />
-          <NavLink
-            label="Status"
-            icon={<IconHierarchy size="1rem" stroke={1.5} />}
-            onClick={() => navigateTo("status")}
-          />
-          <NavLink
-            label="Formas de Pagamentos"
-            icon={<IconCash size="1rem" stroke={1.5} />}
-          />
-        </NavLink>
-        <NavLink
-          label="Ordem de Sevicos"
-          icon={<IconClipboardList size="1rem" stroke={1.5} />}
-        />
-
-        <NavLink
-          label="Orcamento"
-          icon={<IconCoin size="1rem" stroke={1.5} />}
-        />
+        </Stack>
       </Navbar.Section>
       <Navbar.Section>
-        <Divider my="sm" />
-        {<UserAvatar />}
+        <Stack justify="center" spacing={0}>
+          <Menu shadow="md" width={150} position="left-end">
+            <Menu.Target>
+              <NavLink
+                title="Gerencial"
+                label="Gerencial"
+                icon={<IconArticle size="1.5rem" stroke={1.5} />}
+              />
+            </Menu.Target>
+
+            <Menu.Dropdown>
+              <Menu.Label>Cadastros</Menu.Label>
+
+              <Menu.Item
+                title="Clientes"
+                icon={<IconUsers size="1rem" stroke={1.5} />}
+                onClick={() => navigateTo("clientes")}
+              >
+                Clientes
+              </Menu.Item>
+              <Menu.Item
+                title="Servicos"
+                icon={<IconTool size="1rem" stroke={1.5} />}
+                onClick={() => navigateTo("servicos")}
+              >
+                Servicos
+              </Menu.Item>
+              <Menu.Item
+                title="Status"
+                icon={<IconHierarchy size="1rem" stroke={1.5} />}
+                onClick={() => navigateTo("status")}
+              >
+                Status
+              </Menu.Item>
+              <Menu.Item
+                title="Formas de Pagamentos"
+                icon={<IconCash size="1.5rem" stroke={1.5} />}
+              >
+                Formas de Pagamentos
+              </Menu.Item>
+              <Menu.Divider />
+              <Menu.Label>Gerencial</Menu.Label>
+              <Menu.Item icon={<IconSettings size={14} />}>
+                Configuracao de Relatorio
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+          <Divider my="sm" />
+          {<UserAvatar />}
+        </Stack>
       </Navbar.Section>
     </Navbar>
   );

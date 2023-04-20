@@ -7,7 +7,6 @@ import {
   Title,
 } from "@mantine/core";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 
 import { insertUser } from "../../services/Users";
 import { supabase } from "../../services/supabase/supabaseClient";
