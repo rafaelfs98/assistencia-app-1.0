@@ -35,7 +35,6 @@ export default function AppShellDemo() {
       }}
       layout="alt"
       fixed
-      navbarOffsetBreakpoint="sm"
       navbar={<NavbarApp />}
       header={<HeaderApp />}
     >

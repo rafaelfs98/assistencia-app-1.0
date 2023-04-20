@@ -45,44 +45,26 @@ const NavbarApp = () => {
   };
 
   return (
-    <Navbar
-      py="sm"
-      px="md"
-      hiddenBreakpoint="sm"
-      width={{ sm: 200, lg: 250 }}
-      hidden={!state.navBarVisible}
-    >
-      <div style={{ display: "flex", justifyContent: "end" }}>
-        <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-          <Burger
-            opened={state.navBarVisible}
-            onClick={() => {
-              setOpened((opened) => !opened);
-            }}
-            size="sm"
-            color={theme.colors.gray[6]}
-          />
-        </MediaQuery>
-      </div>
-
+    <Navbar width={{ base: 80 }} p="md">
       <Navbar.Section p="xs">
-        <UnstyledButton
-          onClick={() => {
-            navigateTo("/inicial");
-            localStorage.clear();
-          }}
-        >
-          Suite OS
-        </UnstyledButton>
+        <UnstyledButton>Suite os</UnstyledButton>
       </Navbar.Section>
       <Divider my="sm" />
+      <Navbar.Section grow>
+        <Stack justify="center" spacing={0}>
+          <NavLink
+            title="Ordem de Servicos"
+            label="Ordem de Sevicos"
+            icon={<IconClipboardList size="1.5rem" stroke={1.5} />}
+          />
 
-      <Navbar.Section grow mt="md">
         <NavLink
-          label="Cadastro"
-          icon={<IconArticle size="1rem" stroke={1.5} />}
-          rightSection={<IconChevronRight />}
-        >
+            title="Orcamento"
+            label="Orcamento"
+            icon={<IconCoin size="1.5rem" stroke={1.5} />}
+          />
+        </Stack>
+      </Navbar.Section>
           <NavLink
             label="Clientes"
             icon={<IconUsers size="1rem" stroke={1.5} />}
