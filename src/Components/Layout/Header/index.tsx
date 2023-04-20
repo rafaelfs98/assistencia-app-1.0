@@ -20,21 +20,13 @@ const HeaderApp: React.FC = () => {
   }, [opened]);
 
   return (
-    <Header height={{ base: 50, md: 70 }} p="md">
-      <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
-        <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-          <Burger
-            opened={state.navBarVisible}
-            onClick={() => {
-              setOpened((opened) => !opened);
-            }}
-            size="sm"
-            color={theme.colors.gray[6]}
-            mr="xl"
-          />
-        </MediaQuery>
-      </div>
-    </Header>
+    <Header
+      height={{ base: 50, md: 70 }}
+      p="md"
+      children={undefined}
+      withBorder={false}
+      style={{ backgroundColor: " #141517" }}
+    />
   );
 };
 export default HeaderApp;
