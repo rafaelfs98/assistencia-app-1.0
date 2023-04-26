@@ -1,4 +1,4 @@
-import { Button, Group, Table } from "@mantine/core";
+import { Button, Group, Table, Title } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Components/Layout/Loader";
@@ -15,7 +15,7 @@ const Status: React.FC = () => {
 
   const ths = (
     <tr>
-      <th>Status</th>
+      <th>Name</th>
       <th></th>
     </tr>
   );
@@ -35,7 +35,15 @@ const Status: React.FC = () => {
 
   return (
     <>
-      <Group position="right" mb="xl" mr="lg">
+      <Group position="left">
+        <Title order={3}>Status</Title>
+      </Group>
+
+      <Group
+        position="right"
+        mr={10}
+        style={{ display: "flex", justifyContent: "end" }}
+      >
         <Button onClick={() => navigate("create")}>
           <IconPlus size="1rem" />
         </Button>

@@ -5,6 +5,7 @@ import {
   Container,
   Group,
   Table,
+  Title,
 } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
@@ -46,10 +47,13 @@ const Clientes: React.FC = () => {
 
   return (
     <>
+      <Group position="left">
+        <Title order={3}>Clientes</Title>
+      </Group>
+
       <Group
         position="right"
-        mb="xl"
-        mr="lg"
+        mr={10}
         style={{ display: "flex", justifyContent: "end" }}
       >
         <Button onClick={() => navigate("create")}>
