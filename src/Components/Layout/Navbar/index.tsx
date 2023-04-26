@@ -28,7 +28,10 @@ const NavbarApp = () => {
   };
 
   return (
-    <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+    <MediaQuery
+      smallerThan="sm"
+      styles={{ display: "none", backgroundColor: "#1A1B1E" }}
+    >
       <Navbar hiddenBreakpoint="xs" p="md" width={{ base: 240 }}>
         <Navbar.Section p="xs">
           <UnstyledButton>Suite os</UnstyledButton>

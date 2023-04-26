@@ -42,7 +42,7 @@ const FooterApp = () => {
               <IconCoin size="1.5rem" stroke={1.5} />
             </UnstyledButton>
 
-            <Menu shadow="md" width={150} position="top-start">
+            <Menu shadow="md" width={150} position="top">
               <Menu.Target>
                 <UnstyledButton ml="md">
                   {" "}

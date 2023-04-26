@@ -25,7 +25,6 @@ const Clientes: React.FC = () => {
     <tr>
       <th>Nome</th>
       <th>Telefone</th>
-      <th>Email</th>
       <th></th>
     </tr>
   );
@@ -34,7 +33,6 @@ const Clientes: React.FC = () => {
     <tr key={index}>
       <td onClick={() => navigate(`${item?.id}/view`)}>{item.name}</td>
       <td>{item.telefone}</td>
-      <td>{item.email}</td>
 
       <td>
         <ClientesActions clienteId={String(item?.id)} />
@@ -48,13 +46,18 @@ const Clientes: React.FC = () => {
 
   return (
     <>
-      <Group position="right" mb="xl" mr="lg">
+      <Group
+        position="right"
+        mb="xl"
+        mr="lg"
+        style={{ display: "flex", justifyContent: "end" }}
+      >
         <Button onClick={() => navigate("create")}>
           <IconPlus size="1rem" />
         </Button>
       </Group>
 
-      <Table highlightOnHover mx={"auto"}>
+      <Table highlightOnHover>
         <thead>{ths}</thead>
         <tbody>{rows}</tbody>
       </Table>
