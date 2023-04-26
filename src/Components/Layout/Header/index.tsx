@@ -4,20 +4,7 @@ import { Burger, Header, MediaQuery, useMantineTheme } from "@mantine/core";
 import NavbarContext, { NavbarTypes } from "../../../Context/Navbarcontext";
 
 const HeaderApp: React.FC = () => {
-  const theme = useMantineTheme();
   const [opened, setOpened] = useState<boolean>(true);
-  const [state, dispatch] = useContext(NavbarContext);
-
-  const NavbarOpened = useCallback(() => {
-    dispatch({
-      payload: opened,
-      type: NavbarTypes.SET_NAVBAR_VISIBLE,
-    });
-  }, []);
-
-  useEffect(() => {
-    NavbarOpened();
-  }, [opened]);
 
   return (
     <Header
@@ -25,7 +12,7 @@ const HeaderApp: React.FC = () => {
       p="md"
       children={undefined}
       withBorder={false}
-      style={{ backgroundColor: " #141517" }}
+      style={{ backgroundColor: "#1A1B1E" }}
     />
   );
 };

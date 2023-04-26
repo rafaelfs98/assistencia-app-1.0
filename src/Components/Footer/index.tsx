@@ -1,10 +1,8 @@
 import {
   Divider,
+  Group,
   MediaQuery,
   Menu,
-  Navbar,
-  NavLink,
-  Stack,
   UnstyledButton,
 } from "@mantine/core";
 import {
@@ -18,9 +16,10 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-import AvatarNavbar from "../UserAvatar/AvatarNavbar";
+import "./footer.css";
+import AvatarFooter from "../Layout/UserAvatar/AvatarFooter";
 
-const NavbarApp = () => {
+const FooterApp = () => {
   const navigate = useNavigate();
 
   const navigateTo = (resource: string) => {
@@ -28,36 +27,27 @@ const NavbarApp = () => {
   };
 
   return (
-    <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-      <Navbar hiddenBreakpoint="xs" p="md" width={{ base: 240 }}>
-        <Navbar.Section p="xs">
-          <UnstyledButton>Suite os</UnstyledButton>
-        </Navbar.Section>
-        <Divider my="sm" />
-        <Navbar.Section grow>
-          <Stack justify="center" spacing={0}>
-            <NavLink
-              title="Ordem de Servicos"
-              label="Ordem de Sevicos"
-              icon={<IconClipboardList size="1.5rem" stroke={1.5} />}
-            />
+    <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+      <footer className="fixed-footer">
+        <Group position="apart">
+          <Group>
+            <UnstyledButton>Suite os</UnstyledButton>
+          </Group>
 
-            <NavLink
-              title="Orcamento"
-              label="Orcamento"
-              icon={<IconCoin size="1.5rem" stroke={1.5} />}
-            />
-          </Stack>
-        </Navbar.Section>
-        <Navbar.Section>
-          <Stack justify="center" spacing={0}>
-            <Menu shadow="md" width={150} position="left-end">
+          <Group position="apart">
+            <UnstyledButton ml="md">
+              <IconClipboardList size="1.5rem" stroke={1.5} />
+            </UnstyledButton>
+            <UnstyledButton ml="md">
+              <IconCoin size="1.5rem" stroke={1.5} />
+            </UnstyledButton>
+
+            <Menu shadow="md" width={150} position="top-start">
               <Menu.Target>
-                <NavLink
-                  title="Gerencial"
-                  label="Gerencial"
-                  icon={<IconArticle size="1.5rem" stroke={1.5} />}
-                />
+                <UnstyledButton ml="md">
+                  {" "}
+                  <IconArticle size="1.5rem" stroke={1.5} />
+                </UnstyledButton>
               </Menu.Target>
 
               <Menu.Dropdown>
@@ -97,13 +87,16 @@ const NavbarApp = () => {
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
-            <Divider my="sm" />
-            {<AvatarNavbar />}
-          </Stack>
-        </Navbar.Section>
-      </Navbar>
+          </Group>
+
+          <Group>
+            <Divider orientation="vertical" />
+            <AvatarFooter />
+          </Group>
+        </Group>
+      </footer>
     </MediaQuery>
   );
 };
 
-export default NavbarApp;
+export default FooterApp;

@@ -18,7 +18,7 @@ import {
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
-const UserAvatar: React.FC = () => {
+const AvatarFooter: React.FC = () => {
   const [usuario, setUsuario] = useState<LoginForm[]>();
   const navigate = useNavigate();
 
@@ -76,4 +76,4 @@ const UserAvatar: React.FC = () => {
   );
 };
 
-export default UserAvatar;
+export default AvatarFooter;
