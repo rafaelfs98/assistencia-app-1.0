@@ -6,6 +6,7 @@ import useFormActions from "../../../hooks/useFormActions";
 
 import { insertStatus, updateStatus } from "../../../services/Status";
 import { KeyedMutator } from "swr";
+import { useEffect } from "react";
 
 const StatussForm = () => {
   const { StatusId } = useParams();
@@ -34,6 +35,12 @@ const StatussForm = () => {
       onError(error);
     }
   };
+
+  useEffect(() => {
+    if (context.status) {
+      document.title = `${context.status?.map((item) => item.name)}`;
+    }
+  }, []);
 
   return (
     <Container>

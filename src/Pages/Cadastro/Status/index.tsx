@@ -5,9 +5,11 @@ import Loading from "../../../Components/Layout/Loader";
 import { useSupabase } from "../../../hooks/useSupabase";
 import { StatusFormData } from "../../../services/Types";
 import StatusActions from "./StatusActions";
+import { useEffect } from "react";
 
 const Status: React.FC = () => {
   const navigate = useNavigate();
+  document.title = "Status";
 
   const { data, isLoading } = useSupabase<StatusFormData>({
     uri: "/status?order=id.asc",
@@ -28,6 +30,10 @@ const Status: React.FC = () => {
       </td>
     </tr>
   ));
+
+  useEffect(() => {
+    document.title = "Status";
+  }, []);
 
   if (isLoading) {
     return <Loading />;
