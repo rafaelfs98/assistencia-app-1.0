@@ -47,9 +47,9 @@ const AvatarFooter: React.FC = () => {
   }, []);
 
   return (
-    <Menu shadow="md" width={200} position="top-end">
+    <Menu shadow="md" width={150} position="top">
       <Menu.Target>
-        <UnstyledButton ml={5} style={{ display: "block" }}>
+        <UnstyledButton mr={10} ml={5} style={{ display: "block" }}>
           <Group>
             <Avatar color="cyan" radius="xl">
               {usuario?.map((user) => user?.name.substring(0, 2))}
