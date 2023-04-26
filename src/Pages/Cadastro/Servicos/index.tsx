@@ -1,4 +1,4 @@
-import { Button, Group, Table } from "@mantine/core";
+import { Button, Group, Table, Title } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { ServicosFormData } from "../../../services/Types";
@@ -15,7 +15,7 @@ const Servicos: React.FC = () => {
 
   const ths = (
     <tr>
-      <th>Servicos</th>
+      <th>Nome</th>
       <th>Valor</th>
       <th></th>
     </tr>
@@ -37,7 +37,15 @@ const Servicos: React.FC = () => {
 
   return (
     <>
-      <Group position="right" mb="xl" mr="lg">
+      <Group position="left">
+        <Title order={3}>Servicos</Title>
+      </Group>
+
+      <Group
+        position="right"
+        mr={10}
+        style={{ display: "flex", justifyContent: "end" }}
+      >
         <Button onClick={() => navigate("create")}>
           <IconPlus size="1rem" />
         </Button>
