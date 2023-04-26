@@ -14,6 +14,7 @@ import { useSupabase } from "../../../hooks/useSupabase";
 import { ClientesFormData } from "../../../services/Types";
 
 import ClientesActions from "./ClientesActions";
+import { useEffect } from "react";
 
 const Clientes: React.FC = () => {
   const navigate = useNavigate();
@@ -40,6 +41,10 @@ const Clientes: React.FC = () => {
       </td>
     </tr>
   ));
+
+  useEffect(() => {
+    document.title = "Clientes";
+  }, []);
 
   if (isLoading) {
     return <Loading />;

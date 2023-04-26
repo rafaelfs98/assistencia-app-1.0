@@ -5,6 +5,7 @@ import { ServicosFormData } from "../../../services/Types";
 import { useSupabase } from "../../../hooks/useSupabase";
 import Loading from "../../../Components/Layout/Loader";
 import ServicosActions from "./ServicosActions";
+import { useEffect } from "react";
 
 const Servicos: React.FC = () => {
   const navigate = useNavigate();
@@ -21,12 +22,18 @@ const Servicos: React.FC = () => {
     </tr>
   );
 
+  useEffect(() => {
+    document.title = "Servicos";
+  }, []);
+
+  console.log(data?.map((item) => item.id));
+
   const rows = data?.map((item, index) => (
     <tr key={index}>
       <td>{item.name}</td>
       <td>{item.valor}</td>
       <td>
-        <ServicosActions StatusId={String(item?.id)} />
+        <ServicosActions StatusId={item.id} />
       </td>
     </tr>
   ));

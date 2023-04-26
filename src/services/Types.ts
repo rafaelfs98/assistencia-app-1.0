@@ -15,7 +15,7 @@ export type StatusFormData = {
   name: string;
 };
 export type ServicosFormData = {
-  id?: number;
+  id: number;
   name: string;
   valor: string;
 };
