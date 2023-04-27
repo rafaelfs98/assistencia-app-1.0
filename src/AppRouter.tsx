@@ -13,6 +13,7 @@ import Status from "./Pages/Cadastro/Status/index";
 import Servicos from "./Pages/Cadastro/Servicos";
 import ServicosForm from "./Pages/Cadastro/Servicos/ServicosForm";
 import ServicosOutlet from "./Pages/Cadastro/Servicos/ServicosOutlet";
+import Equipamentos from "./Pages/Cadastro/Equipamentos";
 
 const AppRouter = () => {
   return (
@@ -39,6 +40,13 @@ const AppRouter = () => {
           </Route>
           <Route element={<OutletBridge />} path="servicos">
             <Route element={<Servicos />} index />
+            <Route element={<ServicosForm />} path="create" />
+            <Route element={<ServicosOutlet />} path=":servicoId">
+              <Route element={<ServicosForm />} path="update" />
+            </Route>
+          </Route>
+          <Route element={<OutletBridge />} path="equipamentos">
+            <Route element={<Equipamentos />} index />
             <Route element={<ServicosForm />} path="create" />
             <Route element={<ServicosOutlet />} path=":servicoId">
               <Route element={<ServicosForm />} path="update" />
