@@ -1,15 +1,16 @@
 import { useForm } from "react-hook-form";
 import { useOutletContext, useParams } from "react-router-dom";
-import { Box, Button, Container, TextInput } from "@mantine/core";
+import { Box, Button, Container, TextInput, Title } from "@mantine/core";
 import { StatusFormData } from "../../../services/Types";
 import useFormActions from "../../../hooks/useFormActions";
 
 import { insertStatus, updateStatus } from "../../../services/Status";
 import { KeyedMutator } from "swr";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const StatussForm = () => {
   const { StatusId } = useParams();
+  const [title, setTitle] = useState<String>("Adicionar Status");
   const context = useOutletContext<{
     status: StatusFormData[];
     mutateStatus: KeyedMutator<StatusFormData>;
@@ -39,12 +40,14 @@ const StatussForm = () => {
   useEffect(() => {
     if (context.status) {
       document.title = `${context.status?.map((item) => item.name)}`;
+      setTitle("Editar Status");
     }
   }, []);
 
   return (
     <Container>
       <Box>
+        <Title order={4}>{title}</Title>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextInput mt="md" required label="Nome" {...register("name")} />
           <Button.Group mt="lg">
