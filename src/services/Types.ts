@@ -10,6 +10,14 @@ export type ClientesFormData = {
   numero: number;
   telefone: string;
 };
+export type EquipamentosFormData = {
+  id?: number;
+  marca: string;
+  modelo: string;
+  cor: string;
+  serie: string;
+  clienteId: number;
+};
 export type StatusFormData = {
   id?: number;
   name: string;
