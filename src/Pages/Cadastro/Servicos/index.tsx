@@ -26,14 +26,12 @@ const Servicos: React.FC = () => {
     document.title = "Servicos";
   }, []);
 
-  console.log(data?.map((item) => item.id));
-
   const rows = data?.map((item, index) => (
     <tr key={index}>
       <td>{item.name}</td>
       <td>{item.valor}</td>
       <td>
-        <ServicosActions StatusId={item.id} />
+        <ServicosActions servicoId={item.id} />
       </td>
     </tr>
   ));

@@ -12,6 +12,7 @@ import StatusOutlet from "./Pages/Cadastro/Status/StatusOutlet";
 import Status from "./Pages/Cadastro/Status/index";
 import Servicos from "./Pages/Cadastro/Servicos";
 import ServicosForm from "./Pages/Cadastro/Servicos/ServicosForm";
+import ServicosOutlet from "./Pages/Cadastro/Servicos/ServicosOutlet";
 
 const AppRouter = () => {
   return (
@@ -39,7 +40,7 @@ const AppRouter = () => {
           <Route element={<OutletBridge />} path="servicos">
             <Route element={<Servicos />} index />
             <Route element={<ServicosForm />} path="create" />
-            <Route element={<ServicosForm />} path=":servicoId">
+            <Route element={<ServicosOutlet />} path=":servicoId">
               <Route element={<ServicosForm />} path="update" />
             </Route>
           </Route>
