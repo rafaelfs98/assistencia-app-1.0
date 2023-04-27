@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useOutletContext, useParams } from "react-router-dom";
-import { Box, Button, Container, Group, TextInput } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Container,
+  Group,
+  InputBase,
+  TextInput,
+  Title,
+} from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import { ClientesFormData } from "../../../services/Types";
 import { insertCliente, updateCliente } from "../../../services/Clientes";
 import useFormActions from "../../../hooks/useFormActions";
 import apiBuscaCep from "../../../services/buscaCep/apiBuscaCep";
 import { KeyedMutator } from "swr";
+import { IMaskInput } from "react-imask";
 
 type Endereco = {
   bairro: string;
@@ -26,6 +35,7 @@ const ClientesForm = () => {
   }>();
 
   const [cep, setCep] = useState<Endereco>();
+  const [title, setTitle] = useState<String>("Adicionar Cliente");
 
   const {
     form: { onError, onSave, onClose },
@@ -69,9 +79,17 @@ const ClientesForm = () => {
     setValue("bairro", cep?.bairro ?? "");
   };
 
+  useEffect(() => {
+    if (context?.cliente) {
+      document.title = `${context?.cliente?.map((item) => item.name)}`;
+      setTitle("Editar Cliente");
+    }
+  }, []);
+
   return (
     <Container>
       <Box>
+        <Title order={4}>{title}</Title>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextInput mt="md" required label="Nome" {...register("name")} />
           <Group spacing="xl" grow>
@@ -82,11 +100,13 @@ const ClientesForm = () => {
               mt="md"
               {...register("email")}
             />
-            <TextInput
-              type="text"
+            <InputBase
+              value={context?.cliente[0]?.telefone}
               label="Telefone"
+              component={IMaskInput}
+              mask="(00) 0000-0000"
               mt="md"
-              {...register("telefone")}
+              onAccept={(value) => setValue("telefone", value as string)}
             />
           </Group>
 
