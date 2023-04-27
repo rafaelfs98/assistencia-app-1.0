@@ -12,6 +12,7 @@ import {
   IconCash,
   IconClipboardList,
   IconCoin,
+  IconDeviceMobile,
   IconHierarchy,
   IconSettings,
   IconTool,
@@ -72,6 +73,13 @@ const NavbarApp = () => {
                   onClick={() => navigateTo("clientes")}
                 >
                   Clientes
+                </Menu.Item>
+                <Menu.Item
+                  title="Equipamentos"
+                  icon={<IconDeviceMobile size="1rem" stroke={1.5} />}
+                  onClick={() => navigateTo("equipamentos")}
+                >
+                  Equipamentos
                 </Menu.Item>
                 <Menu.Item
                   title="Servicos"

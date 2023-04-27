@@ -17,6 +17,7 @@ export type EquipamentosFormData = {
   cor: string;
   serie: string;
   clienteId: number;
+  cliente_name: string;
 };
 export type StatusFormData = {
   id?: number;
