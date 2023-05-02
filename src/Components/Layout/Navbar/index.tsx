@@ -1,5 +1,6 @@
 import {
   Divider,
+  Image,
   MediaQuery,
   Menu,
   Navbar,
@@ -35,7 +36,10 @@ const NavbarApp = () => {
     >
       <Navbar hiddenBreakpoint="xs" p="md" width={{ base: 240 }}>
         <Navbar.Section p="xs">
-          <UnstyledButton>Suite os</UnstyledButton>
+          <UnstyledButton>
+            {" "}
+            <Image width={200} height={80} fit="contain" src="./SuiteOS.png" />
+          </UnstyledButton>
         </Navbar.Section>
         <Divider my="sm" />
         <Navbar.Section grow>

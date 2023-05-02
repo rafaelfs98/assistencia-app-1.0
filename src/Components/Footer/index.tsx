@@ -1,6 +1,7 @@
 import {
   Divider,
   Group,
+  Image,
   MediaQuery,
   Menu,
   UnstyledButton,
@@ -32,7 +33,9 @@ const FooterApp = () => {
       <footer className="fixed-footer">
         <Group position="apart">
           <Group>
-            <UnstyledButton>Suite os</UnstyledButton>
+            <UnstyledButton>
+              <Image width={80} height={40} fit="contain" src="./SuiteOS.png" />
+            </UnstyledButton>
           </Group>
 
           <Group position="apart">
