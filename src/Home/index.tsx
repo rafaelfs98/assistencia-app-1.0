@@ -1,10 +1,16 @@
-import { Container } from "@mantine/core";
+import { Container, Image } from "@mantine/core";
 
 const Home = () => {
   return (
     <>
       <Container mt="xs" size="xs" px="xs">
-        Bem vindo ao Suite OS
+        <Image
+          maw={240}
+          mx="auto"
+          radius="md"
+          src="./SuiteOS.png"
+          alt="Random image"
+        />
       </Container>
     </>
   );
