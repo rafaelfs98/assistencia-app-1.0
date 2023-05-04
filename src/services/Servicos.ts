@@ -1,7 +1,7 @@
 import { supabase } from "./supabase/supabaseClient";
-import { ServicosFormData } from "./Types";
+import { ServicosData } from "./Types";
 
-export const insertServicos = async (servico: ServicosFormData) => {
+export const insertServicos = async (servico: ServicosData) => {
   await supabase.from("servicos").insert({
     name: servico.name,
     valor: servico.valor,
@@ -9,7 +9,7 @@ export const insertServicos = async (servico: ServicosFormData) => {
 };
 
 export const updateServicos = async (
-  servico: ServicosFormData,
+  servico: ServicosData,
   servicoId: string
 ) => {
   await supabase

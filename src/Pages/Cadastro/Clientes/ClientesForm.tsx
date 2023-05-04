@@ -11,7 +11,7 @@ import {
   Title,
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { ClientesFormData } from "../../../services/Types";
+import { ClientesData } from "../../../services/Types";
 import { insertCliente, updateCliente } from "../../../services/Clientes";
 import useFormActions from "../../../hooks/useFormActions";
 import apiBuscaCep from "../../../services/buscaCep/apiBuscaCep";
@@ -30,8 +30,8 @@ const ClientesForm = () => {
   const { pathname } = useLocation();
   const viewTrue = pathname.includes("view");
   const context = useOutletContext<{
-    cliente: ClientesFormData[];
-    mutateCliente: KeyedMutator<ClientesFormData>;
+    cliente: ClientesData[];
+    mutateCliente: KeyedMutator<ClientesData>;
   }>();
 
   const [cep, setCep] = useState<Endereco>();
@@ -47,13 +47,13 @@ const ClientesForm = () => {
     setValue,
     watch,
     formState: { errors },
-  } = useForm<ClientesFormData>({
+  } = useForm<ClientesData>({
     defaultValues: context ? context?.cliente[0] : {},
   });
 
   const cepWatch = watch("cep");
 
-  const onSubmit = async (form: ClientesFormData) => {
+  const onSubmit = async (form: ClientesData) => {
     try {
       if (clienteId) {
         await updateCliente(form, clienteId);

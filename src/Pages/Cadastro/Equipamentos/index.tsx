@@ -3,7 +3,7 @@ import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Components/Layout/Loader";
 import { useSupabase } from "../../../hooks/useSupabase";
-import { EquipamentosFormData } from "../../../services/Types";
+import { EquipamentosData } from "../../../services/Types";
 
 import { useEffect } from "react";
 import ClientesActions from "../Clientes/ClientesActions";
@@ -11,7 +11,7 @@ import ClientesActions from "../Clientes/ClientesActions";
 const Equipamentos: React.FC = () => {
   const navigate = useNavigate();
 
-  const { data, isLoading } = useSupabase<EquipamentosFormData>({
+  const { data, isLoading } = useSupabase<EquipamentosData>({
     uri: `/equipamentos?order=id.asc`,
   });
 

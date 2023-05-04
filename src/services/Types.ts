@@ -1,4 +1,4 @@
-export type ClientesFormData = {
+export type ClientesData = {
   id?: number;
   bairro: string;
   cep: string;
@@ -10,7 +10,7 @@ export type ClientesFormData = {
   numero: number;
   telefone: string;
 };
-export type EquipamentosFormData = {
+export type EquipamentosData = {
   id?: number;
   marca: string;
   modelo: string;
@@ -19,11 +19,11 @@ export type EquipamentosFormData = {
   clienteId: number;
   cliente_name: string;
 };
-export type StatusFormData = {
+export type StatusData = {
   id?: number;
   name: string;
 };
-export type ServicosFormData = {
+export type ServicosData = {
   id: number;
   name: string;
   valor: string;
@@ -32,7 +32,7 @@ export type apiData = {
   [x: string]: any;
 }[];
 
-export type LoginForm = {
+export type Login = {
   name: string;
   email: string;
   password: string;

@@ -6,7 +6,7 @@ import { InputBase, Title, TextInput } from "@mantine/core";
 import IMask from "imask";
 
 import { Box, Button, Container, Group } from "@mantine/core";
-import { ServicosFormData } from "../../../services/Types";
+import { ServicosData } from "../../../services/Types";
 import { KeyedMutator } from "swr";
 import { insertServicos, updateServicos } from "../../../services/Servicos";
 import { NumericFormat } from "react-number-format";
@@ -18,19 +18,19 @@ const ServicosForm = () => {
   const [title, setTitle] = useState<String>("Adicionar Servicos");
   const viewTrue = pathname.includes("view");
   const context = useOutletContext<{
-    servicos: ServicosFormData[];
-    mutateCliente: KeyedMutator<ServicosFormData>;
+    servicos: ServicosData[];
+    mutateCliente: KeyedMutator<ServicosData>;
   }>();
 
   const {
     form: { onError, onSave, onClose },
   } = useFormActions();
 
-  const { setValue, handleSubmit, register } = useForm<ServicosFormData>({
+  const { setValue, handleSubmit, register } = useForm<ServicosData>({
     defaultValues: context ? context?.servicos[0] : {},
   });
 
-  const onSubmit = async (form: ServicosFormData) => {
+  const onSubmit = async (form: ServicosData) => {
     try {
       if (servicoId) {
         await updateServicos(form, servicoId);

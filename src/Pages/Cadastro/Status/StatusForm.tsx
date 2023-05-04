@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useOutletContext, useParams } from "react-router-dom";
 import { Box, Button, Container, TextInput, Title } from "@mantine/core";
-import { StatusFormData } from "../../../services/Types";
+import { StatusData } from "../../../services/Types";
 import useFormActions from "../../../hooks/useFormActions";
 
 import { insertStatus, updateStatus } from "../../../services/Status";
@@ -12,19 +12,19 @@ const StatussForm = () => {
   const { StatusId } = useParams();
   const [title, setTitle] = useState<String>("Adicionar Status");
   const context = useOutletContext<{
-    status: StatusFormData[];
-    mutateStatus: KeyedMutator<StatusFormData>;
+    status: StatusData[];
+    mutateStatus: KeyedMutator<StatusData>;
   }>();
 
   const {
     form: { onError, onSave, onClose },
   } = useFormActions();
 
-  const { handleSubmit, register } = useForm<StatusFormData>({
+  const { handleSubmit, register } = useForm<StatusData>({
     defaultValues: context ? context?.status[0] : {},
   });
 
-  const onSubmit = async (form: StatusFormData) => {
+  const onSubmit = async (form: StatusData) => {
     try {
       if (StatusId) {
         await updateStatus(form, StatusId).then(context.mutateStatus as any);

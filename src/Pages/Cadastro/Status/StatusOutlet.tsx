@@ -1,12 +1,12 @@
 import { Outlet, useParams } from "react-router-dom";
-import { StatusFormData } from "../../../services/Types";
+import { StatusData } from "../../../services/Types";
 import { useSupabase } from "../../../hooks/useSupabase";
 import { useEffect } from "react";
 
 const StatussOutlet = () => {
   const { statusId } = useParams<{ statusId: string }>();
 
-  const { data: status, mutate: mutateStatus } = useSupabase<StatusFormData>({
+  const { data: status, mutate: mutateStatus } = useSupabase<StatusData>({
     uri: `/status?id=eq.${statusId}`,
   });
 
