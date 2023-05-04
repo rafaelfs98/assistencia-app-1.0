@@ -32,7 +32,7 @@ export type apiData = {
   [x: string]: any;
 }[];
 
-export type Login = {
+export type LoginType = {
   name: string;
   email: string;
   password: string;
