@@ -8,7 +8,7 @@ import {
 } from "@mantine/core";
 import { supabase } from "../../../services/supabase/supabaseClient";
 import { useEffect, useState } from "react";
-import { Login } from "../../../services/Types";
+import { LoginType } from "../../../services/Types";
 
 import {
   IconPower,
@@ -19,7 +19,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const AvatarFooter: React.FC = () => {
-  const [usuario, setUsuario] = useState<Login[]>();
+  const [usuario, setUsuario] = useState<LoginType[]>();
   const navigate = useNavigate();
 
   const logoutUser = () => {
