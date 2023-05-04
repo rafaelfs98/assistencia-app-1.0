@@ -1,16 +1,13 @@
 import { supabase } from "./supabase/supabaseClient";
-import { StatusFormData } from "./Types";
+import { StatusData } from "./Types";
 
-export const insertStatus = async (Status: StatusFormData) => {
+export const insertStatus = async (Status: StatusData) => {
   await supabase.from("status").insert({
     name: Status.name,
   });
 };
 
-export const updateStatus = async (
-  Status: StatusFormData,
-  StatusId: string
-) => {
+export const updateStatus = async (Status: StatusData, StatusId: string) => {
   const { data } = await supabase
     .from("status")
     .update({

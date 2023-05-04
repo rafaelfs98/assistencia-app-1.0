@@ -13,14 +13,14 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../services/supabase/supabaseClient";
-import { LoginForm } from "../../services/Types";
+import { Login } from "../../services/Types";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { handleSubmit, register } = useForm<LoginForm>();
+  const { handleSubmit, register } = useForm<Login>();
   const [error, setError] = useState<string>("");
 
-  const _onSubmit = async (form: LoginForm) => {
+  const _onSubmit = async (form: Login) => {
     const { error } = await supabase.auth.signInWithPassword({
       email: form.email,
       password: form.password,

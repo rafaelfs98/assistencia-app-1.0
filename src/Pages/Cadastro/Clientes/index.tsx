@@ -11,7 +11,7 @@ import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Components/Layout/Loader";
 import { useSupabase } from "../../../hooks/useSupabase";
-import { ClientesFormData } from "../../../services/Types";
+import { ClientesData } from "../../../services/Types";
 
 import ClientesActions from "./ClientesActions";
 import { useEffect } from "react";
@@ -19,7 +19,7 @@ import { useEffect } from "react";
 const Clientes: React.FC = () => {
   const navigate = useNavigate();
 
-  const { data, isLoading } = useSupabase<ClientesFormData>({
+  const { data, isLoading } = useSupabase<ClientesData>({
     uri: `/clientes?order=id.asc`,
   });
 

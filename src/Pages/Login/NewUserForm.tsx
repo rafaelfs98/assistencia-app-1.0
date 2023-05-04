@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 
 import { insertUser } from "../../services/Users";
 import { supabase } from "../../services/supabase/supabaseClient";
-import { LoginForm } from "../../services/Types";
+import { Login } from "../../services/Types";
 import useFormActions from "../../hooks/useFormActions";
 
 const NewUserForm = () => {
@@ -18,9 +18,9 @@ const NewUserForm = () => {
     form: { onError, onSave },
   } = useFormActions();
 
-  const { handleSubmit, register } = useForm<LoginForm>();
+  const { handleSubmit, register } = useForm<Login>();
 
-  const handleFormSubmit = async (form: LoginForm) => {
+  const handleFormSubmit = async (form: Login) => {
     try {
       const { data } = await supabase.auth.signUp({
         email: form.email,

@@ -1,7 +1,7 @@
 import { supabase } from "./supabase/supabaseClient";
-import { LoginForm } from "./Types";
+import { Login } from "./Types";
 
-export const insertUser = async (user: LoginForm) => {
+export const insertUser = async (user: Login) => {
   await supabase.from("users").insert({
     name: user.name,
     email: user.email,
