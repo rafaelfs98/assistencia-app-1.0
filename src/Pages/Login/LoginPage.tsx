@@ -13,7 +13,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../services/supabase/supabaseClient";
-import { LoginType } from "../../services/Types";
+import { LoginType } from "../../services/Types/suiteOS";
 
 const Login = () => {
   const navigate = useNavigate();

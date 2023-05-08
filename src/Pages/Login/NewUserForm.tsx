@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 
 import { insertUser } from "../../services/Users";
 import { supabase } from "../../services/supabase/supabaseClient";
-import { LoginType } from "../../services/Types";
+import { LoginType } from "../../services/Types/suiteOS";
 import useFormActions from "../../hooks/useFormActions";
 
 const NewUserForm = () => {

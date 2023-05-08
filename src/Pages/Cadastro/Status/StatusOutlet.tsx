@@ -1,5 +1,5 @@
 import { Outlet, useParams } from "react-router-dom";
-import { StatusData } from "../../../services/Types";
+import { StatusData } from "../../../services/Types/suiteOS";
 import { useSupabase } from "../../../hooks/useSupabase";
 import { useEffect } from "react";
 

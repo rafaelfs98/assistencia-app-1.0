@@ -8,7 +8,7 @@ import {
 } from "@mantine/core";
 import { supabase } from "../../../services/supabase/supabaseClient";
 import { useEffect, useState } from "react";
-import { LoginType } from "../../../services/Types";
+import { LoginType } from "../../../services/Types/suiteOS";
 
 import {
   IconPower,

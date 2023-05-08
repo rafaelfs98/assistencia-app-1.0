@@ -11,7 +11,7 @@ import {
   Title,
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { ClientesData } from "../../../services/Types";
+import { ClientesData } from "../../../services/Types/suiteOS";
 import { insertCliente, updateCliente } from "../../../services/Clientes";
 import useFormActions from "../../../hooks/useFormActions";
 import apiBuscaCep from "../../../services/buscaCep/apiBuscaCep";

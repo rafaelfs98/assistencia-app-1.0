@@ -1,6 +1,6 @@
 import { Outlet, useParams } from "react-router-dom";
 import { useSupabase } from "../../../hooks/useSupabase";
-import { ClientesData } from "../../../services/Types";
+import { ClientesData } from "../../../services/Types/suiteOS";
 
 const ClientesOutlet = () => {
   const { clienteId } = useParams<{ clienteId: string }>();

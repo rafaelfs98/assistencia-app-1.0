@@ -45,6 +45,7 @@ const onError = (error: any) => {
   let errorMessage = "an-unexpected-error-occurred";
 
   console.error(errorMessage);
+  alert(error);
 };
 
 const onSuccess = () => {

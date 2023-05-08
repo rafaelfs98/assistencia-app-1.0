@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useOutletContext, useParams } from "react-router-dom";
 import { Box, Button, Container, TextInput, Title } from "@mantine/core";
-import { StatusData } from "../../../services/Types";
+import { StatusData } from "../../../services/Types/suiteOS";
 import useFormActions from "../../../hooks/useFormActions";
 
 import { insertStatus, updateStatus } from "../../../services/Status";
