@@ -11,7 +11,7 @@ import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Components/Layout/Loader";
 import { useSupabase } from "../../../hooks/useSupabase";
-import { ClientesData } from "../../../services/Types";
+import { ClientesData } from "../../../services/Types/suiteOS";
 
 import ClientesActions from "./ClientesActions";
 import { useEffect } from "react";

@@ -1,6 +1,6 @@
 import { Outlet, useParams } from "react-router-dom";
 import { useSupabase } from "../../../hooks/useSupabase";
-import { ServicosData } from "../../../services/Types";
+import { ServicosData } from "../../../services/Types/suiteOS";
 
 const ServicosOutlet = () => {
   const { servicoId } = useParams<{ servicoId: string }>();

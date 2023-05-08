@@ -3,7 +3,7 @@ import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Components/Layout/Loader";
 import { useSupabase } from "../../../hooks/useSupabase";
-import { StatusData } from "../../../services/Types";
+import { StatusData } from "../../../services/Types/suiteOS";
 import StatusActions from "./StatusActions";
 import { useEffect } from "react";
 

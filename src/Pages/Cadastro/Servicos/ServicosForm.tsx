@@ -1,16 +1,14 @@
+import { InputBase, TextInput, Title } from "@mantine/core";
+import { useForm } from "react-hook-form";
 import { useLocation, useOutletContext, useParams } from "react-router-dom";
 import useFormActions from "../../../hooks/useFormActions";
-import { useForm } from "react-hook-form";
-import { IMaskInput } from "react-imask";
-import { InputBase, Title, TextInput } from "@mantine/core";
-import IMask from "imask";
 
 import { Box, Button, Container, Group } from "@mantine/core";
-import { ServicosData } from "../../../services/Types";
-import { KeyedMutator } from "swr";
-import { insertServicos, updateServicos } from "../../../services/Servicos";
-import { NumericFormat } from "react-number-format";
 import { useEffect, useState } from "react";
+import { NumericFormat } from "react-number-format";
+import { KeyedMutator } from "swr";
+import { upsertServicos } from "../../../services/Servicos";
+import { ServicosData } from "../../../services/Types/suiteOS";
 
 const ServicosForm = () => {
   const { servicoId } = useParams();
@@ -31,16 +29,13 @@ const ServicosForm = () => {
   });
 
   const onSubmit = async (form: ServicosData) => {
-    try {
-      if (servicoId) {
-        await updateServicos(form, servicoId);
-      } else {
-        await insertServicos(form);
-      }
-      onSave();
-    } catch (error) {
-      onError(error);
+    const { error } = await upsertServicos(form, servicoId as string);
+
+    if (!error) {
+      return onSave();
     }
+
+    return onError(error.message);
   };
 
   useEffect(() => {

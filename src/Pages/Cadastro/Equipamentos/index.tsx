@@ -3,7 +3,7 @@ import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Components/Layout/Loader";
 import { useSupabase } from "../../../hooks/useSupabase";
-import { EquipamentosData } from "../../../services/Types";
+import { EquipamentosData } from "../../../services/Types/suiteOS";
 
 import { useEffect } from "react";
 import ClientesActions from "../Clientes/ClientesActions";

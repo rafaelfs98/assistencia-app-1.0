@@ -1,5 +1,5 @@
 import { supabase } from "./supabase/supabaseClient";
-import { ClientesData } from "./Types";
+import { ClientesData } from "./Types/suiteOS";
 
 export const insertCliente = async (cliente: ClientesData) => {
   await supabase.from("clientes").insert({
