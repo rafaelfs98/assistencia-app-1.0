@@ -1,12 +1,12 @@
+import { Box, Button, Container, TextInput, Title } from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { useOutletContext, useParams } from "react-router-dom";
-import { Box, Button, Container, TextInput, Title } from "@mantine/core";
-import { StatusData } from "../../../services/Types/suiteOS";
 import useFormActions from "../../../hooks/useFormActions";
+import { StatusData } from "../../../services/Types/suiteOS";
 
-import { insertStatus, updateStatus } from "../../../services/Status";
-import { KeyedMutator } from "swr";
 import { useEffect, useState } from "react";
+import { KeyedMutator } from "swr";
+import { upsertStatus } from "../../../services/Status";
 
 const StatussForm = () => {
   const { StatusId } = useParams();
@@ -25,16 +25,13 @@ const StatussForm = () => {
   });
 
   const onSubmit = async (form: StatusData) => {
-    try {
-      if (StatusId) {
-        await updateStatus(form, StatusId).then(context.mutateStatus as any);
-      } else {
-        await insertStatus(form);
-      }
-      onSave();
-    } catch (error) {
-      onError(error);
+    const { error } = await upsertStatus(form, Number(StatusId));
+
+    if (!error) {
+      return onSave();
     }
+
+    return onError(error.message);
   };
 
   useEffect(() => {
