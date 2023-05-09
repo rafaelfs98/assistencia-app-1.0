@@ -14,6 +14,8 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { notifications } from "@mantine/notifications";
+import { IconX } from "@tabler/icons-react";
 
 type OnSubmitOptionsRest<T = any> = {
   create: (data: any) => Promise<T>;
@@ -45,11 +47,19 @@ const onError = (error: any) => {
   let errorMessage = "an-unexpected-error-occurred";
 
   console.error(errorMessage);
-  alert(error);
+  notifications.show({
+    title: "Error!",
+    message: "Que pena algo deu errado",
+    color: "red",
+  });
 };
 
 const onSuccess = () => {
-  alert("success");
+  notifications.show({
+    title: "Sucesso!",
+    message: "Ei deu tudo certo pode continuar",
+    color: "green",
+  });
 };
 
 const useFormActions = (): Form => {

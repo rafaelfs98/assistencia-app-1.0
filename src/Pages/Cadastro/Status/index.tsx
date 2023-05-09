@@ -55,7 +55,7 @@ const Status: React.FC = () => {
         </Button>
       </Group>
 
-      <Table highlightOnHover mx={"auto"}>
+      <Table highlightOnHover mb={50} mx={"auto"}>
         <thead>{ths}</thead>
         <tbody>{rows}</tbody>
       </Table>
