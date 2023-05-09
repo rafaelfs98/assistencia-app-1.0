@@ -29,7 +29,7 @@ const ServicosForm = () => {
   });
 
   const onSubmit = async (form: ServicosData) => {
-    const { error } = await upsertServicos(form, servicoId as string);
+    const { error } = await upsertServicos(form, Number(servicoId));
 
     if (!error) {
       return onSave();

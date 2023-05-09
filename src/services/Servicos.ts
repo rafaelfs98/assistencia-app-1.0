@@ -3,12 +3,12 @@ import { ServicosData } from "./Types/suiteOS";
 
 export const upsertServicos = async (
   servico: ServicosData,
-  servicoId: string
+  servicoId: number
 ) => {
   const responseUpsert = await supabase
     .from("servicos")
     .upsert({
-      id: Number(servicoId) || undefined,
+      id: servicoId ? servicoId : undefined,
       name: servico.name,
       valor: servico.valor,
     })
