@@ -1,21 +1,16 @@
 import { supabase } from "./supabase/supabaseClient";
 import { StatusData } from "./Types/suiteOS";
 
-export const insertStatus = async (Status: StatusData) => {
-  await supabase.from("status").insert({
-    name: Status.name,
-  });
-};
-
-export const updateStatus = async (Status: StatusData, StatusId: string) => {
-  const { data } = await supabase
+export const upsertStatus = async (status: StatusData, statusId: number) => {
+  const responseStatus = await supabase
     .from("status")
-    .update({
-      name: Status.name,
+    .upsert({
+      id: statusId ? statusId : undefined,
+      name: status.name,
     })
-    .eq("id", StatusId);
+    .select();
 
-  return data;
+  return responseStatus;
 };
 export const deleteStatus = async (Status: string) => {
   await supabase.from("status").delete().eq("id", Status);
