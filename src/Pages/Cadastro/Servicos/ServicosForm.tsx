@@ -1,18 +1,20 @@
-import { InputBase, TextInput, Title } from "@mantine/core";
+import { InputBase, MantineProvider, TextInput, Title } from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { useLocation, useOutletContext, useParams } from "react-router-dom";
 import useFormActions from "../../../hooks/useFormActions";
-
+import { notifications } from "@mantine/notifications";
 import { Box, Button, Container, Group } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import { KeyedMutator } from "swr";
 import { upsertServicos } from "../../../services/Servicos";
 import { ServicosData } from "../../../services/Types/suiteOS";
+import { Notifications } from "@mantine/notifications";
 
 const ServicosForm = () => {
   const { servicoId } = useParams();
   const { pathname } = useLocation();
+
   const [title, setTitle] = useState<String>("Adicionar Servicos");
   const viewTrue = pathname.includes("view");
   const context = useOutletContext<{

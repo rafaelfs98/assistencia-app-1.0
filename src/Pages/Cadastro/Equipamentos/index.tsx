@@ -60,7 +60,7 @@ const Equipamentos: React.FC = () => {
         </Button>
       </Group>
 
-      <Table highlightOnHover>
+      <Table highlightOnHover mb={50} mx={"auto"}>
         <thead>{ths}</thead>
         <tbody>{rows}</tbody>
       </Table>
