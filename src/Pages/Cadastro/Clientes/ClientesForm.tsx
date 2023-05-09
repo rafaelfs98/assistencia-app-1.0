@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useLocation, useOutletContext, useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -11,12 +8,15 @@ import {
   Title,
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { ClientesData } from "../../../services/Types/suiteOS";
-import { insertCliente, updateCliente } from "../../../services/Clientes";
-import useFormActions from "../../../hooks/useFormActions";
-import apiBuscaCep from "../../../services/buscaCep/apiBuscaCep";
-import { KeyedMutator } from "swr";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { IMaskInput } from "react-imask";
+import { useLocation, useOutletContext, useParams } from "react-router-dom";
+import { KeyedMutator } from "swr";
+import useFormActions from "../../../hooks/useFormActions";
+import { upsertCliente } from "../../../services/Clientes";
+import { ClientesData } from "../../../services/Types/suiteOS";
+import apiBuscaCep from "../../../services/buscaCep/apiBuscaCep";
 
 type Endereco = {
   bairro: string;
@@ -54,16 +54,13 @@ const ClientesForm = () => {
   const cepWatch = watch("cep");
 
   const onSubmit = async (form: ClientesData) => {
-    try {
-      if (clienteId) {
-        await updateCliente(form, clienteId);
-      } else {
-        await insertCliente(form);
-      }
-      onSave();
-    } catch (error) {
-      onError(error);
+    const { error } = await upsertCliente(form, Number(clienteId));
+
+    if (!error) {
+      return onSave();
     }
+
+    return onError(error.message);
   };
 
   const handleCepSearch = async () => {
