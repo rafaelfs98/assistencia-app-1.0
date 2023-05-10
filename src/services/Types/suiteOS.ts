@@ -37,3 +37,15 @@ export type LoginType = {
   email: string;
   password: string;
 };
+
+export type OrdemServicoType = {
+  acessorios: string;
+  data_entrada: string;
+  data_saida: string;
+  defeito: string;
+  documento: number;
+  equipamentoId: string;
+  observacao: string;
+  solucao: string;
+  status: string;
+};
