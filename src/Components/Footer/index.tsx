@@ -33,13 +33,13 @@ const FooterApp = () => {
       <footer className="fixed-footer">
         <Group position="apart">
           <Group>
-            <UnstyledButton>
+            <UnstyledButton onClick={() => navigateTo("/")}>
               <Image width={80} height={40} fit="contain" src="./SuiteOS.png" />
             </UnstyledButton>
           </Group>
 
           <Group position="apart">
-            <UnstyledButton ml="md">
+            <UnstyledButton ml="md" onClick={() => navigateTo("os")}>
               <IconClipboardList size="1.5rem" stroke={1.5} />
             </UnstyledButton>
             <UnstyledButton ml="md">
