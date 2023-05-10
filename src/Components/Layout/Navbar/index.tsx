@@ -36,8 +36,7 @@ const NavbarApp = () => {
     >
       <Navbar hiddenBreakpoint="xs" p="md" width={{ base: 240 }}>
         <Navbar.Section p="xs">
-          <UnstyledButton>
-            {" "}
+          <UnstyledButton onClick={() => navigateTo("/")}>
             <Image width={200} height={80} fit="contain" src="./SuiteOS.png" />
           </UnstyledButton>
         </Navbar.Section>
@@ -48,6 +47,7 @@ const NavbarApp = () => {
               title="Ordem de Servicos"
               label="Ordem de Sevicos"
               icon={<IconClipboardList size="1.5rem" stroke={1.5} />}
+              onClick={() => navigateTo("os")}
             />
 
             <NavLink
