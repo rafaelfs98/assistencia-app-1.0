@@ -1,15 +1,20 @@
-import { InputBase, MantineProvider, TextInput, Title } from "@mantine/core";
-import { useForm } from "react-hook-form";
-import { useLocation, useOutletContext, useParams } from "react-router-dom";
-import useFormActions from "../../../hooks/useFormActions";
-import { notifications } from "@mantine/notifications";
-import { Box, Button, Container, Group } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Container,
+  Group,
+  InputBase,
+  TextInput,
+  Title,
+} from "@mantine/core";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
+import { useLocation, useOutletContext, useParams } from "react-router-dom";
 import { KeyedMutator } from "swr";
+import useFormActions from "../../../hooks/useFormActions";
 import { upsertServicos } from "../../../services/Servicos";
 import { ServicosData } from "../../../services/Types/suiteOS";
-import { Notifications } from "@mantine/notifications";
 
 const ServicosForm = () => {
   const { servicoId } = useParams();
