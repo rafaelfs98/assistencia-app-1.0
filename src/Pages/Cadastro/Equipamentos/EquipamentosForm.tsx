@@ -103,6 +103,7 @@ const EquipamentosForm = () => {
               required
             />
             <Select
+              defaultValue={String(context?.equipamentos[0]?.clienteId)}
               data={
                 clientes
                   ? clientes?.map((item) => ({
@@ -125,7 +126,6 @@ const EquipamentosForm = () => {
               onChange={(value) => setValue("clienteId", Number(value))}
               required
               searchable
-              value={String(context?.equipamentos[0]?.clienteId)}
             />
           </Group>
           <Button.Group mt="lg">
