@@ -1,31 +1,33 @@
 import { supabase } from "./supabase/supabaseClient";
 import { EquipamentosData, ServicosData } from "./Types/suiteOS";
 
-export const insertEquipamento = async (equipamento: EquipamentosData) => {
-  await supabase.from("equipamentos").insert({
-    marca: equipamento.marca,
-    modelo: equipamento.modelo,
-    cor: equipamento.cor,
-    serie: equipamento.serie,
-    clienteId: equipamento.clienteId,
-  });
-};
-
-export const updateEquipamento = async (
+export const upsertEquipamento = async (
   equipamento: EquipamentosData,
-  equipamentoId: string
+  equipamentoId: number
 ) => {
-  await supabase
+  const responseEquipamento = await supabase
     .from("equipamentos")
-    .update({
+    .upsert({
+      id: equipamentoId ? equipamentoId : undefined,
       marca: equipamento.marca,
       modelo: equipamento.modelo,
       cor: equipamento.cor,
       serie: equipamento.serie,
       clienteId: equipamento.clienteId,
     })
-    .eq("id", equipamentoId);
+    .select();
+
+  return responseEquipamento;
 };
 export const deleteEquipamento = async (equipamentoId: string) => {
   await supabase.from("equipamentos").delete().eq("id", equipamentoId);
+};
+
+export const getCliente = async (clienteId: string) => {
+  const responseClinte = await supabase
+    .from("clientes")
+    .select()
+    .eq("id", clienteId);
+
+  return responseClinte;
 };
