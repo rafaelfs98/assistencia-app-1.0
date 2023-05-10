@@ -5,7 +5,7 @@ import { ServicosData } from "../../../services/Types/suiteOS";
 const ServicosOutlet = () => {
   const { servicoId } = useParams<{ servicoId: string }>();
 
-  const { data: servicos, mutate: mutateStatus } = useSupabase<ServicosData>({
+  const { data: servicos, mutate: mutateServicos } = useSupabase<ServicosData>({
     uri: `/servicos?id=eq.${servicoId}`,
   });
 
@@ -14,7 +14,7 @@ const ServicosOutlet = () => {
       <Outlet
         context={{
           servicos,
-          mutateStatus,
+          mutateServicos,
         }}
       />
     );

@@ -7,6 +7,8 @@ import { EquipamentosData } from "../../../services/Types/suiteOS";
 
 import { useEffect } from "react";
 import ClientesActions from "../Clientes/ClientesActions";
+import EquipamentosActions from "./EquipamentosActions";
+import { getCliente } from "../../../services/Equipamentos";
 
 const Equipamentos: React.FC = () => {
   const navigate = useNavigate();
@@ -18,20 +20,18 @@ const Equipamentos: React.FC = () => {
   const ths = (
     <tr>
       <th>Equipamento</th>
-      <th>Cliente</th>
+      <th>Serie</th>
       <th></th>
     </tr>
   );
 
   const rows = data?.map((item, index) => (
     <tr key={index}>
-      <td onClick={() => navigate(`${item?.id}/view`)}>
-        {item.modelo + "," + item.marca}
-      </td>
-      <td>{item.cliente_name}</td>
+      <td onClick={() => navigate(`${item?.id}/view`)}>{item.modelo}</td>
+      <td>{item?.serie}</td>
 
       <td>
-        <ClientesActions clienteId={String(item?.id)} />
+        <EquipamentosActions equipamentoId={String(item?.id)} />
       </td>
     </tr>
   ));

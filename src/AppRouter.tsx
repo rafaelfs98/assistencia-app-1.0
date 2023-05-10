@@ -14,6 +14,8 @@ import Servicos from "./Pages/Cadastro/Servicos";
 import ServicosForm from "./Pages/Cadastro/Servicos/ServicosForm";
 import ServicosOutlet from "./Pages/Cadastro/Servicos/ServicosOutlet";
 import Equipamentos from "./Pages/Cadastro/Equipamentos";
+import EquipamentosForm from "./Pages/Cadastro/Equipamentos/EquipamentosForm";
+import EquipamentosOutlet from "./Pages/Cadastro/Equipamentos/EquipamentosOutlet";
 
 const AppRouter = () => {
   return (
@@ -47,9 +49,10 @@ const AppRouter = () => {
           </Route>
           <Route element={<OutletBridge />} path="equipamentos">
             <Route element={<Equipamentos />} index />
-            <Route element={<ServicosForm />} path="create" />
-            <Route element={<ServicosOutlet />} path=":servicoId">
-              <Route element={<ServicosForm />} path="update" />
+            <Route element={<EquipamentosForm />} path="create" />
+            <Route element={<EquipamentosOutlet />} path=":equipamentoId">
+              <Route element={<EquipamentosForm />} path="update" />
+              <Route element={<EquipamentosForm />} path="view" />
             </Route>
           </Route>
         </Route>

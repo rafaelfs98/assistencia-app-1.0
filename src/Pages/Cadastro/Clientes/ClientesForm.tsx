@@ -41,13 +41,7 @@ const ClientesForm = () => {
     form: { onError, onSave, onClose },
   } = useFormActions();
 
-  const {
-    handleSubmit,
-    register,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<ClientesData>({
+  const { handleSubmit, register, setValue, watch } = useForm<ClientesData>({
     defaultValues: context ? context?.cliente[0] : {},
   });
 
@@ -66,6 +60,7 @@ const ClientesForm = () => {
   const handleCepSearch = async () => {
     try {
       const response = await apiBuscaCep.get(`${cepWatch}/json`);
+
       setCep(response.data);
     } catch (error) {
       alert("Opa! Tem algum erro aí");
@@ -88,22 +83,30 @@ const ClientesForm = () => {
       <Box>
         <Title order={4}>{title}</Title>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextInput mt="md" required label="Nome" {...register("name")} />
+          <TextInput
+            {...register("name")}
+            label="Nome"
+            mt="md"
+            readOnly={viewTrue}
+            required
+          />
           <Group spacing="xl" grow>
             <TextInput
-              type="email"
-              required
+              {...register("email")}
               label="E-mail"
               mt="md"
-              {...register("email")}
+              readOnly={viewTrue}
+              required
+              type="email"
             />
             <InputBase
-              value={context?.cliente[0]?.telefone}
-              label="Telefone"
               component={IMaskInput}
+              disabled={viewTrue}
+              label="Telefone"
               mask="(00) 0000-0000"
               mt="md"
               onAccept={(value) => setValue("telefone", value as string)}
+              value={context?.cliente[0]?.telefone}
             />
           </Group>
 
@@ -120,42 +123,47 @@ const ClientesForm = () => {
           </Group>
 
           <TextInput
-            defaultValue={cep?.logradouro}
-            type="text"
+            {...register("logradouro")}
             label="Logradouro"
             mt="md"
-            {...register("logradouro")}
+            readOnly={viewTrue}
+            type="text"
+            value={cep?.logradouro}
           />
 
           <Group spacing="xl" grow>
             <TextInput
-              type="text"
+              {...register("numero")}
               label="Numero"
               mt="md"
-              {...register("numero")}
+              readOnly={viewTrue}
+              type="text"
             />
             <TextInput
-              type="text"
+              {...register("complemento")}
               label="Complemento"
               mt="md"
-              {...register("complemento")}
+              readOnly={viewTrue}
+              type="text"
             />
           </Group>
 
           <Group spacing="xl" grow>
             <TextInput
-              defaultValue={cep?.bairro}
-              type="text"
+              {...register("bairro")}
               label="Bairro"
               mt="md"
-              {...register("bairro")}
+              readOnly={viewTrue}
+              type="text"
+              value={cep?.bairro}
             />
             <TextInput
-              defaultValue={cep?.localidade}
-              type="text"
+              {...register("cidade")}
               label="Cidade"
               mt="md"
-              {...register("cidade")}
+              readOnly={viewTrue}
+              type="text"
+              value={cep?.localidade}
             />
           </Group>
 
