@@ -1,35 +1,47 @@
+import { Button, Group, Table, Title } from "@mantine/core";
+import { IconPlus } from "@tabler/icons-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../Components/Layout/Loader";
 import { useSupabase } from "../../hooks/useSupabase";
 import { OrdemServicoType } from "../../services/Types/suiteOS";
 import OrdemServicoActions from "./OrdemServicoActions";
-import Loading from "../../Components/Layout/Loader";
-import { Button, Group, Table, Title } from "@mantine/core";
-import { IconPlus } from "@tabler/icons-react";
 
 const OrdemServicos: React.FC = () => {
   const navigate = useNavigate();
 
   const { data, isLoading } = useSupabase<OrdemServicoType>({
     uri: "/ordem_servico?order=documento.asc",
+    select: `
+    documento,
+    status,
+    equipamento_id,
+    equipamentos (
+     clientes (
+      name
+     )
+    )
+  `,
   });
 
   const ths = (
     <tr>
       <th>Ordem de Servico</th>
       <th>Status</th>
+      <th>Cliente</th>
       <th></th>
     </tr>
   );
 
   useEffect(() => {
-    document.title = "Servicos";
+    document.title = "Ordem de Servicos";
   }, []);
 
   const rows = data?.map((item, index) => (
     <tr key={index}>
       <td>{item.documento}</td>
       <td>{item.status}</td>
+      <td>{item?.equipamentos?.clientes?.name}</td>
       <td>
         <OrdemServicoActions osId={String(item.documento)} />
       </td>

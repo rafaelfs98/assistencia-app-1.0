@@ -4,25 +4,29 @@ import {
   Container,
   Group,
   Select,
-  TextInput,
   Text,
+  TextInput,
   Title,
   UnstyledButton,
 } from "@mantine/core";
+import { IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useOutletContext, useParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from "react-router-dom";
 import { KeyedMutator } from "swr";
 import useFormActions from "../../../hooks/useFormActions";
+import { useSupabase } from "../../../hooks/useSupabase";
 import { upsertEquipamento } from "../../../services/Equipamentos";
 import {
   ClientesData,
   EquipamentosData,
   ServicosData,
 } from "../../../services/Types/suiteOS";
-import { useSupabase } from "../../../hooks/useSupabase";
-import { IconPlus } from "@tabler/icons-react";
-import { useNavigate } from "react-router-dom";
 
 const EquipamentosForm = () => {
   const navigate = useNavigate();
@@ -103,7 +107,7 @@ const EquipamentosForm = () => {
               required
             />
             <Select
-              defaultValue={String(context?.equipamentos[0]?.clienteId)}
+              defaultValue={String(context?.equipamentos[0]?.cliente_id)}
               data={
                 clientes
                   ? clientes?.map((item) => ({
@@ -123,7 +127,7 @@ const EquipamentosForm = () => {
                   </Group>
                 </UnstyledButton>
               }
-              onChange={(value) => setValue("clienteId", Number(value))}
+              onChange={(value) => setValue("cliente_id", Number(value))}
               required
               searchable
             />

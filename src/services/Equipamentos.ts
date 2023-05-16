@@ -1,5 +1,5 @@
 import { supabase } from "./supabase/supabaseClient";
-import { EquipamentosData, ServicosData } from "./Types/suiteOS";
+import { EquipamentosData } from "./Types/suiteOS";
 
 export const upsertEquipamento = async (
   equipamento: EquipamentosData,
@@ -13,7 +13,7 @@ export const upsertEquipamento = async (
       modelo: equipamento.modelo,
       cor: equipamento.cor,
       serie: equipamento.serie,
-      clienteId: equipamento.clienteId,
+      cliente_id: equipamento.cliente_id,
     })
     .select();
 

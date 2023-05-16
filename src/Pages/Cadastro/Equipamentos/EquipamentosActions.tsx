@@ -2,10 +2,15 @@ import { Menu, UnstyledButton } from "@mantine/core";
 import { IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteServicos } from "../../../services/Servicos";
 import { deleteEquipamento } from "../../../services/Equipamentos";
 
-const EquipamentosActions: React.FC<any> = ({ equipamentoId }) => {
+type EquipamentosProps = {
+  equipamentoId: string;
+};
+
+const EquipamentosActions: React.FC<EquipamentosProps> = ({
+  equipamentoId,
+}) => {
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
 
