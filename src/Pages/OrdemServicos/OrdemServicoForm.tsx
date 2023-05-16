@@ -30,11 +30,14 @@ import { KeyedMutator } from "swr";
 import useFormActions from "../../hooks/useFormActions";
 import { useSupabase } from "../../hooks/useSupabase";
 import { upsertOrdemServicos } from "../../services/OrdemServicos";
+
 import {
+  ServicosData,
   EquipamentosData,
   OrdemServicoType,
-  ServicosData,
+  OrdemServicoXServico,
 } from "../../services/Types/suiteOS";
+import OrdemServicosXServicos from "./OrdemServicoXServico";
 
 interface test {
   name: string;
@@ -47,6 +50,10 @@ const OrdemServicosForm = () => {
   const { pathname } = useLocation();
   const [clienteName, setClienteName] = useState<String>("");
   const [title, setTitle] = useState<String>("Abrir Ordem de Servico");
+  const [ordemServicoXServico, setOrdemServicoXServico] =
+    useState<OrdemServicoXServico>();
+
+  const [Servicos, setServico] = useState<ServicosData[]>();
 
   const viewTrue = pathname.includes("view");
   const context = useOutletContext<{
@@ -78,6 +85,8 @@ const OrdemServicosForm = () => {
   `,
   });
 
+  const disabeleTabs = !!context?.ordemServicos;
+
   const onSubmit = async (form: OrdemServicoType) => {
     const { error } = await upsertOrdemServicos(form, Number(osId));
 
@@ -103,24 +112,28 @@ const OrdemServicosForm = () => {
     <Container>
       <Box>
         <Title order={4}>{title}</Title>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Tabs defaultValue="info" mt={25}>
-            <Tabs.List>
-              <Tabs.Tab value="info" icon={<IconInfoCircle size="0.8rem" />}>
-                Info
-              </Tabs.Tab>
-              <Tabs.Tab value="servicos" icon={<IconTool size="0.8rem" />}>
-                Servicos
-              </Tabs.Tab>
-              <Tabs.Tab
-                value="laudo"
-                icon={<IconClipboardCheck size="0.8rem" />}
-              >
-                Laudo Tecnico
-              </Tabs.Tab>
-            </Tabs.List>
+        <Tabs defaultValue="info" mt={25}>
+          <Tabs.List>
+            <Tabs.Tab value="info" icon={<IconInfoCircle size="0.8rem" />}>
+              Info
+            </Tabs.Tab>
+            {disabeleTabs && (
+              <>
+                <Tabs.Tab value="servicos" icon={<IconTool size="0.8rem" />}>
+                  Servicos
+                </Tabs.Tab>
+                <Tabs.Tab
+                  value="laudo"
+                  icon={<IconClipboardCheck size="0.8rem" />}
+                >
+                  Laudo Tecnico
+                </Tabs.Tab>
+              </>
+            )}
+          </Tabs.List>
 
-            <Tabs.Panel value="info" pt="xs">
+          <Tabs.Panel value="info" pt="xs">
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Title mt={10} order={4}>
                 O.S
               </Title>
@@ -226,28 +239,31 @@ const OrdemServicosForm = () => {
                 <Textarea mt="md" label="Acessorios" autosize />
                 <Textarea mt="md" label="Obs." autosize />
               </Group>
-            </Tabs.Panel>
+              <Button.Group mt="lg">
+                <div>
+                  <Button type="submit" mt="md" disabled={viewTrue}>
+                    Submit
+                  </Button>
+                </div>
+                <Button mt="md" ml="sm" color="gray" onClick={onClose}>
+                  Close
+                </Button>
+              </Button.Group>
+            </form>
+          </Tabs.Panel>
 
-            <Tabs.Panel value="servicos" pt="xs">
-              Messages tab content
-            </Tabs.Panel>
+          {disabeleTabs && (
+            <>
+              <Tabs.Panel value="servicos" pt="xs">
+                <OrdemServicosXServicos />
+              </Tabs.Panel>
 
-            <Tabs.Panel value="laudo" pt="xs">
-              Settings tab content
-            </Tabs.Panel>
-          </Tabs>
-
-          <Button.Group mt="lg">
-            <div>
-              <Button type="submit" mt="md" disabled={viewTrue}>
-                Submit
-              </Button>
-            </div>
-            <Button mt="md" ml="sm" color="gray" onClick={onClose}>
-              Close
-            </Button>
-          </Button.Group>
-        </form>
+              <Tabs.Panel value="laudo" pt="xs">
+                Settings tab content
+              </Tabs.Panel>
+            </>
+          )}
+        </Tabs>
       </Box>
     </Container>
   );

@@ -131,6 +131,26 @@ export interface Database {
           status?: string | null;
         };
       };
+      ordemservicoXservico: {
+        Row: {
+          created_at: string | null;
+          id: number;
+          ordem_servico_id: number | null;
+          servico_id: number | null;
+        };
+        Insert: {
+          created_at?: string | null;
+          id?: number;
+          ordem_servico_id?: number | null;
+          servico_id?: number | null;
+        };
+        Update: {
+          created_at?: string | null;
+          id?: number;
+          ordem_servico_id?: number | null;
+          servico_id?: number | null;
+        };
+      };
       servicos: {
         Row: {
           created_at: string | null;
