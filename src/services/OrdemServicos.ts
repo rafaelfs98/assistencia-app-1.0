@@ -1,5 +1,5 @@
 import { supabase } from "./supabase/supabaseClient";
-import { OrdemServicoType } from "./Types/suiteOS";
+import { OrdemServicoType, OrdemServicoXServico } from "./Types/suiteOS";
 
 export const upsertOrdemServicos = async (
   os: OrdemServicoType,
@@ -22,6 +22,7 @@ export const upsertOrdemServicos = async (
 
   return responseUpsert;
 };
+
 export const deleteOrdemServicos = async (osId: string) => {
   const responseDelete = supabase
     .from("ordem_servico")

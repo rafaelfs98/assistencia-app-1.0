@@ -50,3 +50,11 @@ export type OrdemServicoType = {
   solucao: string;
   status: string;
 };
+export type OrdemServicoXServico = {
+  created_at?: string;
+  id?: number;
+  ordem_servico_id: number;
+  ordem_servico?: OrdemServicoType;
+  servico_id: number;
+  servicos?: ServicosData;
+};
