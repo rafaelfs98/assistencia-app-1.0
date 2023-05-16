@@ -16,8 +16,8 @@ export type EquipamentosData = {
   modelo: string;
   cor: string;
   serie: string;
-  clienteId: number;
-  cliente_name: string;
+  cliente_id: number;
+  clientes: ClientesData;
 };
 export type StatusData = {
   id?: number;
@@ -44,7 +44,8 @@ export type OrdemServicoType = {
   data_saida: string;
   defeito: string;
   documento: number;
-  equipamentoId: string;
+  equipamento_id: string;
+  equipamentos: EquipamentosData;
   observacao: string;
   solucao: string;
   status: string;

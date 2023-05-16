@@ -6,21 +6,28 @@ import { useSupabase } from "../../../hooks/useSupabase";
 import { EquipamentosData } from "../../../services/Types/suiteOS";
 
 import { useEffect } from "react";
-import ClientesActions from "../Clientes/ClientesActions";
 import EquipamentosActions from "./EquipamentosActions";
-import { getCliente } from "../../../services/Equipamentos";
 
 const Equipamentos: React.FC = () => {
   const navigate = useNavigate();
 
   const { data, isLoading } = useSupabase<EquipamentosData>({
     uri: `/equipamentos?order=id.asc`,
+    select: `
+    id,
+    modelo,
+    serie,
+    clientes (
+     name
+    )
+  `,
   });
 
   const ths = (
     <tr>
       <th>Equipamento</th>
       <th>Serie</th>
+      <th>Cliente</th>
       <th></th>
     </tr>
   );
@@ -29,6 +36,7 @@ const Equipamentos: React.FC = () => {
     <tr key={index}>
       <td onClick={() => navigate(`${item?.id}/view`)}>{item.modelo}</td>
       <td>{item?.serie}</td>
+      <td>{item?.clientes.name}</td>
 
       <td>
         <EquipamentosActions equipamentoId={String(item?.id)} />

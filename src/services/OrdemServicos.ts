@@ -13,7 +13,7 @@ export const upsertOrdemServicos = async (
       data_saida: os.data_saida,
       defeito: os.defeito,
       documento: osId ? osId : undefined,
-      equipamentoId: os.equipamentoId,
+      equipamento_id: Number(os.equipamento_id),
       observacao: os.observacao,
       solucao: os.solucao,
       status: os.status,
