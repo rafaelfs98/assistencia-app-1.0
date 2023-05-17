@@ -32,6 +32,7 @@ import { useSupabase } from "../../hooks/useSupabase";
 import { upsertOrdemServicos } from "../../services/OrdemServicos";
 
 import {
+  ClientesData,
   EquipamentosData,
   OrdemServicoType,
   ServicosData,
@@ -42,42 +43,48 @@ const OrdemServicosForm = () => {
   const navigate = useNavigate();
   const { osId } = useParams();
   const { pathname } = useLocation();
-  const [equipamentoSelecionado, setEquipamentoSelecionado] =
+
+  const context = useOutletContext<{
+    ordemServico: OrdemServicoType[];
+  }>();
+
+  const [equipamentoToCliente, setEquipamentoToCliente] =
     useState<EquipamentosData[]>();
+
   const [title, setTitle] = useState<String>("Abrir Ordem de Servico");
-  const [equipamentoId, setEquipamentoId] = useState<String>("");
+  const [clienteId, setClienteId] = useState<String>("");
 
   const viewTrue = pathname.includes("view");
-  const context = useOutletContext<{
-    ordemServicos: OrdemServicoType[];
-    mutateCliente: KeyedMutator<OrdemServicoType>;
-  }>();
 
   const {
     form: { onError, onSave, onClose },
   } = useFormActions();
 
   const { setValue, handleSubmit, register } = useForm<OrdemServicoType>({
-    defaultValues: context ? context?.ordemServicos[0] : {},
+    defaultValues: context ? context?.ordemServico[0] : {},
   });
 
   const { data: status } = useSupabase<ServicosData>({
     uri: `/status`,
   });
 
-  const { data: equipamentos } = useSupabase<EquipamentosData>({
+  const { data: equipamentos, mutate } = useSupabase<EquipamentosData>({
     uri: `/equipamentos`,
+  });
+
+  const { data: cliente } = useSupabase<ClientesData>({
+    uri: `/clientes`,
     select: `
     id,
-    modelo,
-    serie,
-    clientes (
-     name
+    name,
+    telefone,
+    equipamentos (
+     modelo
     )
   `,
   });
 
-  const disabeleTabs = !context?.ordemServicos;
+  const disabeleTabs = !!context?.ordemServico;
 
   const onSubmit = async (form: OrdemServicoType) => {
     const { error } = await upsertOrdemServicos(form, Number(osId));
@@ -90,19 +97,25 @@ const OrdemServicosForm = () => {
   };
 
   useEffect(() => {
-    const equipamentosFiltrado = equipamentos?.filter(
-      ({ id }) => id === Number(equipamentoId)
+    const equipamentoFiltrado = equipamentos?.filter(
+      ({ cliente_id }) => cliente_id === Number(clienteId)
     );
 
-    setEquipamentoSelecionado(equipamentosFiltrado);
-  }, [equipamentoId]);
+    setEquipamentoToCliente(equipamentoFiltrado as EquipamentosData[]);
+  }, [clienteId]);
 
   useEffect(() => {
-    if (context?.ordemServicos) {
-      document.title = `${context?.ordemServicos?.map(
+    if (context?.ordemServico) {
+      document.title = `${context?.ordemServico?.map(
         (item) => item.documento
       )}`;
       setTitle("Editar Ordem de Servico");
+
+      setEquipamentoToCliente(
+        context?.ordemServico.map(
+          ({ equipamentos }) => equipamentos
+        ) as EquipamentosData[]
+      );
     }
 
     document.title = "Ordem de Servicos";
@@ -110,8 +123,8 @@ const OrdemServicosForm = () => {
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Box>
+      <Box>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Title order={4}>{title}</Title>
           <Tabs defaultValue="info" mt={25}>
             <Tabs.List>
@@ -134,10 +147,6 @@ const OrdemServicosForm = () => {
             </Tabs.List>
 
             <Tabs.Panel value="info" pt="xs">
-              <Title mt={10} order={4}>
-                O.S
-              </Title>
-
               <Group grow>
                 <TextInput
                   mt="md"
@@ -154,6 +163,7 @@ const OrdemServicosForm = () => {
                         }))
                       : []
                   }
+                  defaultValue={context?.ordemServico[0]?.status}
                   disabled={viewTrue}
                   label="Status"
                   mt="md"
@@ -188,61 +198,88 @@ const OrdemServicosForm = () => {
                 />
               </Group>
 
-              <Divider mt={20} />
+              <Select
+                data={
+                  cliente
+                    ? cliente?.map((item) => ({
+                        label: item.name + " - " + item.telefone,
+                        value: String(item.id),
+                      }))
+                    : []
+                }
+                disabled={viewTrue}
+                label="Cliente(Nome, Telefone)"
+                mt="md"
+                nothingFound={
+                  <UnstyledButton onClick={() => navigate("/cliente/create")}>
+                    <Group>
+                      <IconPlus size="1rem" />
+                      <Text>Criar Cliente</Text>
+                    </Group>
+                  </UnstyledButton>
+                }
+                onChange={(value) => {
+                  setClienteId(String(value));
+                }}
+                defaultValue={String(
+                  context?.ordemServico[0]?.equipamentos?.clientes?.id
+                )}
+                required
+                searchable
+              />
 
-              <Title mt={10} order={4}>
-                Equipamento
-              </Title>
-              <Group grow>
-                <Select
-                  data={
-                    equipamentos
-                      ? equipamentos?.map((item) => ({
-                          label: item.serie + " - " + item.modelo,
-                          value: String(item.id),
-                        }))
-                      : []
-                  }
-                  disabled={viewTrue}
-                  label="Equipamento"
-                  mt="md"
-                  nothingFound={
-                    <UnstyledButton
-                      onClick={() => navigate("/equipamento/create")}
-                    >
-                      <Group>
-                        <IconPlus size="1rem" />
-                        <Text>Criar Equipamento</Text>
-                      </Group>
-                    </UnstyledButton>
-                  }
-                  onChange={(value) => {
-                    setValue("equipamento_id", String(value));
-                    setEquipamentoId(String(value));
-                  }}
-                  required
-                  searchable
-                />
-                <TextInput
-                  mt="md"
-                  type="text"
-                  readOnly
-                  label="Cliente"
-                  value={equipamentoSelecionado?.map(
-                    ({ clientes }) => clientes.name
-                  )}
-                />
-              </Group>
-              <Group grow>
-                <Textarea mt="md" label="Acessorios" autosize />
-                <Textarea mt="md" label="Obs." autosize />
-              </Group>
+              <Select
+                data={
+                  equipamentoToCliente
+                    ? equipamentoToCliente?.map((item) => ({
+                        label:
+                          item.marca + " - " + item.modelo + " - " + item.cor,
+                        value: String(item.id),
+                      }))
+                    : []
+                }
+                disabled={viewTrue}
+                label="Equipamento (Marca, Modelo, Cor)"
+                mt="md"
+                nothingFound={
+                  <UnstyledButton
+                    onClick={() => navigate("/equipamento/create")}
+                  >
+                    <Group>
+                      <IconPlus size="1rem" />
+                      <Text>Criar Equipamento</Text>
+                    </Group>
+                  </UnstyledButton>
+                }
+                onChange={(value) => {
+                  setValue("equipamento_id", String(value));
+                }}
+                defaultValue={String(
+                  context?.ordemServico[0]?.equipamentos?.id
+                )}
+                required
+                searchable
+              />
+              <Textarea
+                mt="md"
+                label="Acessorios"
+                autosize
+                defaultValue={context?.ordemServico[0]?.acessorios}
+              />
+              <Textarea
+                mt="md"
+                label="Obs."
+                autosize
+                defaultValue={context?.ordemServico[0]?.observacao}
+              />
             </Tabs.Panel>
 
             {disabeleTabs && (
               <>
                 <Tabs.Panel value="servicos" pt="xs">
-                  <ServicoToOrdemServicoForm />
+                  <ServicoToOrdemServicoForm
+                    ordem_servico_id={context?.ordemServico[0]?.documento}
+                  />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="laudo" pt="xs">
@@ -261,8 +298,8 @@ const OrdemServicosForm = () => {
               Close
             </Button>
           </Button.Group>
-        </Box>
-      </form>
+        </form>
+      </Box>
     </Container>
   );
 };
