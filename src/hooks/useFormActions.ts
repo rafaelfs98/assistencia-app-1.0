@@ -27,11 +27,7 @@ export type FormOptions = {
   onClose: () => void;
   onError: (error?: any) => void;
   onSave: (param?: any) => void;
-  onSubmit: <T = any>(data: any, options: OnSubmitOptionsRest<T>) => Promise<T>;
-  onSubmitAndSave: (
-    data: any,
-    onSubmitOptions: OnSubmitOptionsRest<any>
-  ) => Promise<void>;
+  onSubmit: (param?: any) => void;
   onSuccess: () => void;
   submitting: boolean;
 };
@@ -79,37 +75,10 @@ const useFormActions = (): Form => {
     navigate(-1);
   };
 
-  const onSubmit = async <T = any>(
-    data: any,
-    { create, update }: OnSubmitOptionsRest<T>
-  ): Promise<T> => {
-    setSubmitting(true);
+  const onSubmit = () => {
+    onSuccess();
 
-    try {
-      const form = { ...data };
-
-      delete form.id;
-
-      const fn = data.id ? () => update(data.id, form) : () => create(form);
-
-      const response = await fn();
-
-      setSubmitting(false);
-
-      return response;
-    } catch (error) {
-      setSubmitting(false);
-
-      throw error;
-    }
-  };
-
-  const onSubmitAndSave = async (
-    data: any,
-    onSubmitOptions: OnSubmitOptionsRest<any>
-  ) => {
-    await onSubmit(data, onSubmitOptions);
-    await onSave();
+    setForceRefetch(new Date().getTime());
   };
 
   return {
@@ -138,7 +107,6 @@ const useFormActions = (): Form => {
       onError,
       onSave,
       onSubmit,
-      onSubmitAndSave,
       onSuccess,
       submitting,
     },

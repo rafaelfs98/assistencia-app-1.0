@@ -50,7 +50,7 @@ export type OrdemServicoType = {
   solucao: string;
   status: string;
 };
-export type OrdemServicoXServico = {
+export type ServicoToOrdemServico = {
   created_at?: string;
   id?: number;
   ordem_servico_id: number;
