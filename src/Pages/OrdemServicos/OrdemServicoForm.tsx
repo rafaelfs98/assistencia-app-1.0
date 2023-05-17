@@ -32,28 +32,20 @@ import { useSupabase } from "../../hooks/useSupabase";
 import { upsertOrdemServicos } from "../../services/OrdemServicos";
 
 import {
-  ServicosData,
   EquipamentosData,
   OrdemServicoType,
-  OrdemServicoXServico,
+  ServicosData,
 } from "../../services/Types/suiteOS";
-import OrdemServicosXServicos from "./OrdemServicoXServico";
-
-interface test {
-  name: string;
-  id?: string;
-}
+import ServicoToOrdemServicoForm from "./ServicoToOrdemServico";
 
 const OrdemServicosForm = () => {
   const navigate = useNavigate();
   const { osId } = useParams();
   const { pathname } = useLocation();
-  const [clienteName, setClienteName] = useState<String>("");
+  const [equipamentoSelecionado, setEquipamentoSelecionado] =
+    useState<EquipamentosData[]>();
   const [title, setTitle] = useState<String>("Abrir Ordem de Servico");
-  const [ordemServicoXServico, setOrdemServicoXServico] =
-    useState<OrdemServicoXServico>();
-
-  const [Servicos, setServico] = useState<ServicosData[]>();
+  const [equipamentoId, setEquipamentoId] = useState<String>("");
 
   const viewTrue = pathname.includes("view");
   const context = useOutletContext<{
@@ -85,7 +77,7 @@ const OrdemServicosForm = () => {
   `,
   });
 
-  const disabeleTabs = !!context?.ordemServicos;
+  const disabeleTabs = !context?.ordemServicos;
 
   const onSubmit = async (form: OrdemServicoType) => {
     const { error } = await upsertOrdemServicos(form, Number(osId));
@@ -96,6 +88,14 @@ const OrdemServicosForm = () => {
 
     return onError(error.message);
   };
+
+  useEffect(() => {
+    const equipamentosFiltrado = equipamentos?.filter(
+      ({ id }) => id === Number(equipamentoId)
+    );
+
+    setEquipamentoSelecionado(equipamentosFiltrado);
+  }, [equipamentoId]);
 
   useEffect(() => {
     if (context?.ordemServicos) {
@@ -110,30 +110,30 @@ const OrdemServicosForm = () => {
 
   return (
     <Container>
-      <Box>
-        <Title order={4}>{title}</Title>
-        <Tabs defaultValue="info" mt={25}>
-          <Tabs.List>
-            <Tabs.Tab value="info" icon={<IconInfoCircle size="0.8rem" />}>
-              Info
-            </Tabs.Tab>
-            {disabeleTabs && (
-              <>
-                <Tabs.Tab value="servicos" icon={<IconTool size="0.8rem" />}>
-                  Servicos
-                </Tabs.Tab>
-                <Tabs.Tab
-                  value="laudo"
-                  icon={<IconClipboardCheck size="0.8rem" />}
-                >
-                  Laudo Tecnico
-                </Tabs.Tab>
-              </>
-            )}
-          </Tabs.List>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box>
+          <Title order={4}>{title}</Title>
+          <Tabs defaultValue="info" mt={25}>
+            <Tabs.List>
+              <Tabs.Tab value="info" icon={<IconInfoCircle size="0.8rem" />}>
+                Info
+              </Tabs.Tab>
+              {disabeleTabs && (
+                <>
+                  <Tabs.Tab value="servicos" icon={<IconTool size="0.8rem" />}>
+                    Servicos
+                  </Tabs.Tab>
+                  <Tabs.Tab
+                    value="laudo"
+                    icon={<IconClipboardCheck size="0.8rem" />}
+                  >
+                    Laudo Tecnico
+                  </Tabs.Tab>
+                </>
+              )}
+            </Tabs.List>
 
-          <Tabs.Panel value="info" pt="xs">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <Tabs.Panel value="info" pt="xs">
               <Title mt={10} order={4}>
                 O.S
               </Title>
@@ -199,7 +199,7 @@ const OrdemServicosForm = () => {
                     equipamentos
                       ? equipamentos?.map((item) => ({
                           label: item.serie + " - " + item.modelo,
-                          value: String(item.id) + "-" + item?.clientes?.name,
+                          value: String(item.id),
                         }))
                       : []
                   }
@@ -217,12 +217,8 @@ const OrdemServicosForm = () => {
                     </UnstyledButton>
                   }
                   onChange={(value) => {
-                    const selectedEquipamento = value?.split("-");
-
-                    if (selectedEquipamento) {
-                      setValue("equipamento_id", selectedEquipamento[0]);
-                      setClienteName(selectedEquipamento[1]);
-                    }
+                    setValue("equipamento_id", String(value));
+                    setEquipamentoId(String(value));
                   }}
                   required
                   searchable
@@ -230,41 +226,43 @@ const OrdemServicosForm = () => {
                 <TextInput
                   mt="md"
                   type="text"
-                  value={clienteName as string}
-                  disabled
+                  readOnly
                   label="Cliente"
+                  value={equipamentoSelecionado?.map(
+                    ({ clientes }) => clientes.name
+                  )}
                 />
               </Group>
               <Group grow>
                 <Textarea mt="md" label="Acessorios" autosize />
                 <Textarea mt="md" label="Obs." autosize />
               </Group>
-              <Button.Group mt="lg">
-                <div>
-                  <Button type="submit" mt="md" disabled={viewTrue}>
-                    Submit
-                  </Button>
-                </div>
-                <Button mt="md" ml="sm" color="gray" onClick={onClose}>
-                  Close
-                </Button>
-              </Button.Group>
-            </form>
-          </Tabs.Panel>
+            </Tabs.Panel>
 
-          {disabeleTabs && (
-            <>
-              <Tabs.Panel value="servicos" pt="xs">
-                <OrdemServicosXServicos />
-              </Tabs.Panel>
+            {disabeleTabs && (
+              <>
+                <Tabs.Panel value="servicos" pt="xs">
+                  <ServicoToOrdemServicoForm />
+                </Tabs.Panel>
 
-              <Tabs.Panel value="laudo" pt="xs">
-                Settings tab content
-              </Tabs.Panel>
-            </>
-          )}
-        </Tabs>
-      </Box>
+                <Tabs.Panel value="laudo" pt="xs">
+                  Settings tab content
+                </Tabs.Panel>
+              </>
+            )}
+          </Tabs>
+          <Button.Group mt="lg">
+            <div>
+              <Button type="submit" mt="md" disabled={viewTrue}>
+                Submit
+              </Button>
+            </div>
+            <Button mt="md" ml="sm" color="gray" onClick={onClose}>
+              Close
+            </Button>
+          </Button.Group>
+        </Box>
+      </form>
     </Container>
   );
 };

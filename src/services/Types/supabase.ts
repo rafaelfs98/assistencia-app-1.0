@@ -131,7 +131,7 @@ export interface Database {
           status?: string | null;
         };
       };
-      ordemservicoXservico: {
+      servicoToOrdemServico: {
         Row: {
           created_at: string | null;
           id: number;

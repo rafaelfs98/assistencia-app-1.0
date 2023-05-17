@@ -1,5 +1,5 @@
 import { supabase } from "./supabase/supabaseClient";
-import { OrdemServicoType, OrdemServicoXServico } from "./Types/suiteOS";
+import { OrdemServicoType, ServicoToOrdemServico } from "./Types/suiteOS";
 
 export const upsertOrdemServicos = async (
   os: OrdemServicoType,
