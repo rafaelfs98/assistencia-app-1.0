@@ -41,14 +41,14 @@ export type LoginType = {
 export type OrdemServicoType = {
   acessorios: string;
   data_entrada: string;
-  data_saida: string;
-  defeito: string;
+  data_saida?: string;
+  defeito?: string;
   documento: number;
-  equipamento_id: string;
-  equipamentos: EquipamentosData;
-  observacao: string;
-  solucao: string;
-  status: string;
+  equipamento_id?: string;
+  equipamentos?: EquipamentosData;
+  observacao?: string;
+  solucao?: string;
+  status?: string;
 };
 export type ServicoToOrdemServico = {
   created_at?: string;
