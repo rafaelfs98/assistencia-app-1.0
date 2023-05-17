@@ -1,37 +1,36 @@
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Group,
+  Paper,
+  Select,
+  Table,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
+import { IconPlus, IconTrash } from "@tabler/icons-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useFormActions from "../../hooks/useFormActions";
-import {
-  ServicoToOrdemServico,
-  ServicosData,
-} from "../../services/Types/suiteOS";
-import { useForm } from "react-hook-form";
+import { useSupabase } from "../../hooks/useSupabase";
 import {
   deleteServicoToOrdemServicos,
   insertServicoToOrdemServico,
 } from "../../services/ServicoToOrdemServico";
-import { useSupabase } from "../../hooks/useSupabase";
 import {
-  Container,
-  Box,
-  Group,
-  Select,
-  UnstyledButton,
-  Button,
-  Table,
-  Text,
-} from "@mantine/core";
-import { IconPlus, IconTrash } from "@tabler/icons-react";
-import Loading from "../../Components/Layout/Loader";
-import { useState } from "react";
-import { KeyedMutator } from "swr";
+  ServicoToOrdemServico,
+  ServicosData,
+} from "../../services/Types/suiteOS";
 
-type Servicos = {
-  data: ServicoToOrdemServico[];
-  isLoading: boolean;
-  mutate: KeyedMutator<ServicoToOrdemServico[]>;
+type ServicoToOrdemServicoProps = {
+  ordem_servico_id: number;
 };
 
-const ServicoToOrdemServicoForm = () => {
+const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
+  ordem_servico_id,
+}) => {
   const navigate = useNavigate();
   const [servicoId, setServicoId] = useState<Number>();
 
@@ -39,24 +38,21 @@ const ServicoToOrdemServicoForm = () => {
     form: { onError, onSubmit },
   } = useFormActions();
 
-  const {
-    data: ordeServicoXServico,
-    isLoading,
-    mutate,
-  } = useSupabase<ServicoToOrdemServico>({
-    uri: `/servicoToOrdemServico`,
-    select: `
+  const { data: ordeServicoXServico, mutate } =
+    useSupabase<ServicoToOrdemServico>({
+      uri: `/servicoToOrdemServico?ordem_servico_id=eq.${ordem_servico_id}`,
+      select: `
         id,
         servicos (
           name,
           valor
         )
       `,
-  });
+    });
 
   const salvarServico = async () => {
     const { data, error } = await insertServicoToOrdemServico({
-      ordem_servico_id: 1,
+      ordem_servico_id: ordem_servico_id,
       servico_id: Number(servicoId),
     });
 
@@ -71,6 +67,43 @@ const ServicoToOrdemServicoForm = () => {
   const { data: servicos } = useSupabase<ServicosData>({
     uri: `/servicos`,
   });
+
+  const ths = (
+    <tr>
+      <th>Sevico</th>
+      <th>Valor</th>
+      <th></th>
+    </tr>
+  );
+
+  const rows = ordeServicoXServico?.map((item, index) => (
+    <tr key={index}>
+      <td>{item?.servicos?.name}</td>
+      <td>{item?.servicos?.valor}</td>
+
+      <td>
+        <UnstyledButton
+          onClick={() =>
+            deleteServicoToOrdemServicos(String(item.id)).then(() =>
+              mutate(ordeServicoXServico)
+            )
+          }
+        >
+          <IconTrash />
+        </UnstyledButton>
+      </td>
+    </tr>
+  ));
+
+  const getTotalServicos = () => {
+    const valorServico = ordeServicoXServico?.map(({ servicos }) =>
+      parseFloat(servicos?.valor.replace("R$ ", "").replace(",", ".") as string)
+    );
+
+    const totalServico = valorServico?.reduce((prev, valor) => prev + valor, 0);
+
+    return totalServico?.toFixed(2).replace(".", ",");
+  };
 
   return (
     <Container>
@@ -96,7 +129,6 @@ const ServicoToOrdemServicoForm = () => {
               </UnstyledButton>
             }
             onChange={(value) => setServicoId(Number(value))}
-            required
             searchable
           />
           <Button onClick={() => salvarServico()} compact mt="40px">
@@ -105,56 +137,20 @@ const ServicoToOrdemServicoForm = () => {
         </Group>
 
         <Group mt={25}>
-          <ServicosTable
-            data={ordeServicoXServico ? ordeServicoXServico : []}
-            isLoading={isLoading}
-            mutate={mutate}
-          />
+          <Table highlightOnHover mb={50} mx={"auto"}>
+            <thead>{ths}</thead>
+            <tbody>{rows}</tbody>
+          </Table>
+        </Group>
+
+        <Group mt={4} position="right">
+          <Text>Total</Text>
+          <Paper shadow="xl" p="md" mr={10} withBorder radius="lg">
+            <Text>{`R$ ${getTotalServicos()}`}</Text>
+          </Paper>
         </Group>
       </Box>
     </Container>
   );
 };
 export default ServicoToOrdemServicoForm;
-
-const ServicosTable: React.FC<Servicos> = ({ data, isLoading, mutate }) => {
-  const ths = (
-    <tr>
-      <th>Sevico</th>
-      <th>Valor</th>
-      <th></th>
-    </tr>
-  );
-
-  const rows = data?.map((item, index) => (
-    <tr key={index}>
-      <td>{item?.servicos?.name}</td>
-      <td>{item?.servicos?.valor}</td>
-
-      <td>
-        <UnstyledButton
-          onClick={() =>
-            deleteServicoToOrdemServicos(String(item.id)).then(() =>
-              mutate(data)
-            )
-          }
-        >
-          <IconTrash />
-        </UnstyledButton>
-      </td>
-    </tr>
-  ));
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  return (
-    <>
-      <Table highlightOnHover mb={50} mx={"auto"}>
-        <thead>{ths}</thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    </>
-  );
-};
