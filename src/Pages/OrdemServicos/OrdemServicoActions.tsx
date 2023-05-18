@@ -1,7 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { deleteOrdemServicos } from "../../services/OrdemServicos";
 import { Menu, UnstyledButton } from "@mantine/core";
-import { IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconDotsVertical,
+  IconPdf,
+  IconPencil,
+  IconPin,
+  IconPrinter,
+  IconTrash,
+} from "@tabler/icons-react";
 import { useState } from "react";
 
 type OsProps = {
@@ -43,6 +51,18 @@ const OrdemServicosActions: React.FC<OsProps> = ({ osId }) => {
             icon={<IconPencil size={14} />}
           >
             Editar
+          </Menu.Item>
+          <Menu.Item
+            onClick={() => navigate(`${osId}/fechar`)}
+            icon={<IconCheck size={16} />}
+          >
+            Encerrar
+          </Menu.Item>
+          <Menu.Item
+            onClick={() => navigate(`${osId}/update`)}
+            icon={<IconPrinter size={14} />}
+          >
+            Imprimir
           </Menu.Item>
           <Menu.Item
             onClick={handleDelete}

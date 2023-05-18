@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Container,
-  Divider,
   Group,
   Select,
   Tabs,
@@ -26,7 +25,6 @@ import {
   useOutletContext,
   useParams,
 } from "react-router-dom";
-import { KeyedMutator } from "swr";
 import useFormActions from "../../hooks/useFormActions";
 import { useSupabase } from "../../hooks/useSupabase";
 import { upsertOrdemServicos } from "../../services/OrdemServicos";
@@ -264,13 +262,13 @@ const OrdemServicosForm = () => {
                 mt="md"
                 label="Acessorios"
                 autosize
-                defaultValue={context?.ordemServico[0]?.acessorios}
+                {...register("acessorios")}
               />
               <Textarea
                 mt="md"
                 label="Obs."
                 autosize
-                defaultValue={context?.ordemServico[0]?.observacao}
+                {...register("observacao")}
               />
             </Tabs.Panel>
 

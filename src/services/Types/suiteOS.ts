@@ -26,7 +26,7 @@ export type StatusData = {
 export type ServicosData = {
   id: number;
   name: string;
-  valor: string;
+  valor: number;
 };
 export type apiData = {
   [x: string]: any;
