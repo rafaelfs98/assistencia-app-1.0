@@ -97,7 +97,7 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
 
   const getTotalServicos = () => {
     const valorServico = ordeServicoXServico?.map(({ servicos }) =>
-      parseFloat(servicos?.valor.replace("R$ ", "").replace(",", ".") as string)
+      Number(servicos?.valor)
     );
 
     const totalServico = valorServico?.reduce((prev, valor) => prev + valor, 0);

@@ -156,19 +156,19 @@ export interface Database {
           created_at: string | null;
           id: number;
           name: string | null;
-          valor: string | null;
+          valor: number | null;
         };
         Insert: {
           created_at?: string | null;
           id?: number;
           name?: string | null;
-          valor?: string | null;
+          valor?: number | null;
         };
         Update: {
           created_at?: string | null;
           id?: number;
           name?: string | null;
-          valor?: string | null;
+          valor?: number | null;
         };
       };
       status: {

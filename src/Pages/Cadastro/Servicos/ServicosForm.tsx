@@ -81,7 +81,7 @@ const ServicosForm = () => {
                   decimalScale={2}
                   prefix="R$ "
                   onValueChange={(values) => {
-                    setValue("valor", values.formattedValue);
+                    setValue("valor", Number(values.floatValue));
                   }}
                 />
               )}

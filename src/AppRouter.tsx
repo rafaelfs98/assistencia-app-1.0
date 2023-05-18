@@ -19,6 +19,8 @@ import EquipamentosOutlet from "./Pages/Cadastro/Equipamentos/EquipamentosOutlet
 import OrdemServicos from "./Pages/OrdemServicos";
 import OrdemServicosForm from "./Pages/OrdemServicos/OrdemServicoForm";
 import OrdemServicosOutlet from "./Pages/OrdemServicos/OrdemServicoOutlet";
+import FecharOrdemServicosForm from "./Pages/OrdemServicos/FecharOrdemServico";
+import PagamentoServico from "./Pages/OrdemServicos/PagamentoOrdemServico";
 
 const AppRouter = () => {
   return (
@@ -63,6 +65,8 @@ const AppRouter = () => {
             <Route element={<OrdemServicosForm />} path="create" />
             <Route element={<OrdemServicosOutlet />} path=":osId">
               <Route element={<OrdemServicosForm />} path="update" />
+              <Route element={<FecharOrdemServicosForm />} path="fechar" />
+              <Route element={<PagamentoServico />} path="pagamento" />
               <Route element={<OrdemServicosForm />} path="view" />
             </Route>
           </Route>
