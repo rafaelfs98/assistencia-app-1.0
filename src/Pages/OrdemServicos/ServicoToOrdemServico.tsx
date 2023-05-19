@@ -11,7 +11,7 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useFormActions from "../../hooks/useFormActions";
 import { useSupabase } from "../../hooks/useSupabase";
@@ -33,6 +33,7 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
 }) => {
   const navigate = useNavigate();
   const [servicoId, setServicoId] = useState<Number>();
+  const [totalServico, setTotalServico] = useState<string>();
 
   const {
     form: { onError, onSubmit },
@@ -79,7 +80,7 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
   const rows = ordeServicoXServico?.map((item, index) => (
     <tr key={index}>
       <td>{item?.servicos?.name}</td>
-      <td>{item?.servicos?.valor}</td>
+      <td>{`R$ ${item?.servicos?.valor.toFixed(2).replace(".", ",")}`}</td>
 
       <td>
         <UnstyledButton
@@ -95,16 +96,25 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
     </tr>
   ));
 
-  const getTotalServicos = () => {
+  const getTotalServicos = useCallback(() => {
     const valorServico = ordeServicoXServico?.map(({ servicos }) =>
       Number(servicos?.valor)
     );
 
     const totalServico = valorServico?.reduce((prev, valor) => prev + valor, 0);
 
-    return totalServico?.toFixed(2).replace(".", ",");
-  };
+    return isNaN(totalServico as number)
+      ? null
+      : totalServico?.toFixed(2).replace(".", ",");
+  }, [ordeServicoXServico]);
 
+  useEffect(() => {
+    const total = getTotalServicos();
+
+    if (total !== null) {
+      setTotalServico(total);
+    }
+  }, [getTotalServicos]);
   return (
     <Container>
       <Box>
@@ -146,7 +156,7 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
         <Group mt={4} position="right">
           <Text>Total</Text>
           <Paper shadow="xl" p="md" mr={10} withBorder radius="lg">
-            <Text>{`R$ ${getTotalServicos()}`}</Text>
+            <Text>{`R$ ${totalServico}`}</Text>
           </Paper>
         </Group>
       </Box>

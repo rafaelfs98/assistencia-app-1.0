@@ -74,7 +74,9 @@ const ServicosForm = () => {
                     textAlign: "left",
                     width: "50%",
                   }}
-                  value={context?.servicos[0]?.valor}
+                  value={context?.servicos[0]?.valor
+                    .toFixed(2)
+                    .replace(".", ",")}
                   allowLeadingZeros
                   decimalSeparator=","
                   thousandSeparator="."
