@@ -1,27 +1,26 @@
-import { useNavigate } from "react-router-dom";
-import { deleteOrdemServicos } from "../../services/OrdemServicos";
 import { Menu, UnstyledButton } from "@mantine/core";
 import {
   IconCheck,
+  IconCoin,
   IconDotsVertical,
-  IconPdf,
   IconPencil,
-  IconPin,
   IconPrinter,
   IconTrash,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { deleteOrdemServicos } from "../../services/OrdemServicos";
 
 type OsProps = {
   osId: string;
 };
 
-const OrdemServicosActions: React.FC<OsProps> = ({ osId }) => {
+const OrderServiceActions: React.FC<OsProps> = ({ osId }) => {
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
-    if (!confirm("Deseja excluir este servico?")) {
+    if (!window.confirm("Deseja excluir este serviço?")) {
       return;
     }
 
@@ -32,7 +31,7 @@ const OrdemServicosActions: React.FC<OsProps> = ({ osId }) => {
     } catch (error) {
       console.error(error);
       setIsDeleting(false);
-      alert("Ocorreu um erro ao excluir o servico.");
+      alert("Ocorreu um erro ao excluir o serviço.");
     }
   };
 
@@ -53,10 +52,16 @@ const OrdemServicosActions: React.FC<OsProps> = ({ osId }) => {
             Editar
           </Menu.Item>
           <Menu.Item
-            onClick={() => navigate(`${osId}/fechar`)}
+            onClick={() => navigate(`${osId}/encerrar`)}
             icon={<IconCheck size={16} />}
           >
             Encerrar
+          </Menu.Item>
+          <Menu.Item
+            onClick={() => navigate(`${osId}/pagamento`)}
+            icon={<IconCoin size={16} />}
+          >
+            Pagamento
           </Menu.Item>
           <Menu.Item
             onClick={() => navigate(`${osId}/update`)}
@@ -77,4 +82,4 @@ const OrdemServicosActions: React.FC<OsProps> = ({ osId }) => {
   );
 };
 
-export default OrdemServicosActions;
+export default OrderServiceActions;

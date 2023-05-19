@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -17,7 +18,6 @@ import {
   IconPlus,
   IconTool,
 } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   useLocation,
@@ -37,7 +37,7 @@ import {
 } from "../../services/Types/suiteOS";
 import ServicoToOrdemServicoForm from "./ServicoToOrdemServico";
 
-const OrdemServicosForm = () => {
+const OrderServicosForm = () => {
   const navigate = useNavigate();
   const { osId } = useParams();
   const { pathname } = useLocation();
@@ -46,13 +46,13 @@ const OrdemServicosForm = () => {
     ordemServico: OrdemServicoType[];
   }>();
 
-  const [equipamentoToCliente, setEquipamentoToCliente] =
+  const [equipamentosByCliente, setEquipamentosByCliente] =
     useState<EquipamentosData[]>();
 
-  const [title, setTitle] = useState<String>("Abrir Ordem de Servico");
-  const [clienteId, setClienteId] = useState<String>("");
+  const [title, setTitle] = useState<string>("Abrir Ordem de Servico");
+  const [clienteId, setClienteId] = useState<string>("");
 
-  const viewTrue = pathname.includes("view");
+  const isViewMode = pathname.includes("view");
 
   const {
     form: { onError, onSave, onClose },
@@ -66,11 +66,11 @@ const OrdemServicosForm = () => {
     uri: `/status`,
   });
 
-  const { data: equipamentos, mutate } = useSupabase<EquipamentosData>({
+  const { data: equipamentos } = useSupabase<EquipamentosData>({
     uri: `/equipamentos`,
   });
 
-  const { data: cliente } = useSupabase<ClientesData>({
+  const { data: clientes } = useSupabase<ClientesData>({
     uri: `/clientes`,
     select: `
     id,
@@ -82,7 +82,7 @@ const OrdemServicosForm = () => {
   `,
   });
 
-  const disabeleTabs = !!context?.ordemServico;
+  const disableTabs = !!context?.ordemServico;
 
   const onSubmit = async (form: OrdemServicoType) => {
     const { error } = await upsertOrdemServicos(form, Number(osId));
@@ -95,11 +95,11 @@ const OrdemServicosForm = () => {
   };
 
   useEffect(() => {
-    const equipamentoFiltrado = equipamentos?.filter(
+    const equipamentosFiltered = equipamentos?.filter(
       ({ cliente_id }) => cliente_id === Number(clienteId)
     );
 
-    setEquipamentoToCliente(equipamentoFiltrado as EquipamentosData[]);
+    setEquipamentosByCliente(equipamentosFiltered as EquipamentosData[]);
   }, [clienteId]);
 
   useEffect(() => {
@@ -109,14 +109,14 @@ const OrdemServicosForm = () => {
       )}`;
       setTitle("Editar Ordem de Servico");
 
-      setEquipamentoToCliente(
+      setEquipamentosByCliente(
         context?.ordemServico.map(
           ({ equipamentos }) => equipamentos
         ) as EquipamentosData[]
       );
+    } else {
+      document.title = "Ordem de Servicos";
     }
-
-    document.title = "Ordem de Servicos";
   }, []);
 
   return (
@@ -129,7 +129,7 @@ const OrdemServicosForm = () => {
               <Tabs.Tab value="info" icon={<IconInfoCircle size="0.8rem" />}>
                 Info
               </Tabs.Tab>
-              {disabeleTabs && (
+              {disableTabs && (
                 <>
                   <Tabs.Tab value="servicos" icon={<IconTool size="0.8rem" />}>
                     Servicos
@@ -162,7 +162,7 @@ const OrdemServicosForm = () => {
                       : []
                   }
                   defaultValue={context?.ordemServico[0]?.status}
-                  disabled={viewTrue}
+                  disabled={isViewMode}
                   label="Status"
                   mt="md"
                   nothingFound={
@@ -198,14 +198,14 @@ const OrdemServicosForm = () => {
 
               <Select
                 data={
-                  cliente
-                    ? cliente?.map((item) => ({
+                  clientes
+                    ? clientes?.map((item) => ({
                         label: item.name + " - " + item.telefone,
                         value: String(item.id),
                       }))
                     : []
                 }
-                disabled={viewTrue}
+                disabled={isViewMode}
                 label="Cliente(Nome, Telefone)"
                 mt="md"
                 nothingFound={
@@ -228,15 +228,15 @@ const OrdemServicosForm = () => {
 
               <Select
                 data={
-                  equipamentoToCliente
-                    ? equipamentoToCliente?.map((item) => ({
+                  equipamentosByCliente
+                    ? equipamentosByCliente?.map((item) => ({
                         label:
                           item.marca + " - " + item.modelo + " - " + item.cor,
                         value: String(item.id),
                       }))
                     : []
                 }
-                disabled={viewTrue}
+                disabled={isViewMode}
                 label="Equipamento (Marca, Modelo, Cor)"
                 mt="md"
                 nothingFound={
@@ -272,7 +272,7 @@ const OrdemServicosForm = () => {
               />
             </Tabs.Panel>
 
-            {disabeleTabs && (
+            {disableTabs && (
               <>
                 <Tabs.Panel value="servicos" pt="xs">
                   <ServicoToOrdemServicoForm
@@ -288,7 +288,7 @@ const OrdemServicosForm = () => {
           </Tabs>
           <Button.Group mt="lg">
             <div>
-              <Button type="submit" mt="md" disabled={viewTrue}>
+              <Button type="submit" mt="md" disabled={isViewMode}>
                 Submit
               </Button>
             </div>
@@ -301,4 +301,5 @@ const OrdemServicosForm = () => {
     </Container>
   );
 };
-export default OrdemServicosForm;
+
+export default OrderServicosForm;
