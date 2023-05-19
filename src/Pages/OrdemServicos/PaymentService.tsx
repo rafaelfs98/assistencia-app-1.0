@@ -14,7 +14,7 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import useFormActions from "../../hooks/useFormActions";
@@ -79,30 +79,27 @@ const PaymentService = () => {
 
     const currentTotal = Number(previousTotal) - Number(paidValue);
 
-    return isNaN(currentTotal as number)
-      ? null
-      : currentTotal?.toFixed(2).replace(".", ",");
-  }, [recebimento]);
+    const total = !isNaN(currentTotal)
+      ? currentTotal.toFixed(2).replace(".", ",")
+      : "0,00";
+
+    setPaymentPaid(currentTotal === 0);
+    setTotalAmount(total);
+  }, [currentValues, totalValues, recebimento]);
 
   useEffect(() => {
-    const total = getTotalAmount();
-
-    if (total !== null) {
-      setTotalAmount(total);
-
-      setPaymentPaid(total === "0,00");
-    }
-  }, [getTotalAmount]);
+    getTotalAmount();
+  }, [getTotalAmount, recebimento, servicoToOrdemServico]);
 
   const savePayment = async (form: RecebimentoData) => {
-    const { data, error } = await insertRecebimento({
+    const { error } = await insertRecebimento({
       forma_pagamento: form.forma_pagamento as string,
       valor_pago: form.valor_pago as number,
       ordem_servico_id: Number(osId),
     });
 
     if (!error) {
-      mutate(data as RecebimentoData[]);
+      mutate(recebimento as RecebimentoData[]);
       return onSubmit();
     }
 
@@ -195,7 +192,7 @@ const PaymentService = () => {
                     fontSize: "14px",
                     lineHeight: "34px",
                     textAlign: "left",
-                    width: "50%",
+                    width: "100%",
                   }}
                   allowLeadingZeros
                   decimalSeparator=","
