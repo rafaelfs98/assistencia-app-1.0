@@ -29,7 +29,7 @@ const Servicos: React.FC = () => {
   const rows = data?.map((item, index) => (
     <tr key={index}>
       <td>{item.name}</td>
-      <td>{item.valor}</td>
+      <td>{`R$ ${item.valor.toFixed(2).replace(".", ",")}`}</td>
       <td>
         <ServicosActions servicoId={item.id} />
       </td>

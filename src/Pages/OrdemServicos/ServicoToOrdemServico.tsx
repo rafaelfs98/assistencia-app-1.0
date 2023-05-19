@@ -79,7 +79,7 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
   const rows = ordeServicoXServico?.map((item, index) => (
     <tr key={index}>
       <td>{item?.servicos?.name}</td>
-      <td>{item?.servicos?.valor}</td>
+      <td>{`R$ ${item?.servicos?.valor.toFixed(2).replace(".", ",")}`}</td>
 
       <td>
         <UnstyledButton
