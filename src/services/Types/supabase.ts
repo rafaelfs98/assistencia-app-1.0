@@ -79,6 +79,20 @@ export interface Database {
           serie?: string | null;
         };
       };
+      formasPagamento: {
+        Row: {
+          id: number;
+          name: string | null;
+        };
+        Insert: {
+          id?: number;
+          name?: string | null;
+        };
+        Update: {
+          id?: number;
+          name?: string | null;
+        };
+      };
       imagens: {
         Row: {
           dados_imagem: string | null;
@@ -131,24 +145,30 @@ export interface Database {
           status?: string | null;
         };
       };
-      servicoToOrdemServico: {
+      recebimento: {
         Row: {
-          created_at: string | null;
+          data_pagamento: string | null;
+          forma_pagamento: string | null;
           id: number;
           ordem_servico_id: number | null;
-          servico_id: number | null;
+          pago_total: boolean | null;
+          valor_pago: number | null;
         };
         Insert: {
-          created_at?: string | null;
+          data_pagamento?: string | null;
+          forma_pagamento?: string | null;
           id?: number;
           ordem_servico_id?: number | null;
-          servico_id?: number | null;
+          pago_total?: boolean | null;
+          valor_pago?: number | null;
         };
         Update: {
-          created_at?: string | null;
+          data_pagamento?: string | null;
+          forma_pagamento?: string | null;
           id?: number;
           ordem_servico_id?: number | null;
-          servico_id?: number | null;
+          pago_total?: boolean | null;
+          valor_pago?: number | null;
         };
       };
       servicos: {
@@ -169,6 +189,29 @@ export interface Database {
           id?: number;
           name?: string | null;
           valor?: number | null;
+        };
+      };
+      servicoToOrdemServico: {
+        Row: {
+          created_at: string | null;
+          id: number;
+          ordem_servico_id: number | null;
+          servico_id: number | null;
+          pago: boolean | null;
+        };
+        Insert: {
+          created_at?: string | null;
+          id?: number;
+          ordem_servico_id?: number | null;
+          servico_id?: number | null;
+          pago?: boolean | null;
+        };
+        Update: {
+          created_at?: string | null;
+          id?: number;
+          ordem_servico_id?: number | null;
+          servico_id?: number | null;
+          pago?: boolean | null;
         };
       };
       status: {
