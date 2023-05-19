@@ -19,6 +19,11 @@ export type EquipamentosData = {
   cliente_id: number;
   clientes: ClientesData;
 };
+
+export type FormaPagmentoData = {
+  id: number;
+  name: string;
+};
 export type StatusData = {
   id?: number;
   name: string;
@@ -57,4 +62,13 @@ export type ServicoToOrdemServico = {
   ordem_servico?: OrdemServicoType;
   servico_id: number;
   servicos?: ServicosData;
+  pago?: boolean;
+};
+export type RecebimentoData = {
+  data_pagamento?: string;
+  forma_pagamento: string;
+  id?: number;
+  ordem_servico_id: number;
+  pago_total?: boolean;
+  valor_pago: number;
 };

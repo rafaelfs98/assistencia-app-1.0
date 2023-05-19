@@ -1,41 +1,37 @@
+import React, { useCallback, useEffect, useState } from "react";
 import {
-  Box,
-  Button,
-  Checkbox,
   Container,
+  Box,
+  Title,
   Divider,
   Group,
-  Paper,
   Select,
-  Tabs,
-  Text,
   TextInput,
-  Title,
-  UnstyledButton,
+  Button,
 } from "@mantine/core";
-import { IconCoin, IconPin, IconPlus } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { IconPlus } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import useFormActions from "../../hooks/useFormActions";
 import { useSupabase } from "../../hooks/useSupabase";
 import { upsertOrdemServicos } from "../../services/OrdemServicos";
-
 import {
   OrdemServicoType,
+  RecebimentoData,
   ServicoToOrdemServico,
   ServicosData,
 } from "../../services/Types/suiteOS";
 
-const FecharOrdemServicosForm = () => {
+const CloseOrderService = () => {
   const navigate = useNavigate();
   const { osId } = useParams();
+  const [paymentPaid, setPaymentPaid] = useState<Boolean>();
 
   const context = useOutletContext<{
     ordemServico: OrdemServicoType[];
   }>();
 
-  const [title, setTitle] = useState<String>("Abrir Ordem de Servico");
+  const [title, setTitle] = useState<string>("Abrir Ordem de Servico");
 
   const {
     form: { onError, onSuccess, onClose, onSave },
@@ -46,41 +42,58 @@ const FecharOrdemServicosForm = () => {
   });
 
   const { data: status } = useSupabase<ServicosData>({
-    uri: `/status`,
+    uri: "/status",
   });
 
-  const { data: servicoToOrdemServico, mutate } =
-    useSupabase<ServicoToOrdemServico>({
-      uri: `/servicoToOrdemServico?ordem_servico_id=eq.${osId}`,
-      select: `
-      id,
-      servicos (
-        name,
-        valor
-      )
-    `,
-    });
+  const { data: recebimento } = useSupabase<RecebimentoData>({
+    uri: `/recebimento?ordem_servico_id=eq.${osId}`,
+    select: `
+   valor_pago
+  `,
+  });
 
-  const valorServico = servicoToOrdemServico?.map(({ servicos }) =>
+  const { data: servicoToOrdemServico } = useSupabase<ServicoToOrdemServico>({
+    uri: `/servicoToOrdemServico?ordem_servico_id=eq.${osId}`,
+    select: `
+          servicos (
+            valor
+          )
+        `,
+  });
+
+  const totalValues = servicoToOrdemServico?.map(({ servicos }) =>
     Number(servicos?.valor)
   );
 
-  const disabele = !!valorServico?.length;
+  const currentValues = recebimento?.map(({ valor_pago }) => valor_pago);
 
-  const getTotalServicos = () => {
-    const totalServico = valorServico?.reduce((prev, valor) => prev + valor, 0);
+  const getTotalAmount = useCallback(() => {
+    const paidValue = currentValues?.reduce((prev, valor) => prev + valor, 0);
+    const previousTotal = totalValues?.reduce((prev, valor) => prev + valor, 0);
 
-    return totalServico?.toFixed(2).replace(".", ",");
-  };
+    const currentTotal = Number(previousTotal) - Number(paidValue);
+
+    return isNaN(currentTotal as number)
+      ? null
+      : currentTotal?.toFixed(2).replace(".", ",");
+  }, [recebimento]);
+
+  useEffect(() => {
+    const total = getTotalAmount();
+
+    if (total !== null) {
+      setPaymentPaid(total === "0,00");
+    }
+  }, [getTotalAmount]);
 
   const onSubmit = async (form: OrdemServicoType) => {
     const { error } = await upsertOrdemServicos(form, Number(osId));
 
     if (!error) {
-      if (disabele) {
+      if (!paymentPaid) {
         if (
-          !confirm(
-            "Exite pagamentos pendentes deseja ir para pagina de pagamentos?"
+          !window.confirm(
+            "Existem pagamentos pendentes. Deseja ir para a página de pagamentos?"
           )
         ) {
           return onSave();
@@ -88,8 +101,9 @@ const FecharOrdemServicosForm = () => {
 
         onSuccess();
 
-        return navigate(`../pagamento`);
+        return navigate("../pagamento");
       }
+
       return onSave();
     }
 
@@ -98,9 +112,9 @@ const FecharOrdemServicosForm = () => {
 
   useEffect(() => {
     if (context?.ordemServico) {
-      document.title = `${context?.ordemServico?.map(
-        (item) => item.documento
-      )}`;
+      document.title = context?.ordemServico
+        .map((item) => item.documento)
+        .toString();
       setTitle(`Encerrar OS  #${context?.ordemServico[0].documento}`);
     }
 
@@ -128,12 +142,10 @@ const FecharOrdemServicosForm = () => {
               label="Encerrar Como"
               mt="md"
               nothingFound={
-                <UnstyledButton onClick={() => navigate("/servicos/create")}>
-                  <Group>
-                    <IconPlus size="1rem" />
-                    <Text>Criar Servicos</Text>
-                  </Group>
-                </UnstyledButton>
+                <Button onClick={() => navigate("/servicos/create")} size="xs">
+                  <IconPlus size="1rem" />
+                  <span>Criar Serviços</span>
+                </Button>
               }
               onChange={(value) => setValue("status", String(value))}
               required
@@ -150,7 +162,7 @@ const FecharOrdemServicosForm = () => {
 
           <Button.Group mt="lg">
             <div>
-              <Button type={"submit"} mt="md">
+              <Button type="submit" mt="md">
                 Submit
               </Button>
             </div>
@@ -163,4 +175,5 @@ const FecharOrdemServicosForm = () => {
     </Container>
   );
 };
-export default FecharOrdemServicosForm;
+
+export default CloseOrderService;

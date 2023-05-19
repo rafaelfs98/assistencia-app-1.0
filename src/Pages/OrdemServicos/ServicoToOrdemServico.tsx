@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Container,
-  Divider,
   Group,
   Paper,
   Select,
@@ -11,7 +10,7 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useFormActions from "../../hooks/useFormActions";
 import { useSupabase } from "../../hooks/useSupabase";
@@ -32,14 +31,14 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
   ordem_servico_id,
 }) => {
   const navigate = useNavigate();
-  const [servicoId, setServicoId] = useState<Number>();
+  const [selectedServicoId, setSelectedServicoId] = useState<number>();
   const [totalServico, setTotalServico] = useState<string>();
 
   const {
     form: { onError, onSubmit },
   } = useFormActions();
 
-  const { data: ordeServicoXServico, mutate } =
+  const { data: ordemServicoXServico, mutate } =
     useSupabase<ServicoToOrdemServico>({
       uri: `/servicoToOrdemServico?ordem_servico_id=eq.${ordem_servico_id}`,
       select: `
@@ -53,8 +52,8 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
 
   const salvarServico = async () => {
     const { data, error } = await insertServicoToOrdemServico({
-      ordem_servico_id: ordem_servico_id,
-      servico_id: Number(servicoId),
+      ordem_servico_id,
+      servico_id: Number(selectedServicoId),
     });
 
     if (!error) {
@@ -69,24 +68,23 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
     uri: `/servicos`,
   });
 
-  const ths = (
+  const tableHeaders = (
     <tr>
-      <th>Sevico</th>
+      <th>Servico</th>
       <th>Valor</th>
       <th></th>
     </tr>
   );
 
-  const rows = ordeServicoXServico?.map((item, index) => (
+  const tableRows = ordemServicoXServico?.map((item, index) => (
     <tr key={index}>
       <td>{item?.servicos?.name}</td>
       <td>{`R$ ${item?.servicos?.valor.toFixed(2).replace(".", ",")}`}</td>
-
       <td>
         <UnstyledButton
           onClick={() =>
             deleteServicoToOrdemServicos(String(item.id)).then(() =>
-              mutate(ordeServicoXServico)
+              mutate(ordemServicoXServico)
             )
           }
         >
@@ -97,16 +95,19 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
   ));
 
   const getTotalServicos = useCallback(() => {
-    const valorServico = ordeServicoXServico?.map(({ servicos }) =>
+    const servicoValues = ordemServicoXServico?.map(({ servicos }) =>
       Number(servicos?.valor)
     );
 
-    const totalServico = valorServico?.reduce((prev, valor) => prev + valor, 0);
+    const totalServico = servicoValues?.reduce(
+      (prev, valor) => prev + valor,
+      0
+    );
 
     return isNaN(totalServico as number)
       ? null
       : totalServico?.toFixed(2).replace(".", ",");
-  }, [ordeServicoXServico]);
+  }, [ordemServicoXServico]);
 
   useEffect(() => {
     const total = getTotalServicos();
@@ -115,6 +116,7 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
       setTotalServico(total);
     }
   }, [getTotalServicos]);
+
   return (
     <Container>
       <Box>
@@ -138,7 +140,7 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
                 </Group>
               </UnstyledButton>
             }
-            onChange={(value) => setServicoId(Number(value))}
+            onChange={(value) => setSelectedServicoId(Number(value))}
             searchable
           />
           <Button onClick={() => salvarServico()} compact mt="40px">
@@ -148,8 +150,8 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
 
         <Group mt={25}>
           <Table highlightOnHover mb={50} mx={"auto"}>
-            <thead>{ths}</thead>
-            <tbody>{rows}</tbody>
+            <thead>{tableHeaders}</thead>
+            <tbody>{tableRows}</tbody>
           </Table>
         </Group>
 
@@ -163,4 +165,5 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
     </Container>
   );
 };
+
 export default ServicoToOrdemServicoForm;

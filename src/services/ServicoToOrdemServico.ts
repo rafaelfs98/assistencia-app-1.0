@@ -14,6 +14,7 @@ export const insertServicoToOrdemServico = async (
 
   return responseUpsert;
 };
+
 export const deleteServicoToOrdemServicos = async (servicoId: string) => {
   const responseDelete = supabase
     .from("servicoToOrdemServico")
