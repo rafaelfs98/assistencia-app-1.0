@@ -28,6 +28,7 @@
     "react-imask": "^6.4.3",
     "react-number-format": "^5.1.4",
     "react-router-dom": "^6.9.0",
+    "react-to-print": "^2.14.12",
     "supabase-cli": "^0.0.21",
     "swr": "^2.1.2"
   },
