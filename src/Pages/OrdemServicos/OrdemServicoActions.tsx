@@ -64,7 +64,7 @@ const OrderServiceActions: React.FC<OsProps> = ({ osId }) => {
             Pagamento
           </Menu.Item>
           <Menu.Item
-            onClick={() => navigate(`${osId}/update`)}
+            onClick={() => navigate(`${osId}/view`)}
             icon={<IconPrinter size={14} />}
           >
             Imprimir
