@@ -10,19 +10,14 @@ import {
   Title,
 } from "@mantine/core";
 
-import { jsPDF } from "jspdf";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSupabase } from "../../../hooks/useSupabase";
 import {
   OrdemServicoType,
   RecebimentoData,
   ServicoToOrdemServico,
 } from "../../../services/Types/suiteOS";
-import html2canvas from "html2canvas";
-
-type State = {
-  type: "print" | "dawload";
-};
+import { useReactToPrint } from "react-to-print";
 
 const PrintOrderServico = () => {
   const { osId } = useParams();
@@ -60,55 +55,27 @@ const PrintOrderServico = () => {
     )
   `,
   });
-  const { data: ordemServicoXServico, mutate } =
-    useSupabase<ServicoToOrdemServico>({
-      uri: `/servicoToOrdemServico?ordem_servico_id=eq.${osId}`,
-      select: `
+  const { data: ordemServicoXServico } = useSupabase<ServicoToOrdemServico>({
+    uri: `/servicoToOrdemServico?ordem_servico_id=eq.${osId}`,
+    select: `
         id,
         servicos (
           name,
           valor
         )
       `,
-    });
+  });
   const { data: recebimento } = useSupabase<RecebimentoData>({
     uri: `/recebimento?ordem_servico_id=eq.${osId}`,
   });
 
-  const handleArquive = async (type: "print" | "dawload") => {
-    const content = document.getElementById("content");
+  const navigate = useNavigate();
 
-    const canvas = await html2canvas(content as HTMLElement);
-    const imgData = canvas.toDataURL("image/png");
-
-    const doc = new jsPDF("p", "mm", "a4");
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
-
-    const imgWidth = pageWidth;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    let position = 0;
-
-    doc.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    position -= pageHeight;
-
-    while (position > -canvas.height) {
-      doc.addPage();
-      doc.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      position -= pageHeight;
-
-      doc.deletePage(2);
-      doc.deletePage(3);
-      doc.deletePage(4);
-    }
-
-    if (type === "print") {
-      return window.open(doc.output("bloburl"));
-    }
-
-    doc.save(`OS # ${osId}`);
-  };
+  const handlePrint = useReactToPrint({
+    content: () => document.getElementById("content"),
+    documentTitle: "emp-data",
+    onAfterPrint: () => navigate(-1),
+  });
 
   const tableHeaders = (
     <tr>
@@ -143,11 +110,8 @@ const PrintOrderServico = () => {
 
   return (
     <>
-      <Group mt={50} mb={50} spacing="xl" position="right">
-        <Button variant="gradient" onClick={() => handleArquive("dawload")}>
-          Gerar PDF
-        </Button>
-        <Button variant="white" onClick={() => handleArquive("print")}>
+      <Group mt={10} mb={50} spacing="xl" position="right">
+        <Button variant="gradient" onClick={() => handlePrint()}>
           Imprimir
         </Button>
       </Group>
@@ -159,10 +123,10 @@ const PrintOrderServico = () => {
           withBorder
         >
           <Group className="print-order-servico__group" grow>
-            <Image width={200} height={80} fit="contain" src="./SuiteOS.png" />
+            <Image fit="contain" src="./SuiteOS.png" />
             <Title
               className="print-order-servico__title"
-              order={2}
+              order={3}
             >{`Ordem de Servico # ${osId}`}</Title>
             {ordemServico && (
               <Stack align="flex-end">
