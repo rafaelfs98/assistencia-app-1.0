@@ -22,8 +22,8 @@ import OrdemServicosForm from "./Pages/OrdemServicos/OrdemServicoForm";
 import OrdemServicosOutlet from "./Pages/OrdemServicos/OrdemServicoOutlet";
 import PaymentService from "./Pages/OrdemServicos/PaymentService";
 import CloseOrderService from "./Pages/OrdemServicos/FecharOrdemServico";
-import printOrderServico from "./Pages/OrdemServicos/ImprimirOrdemServico";
-import PrintOrderServico from "./Pages/OrdemServicos/ImprimirOrdemServico";
+import printOrderServico from "./Pages/OrdemServicos/OrdeServicoReports/ImprimirOrdemServico";
+import PrintOrderServico from "./Pages/OrdemServicos/OrdeServicoReports/ImprimirOrdemServico";
 
 const AppRouter = () => {
   return (

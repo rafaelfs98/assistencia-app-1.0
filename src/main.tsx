@@ -5,6 +5,7 @@ import { theme } from "./theme";
 import AppRouter from "./AppRouter";
 import { NavbarContextProvider } from "./Context/Navbarcontext";
 import { Notifications } from "@mantine/notifications";
+import "./styles/index.scss";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
