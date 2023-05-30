@@ -11,7 +11,6 @@ import {
 } from "@mantine/core";
 
 import { jsPDF } from "jspdf";
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSupabase } from "../../../hooks/useSupabase";
 import {
