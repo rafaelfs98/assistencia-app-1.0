@@ -1,7 +1,4 @@
 .print-order-servico {
-  width: 210mm;
-  height: 297mm;
-
   &__group {
     display: flex;
     justify-content: space-between;
@@ -10,7 +7,6 @@
   }
 
   &__date {
-    font-size: 1.3rem;
     font-weight: bold;
     color: black;
   }
@@ -24,7 +20,6 @@
       background-color: transparent;
       box-shadow: none;
       margin: 0;
-      transform: scale(1.5);
     }
   }
 
@@ -44,7 +39,6 @@
   }
 
   &__title {
-    font-size: 2rem;
     color: black;
     display: flex;
     align-items: center;
@@ -54,18 +48,16 @@
   &__signature {
     color: black;
     font-weight: bold;
-    font-size: 1.3rem;
   }
 
   &__subtitle {
     margin: 0 0 0.5rem;
-    font-size: 1.6rem;
+
     font-weight: bold;
     color: black;
   }
 
   &__text {
-    font-size: 1.3rem;
     font-weight: bold;
     color: black;
   }
@@ -90,14 +82,12 @@
     &-header {
       padding: 0.5rem;
       font-weight: bold;
-      font-size: 1.3rem;
       text-align: left;
       background-color: white;
     }
 
     td {
       padding: 0.5rem;
-      font-size: 1.2rem;
       border: 1px solid black;
     }
   }
