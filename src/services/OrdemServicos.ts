@@ -31,3 +31,43 @@ export const deleteOrdemServicos = async (osId: string) => {
 
   return responseDelete;
 };
+
+export const getInfoOrdemServicos = async (osId: string) => {
+  const { data } = await supabase
+    .from("ordem_servico")
+    .select(
+      `
+        documento,
+        status,
+        data_entrada,
+        data_saida,   
+        defeito,
+        observacao,
+        acessorios,
+        equipamento_id,
+        equipamentos (
+          id,
+          modelo,
+          cor,
+          marca,
+          serie,
+        clientes (
+          name,
+          bairro,
+          cep,
+          cidade,
+          complemento,
+          email,
+          id,
+          logradouro,
+          name,
+          numero,
+          telefone
+        )
+        )
+      `
+    )
+    .eq("documento", osId);
+
+  return data;
+};

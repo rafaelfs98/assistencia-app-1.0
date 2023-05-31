@@ -18,43 +18,13 @@ import {
   ServicoToOrdemServico,
 } from "../../../services/Types/suiteOS";
 import { useReactToPrint } from "react-to-print";
+import { getInfoOrdemServicos } from "../../../services/OrdemServicos";
+import { useEffect, useState } from "react";
+import OrdemServicos from "../index";
 
 const PrintOrderServico = () => {
   const { osId } = useParams();
-
-  const { data: ordemServico } = useSupabase<OrdemServicoType>({
-    uri: `/ordem_servico?documento=eq.${osId}`,
-    select: `
-    documento,
-    status,
-    data_entrada,
-    data_saida,   
-    defeito,
-    observacao,
-    acessorios,
-    equipamento_id,
-    equipamentos (
-      id,
-      modelo,
-      cor,
-      marca,
-      serie,
-     clientes (
-      name,
-      bairro,
-      cep,
-      cidade,
-      complemento,
-      email,
-      id,
-      logradouro,
-      name,
-      numero,
-      telefone
-     )
-    )
-  `,
-  });
+  const [ordemServico, setOrdemServico] = useState<OrdemServicoType[]>();
   const { data: ordemServicoXServico } = useSupabase<ServicoToOrdemServico>({
     uri: `/servicoToOrdemServico?ordem_servico_id=eq.${osId}`,
     select: `
@@ -108,6 +78,18 @@ const PrintOrderServico = () => {
     </tr>
   ));
 
+  const getOrdemServico = async () => {
+    const ordemServicoInfo = await getInfoOrdemServicos(osId as string);
+
+    if (ordemServicoInfo) {
+      setOrdemServico(ordemServicoInfo as any);
+    }
+  };
+
+  useEffect(() => {
+    getOrdemServico();
+  }, []);
+
   return (
     <>
       <Group mt={10} mb={50} spacing="xl" position="right">
@@ -150,20 +132,17 @@ const PrintOrderServico = () => {
               <Title className="print-order-servico__subtitle" order={4}>
                 Dados do Cliente
               </Title>
-
-              {ordemServico?.map(({ equipamentos }, index) => {
-                return (
-                  <>
-                    <Text className="print-order-servico__text">{`Nome : ${equipamentos?.clientes?.name}`}</Text>
-                    <Text className="print-order-servico__text">{`Cep : ${equipamentos?.clientes?.cep}`}</Text>
-                    <Text className="print-order-servico__text">{`Rua : ${equipamentos?.clientes?.logradouro},${equipamentos?.clientes?.numero}`}</Text>
-                    <Text className="print-order-servico__text">{`Bairo/Cidade :  ${equipamentos?.clientes?.bairro},${equipamentos?.clientes?.cidade}`}</Text>
-                    <Text className="print-order-servico__text">
-                      {`Telefone : ${equipamentos?.clientes?.telefone}`}
-                    </Text>
-                  </>
-                );
-              })}
+              {ordemServico && (
+                <>
+                  <Text className="print-order-servico__text">{`Nome : ${ordemServico[0].equipamentos?.clientes?.name}`}</Text>
+                  <Text className="print-order-servico__text">{`Cep : ${ordemServico[0].equipamentos?.clientes?.cep}`}</Text>
+                  <Text className="print-order-servico__text">{`Rua : ${ordemServico[0].equipamentos?.clientes?.logradouro},${ordemServico[0].equipamentos?.clientes?.numero}`}</Text>
+                  <Text className="print-order-servico__text">{`Bairo/Cidade :  ${ordemServico[0].equipamentos?.clientes?.bairro},${ordemServico[0].equipamentos?.clientes?.cidade}`}</Text>
+                  <Text className="print-order-servico__text">
+                    {`Telefone : ${ordemServico[0].equipamentos?.clientes?.telefone}`}
+                  </Text>
+                </>
+              )}
             </Grid.Col>
             <Grid.Col className="print-order-servico__col" span={4}>
               <Title className="print-order-servico__subtitle" order={4}>
