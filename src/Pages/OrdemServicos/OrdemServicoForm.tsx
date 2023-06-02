@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -18,6 +17,7 @@ import {
   IconPlus,
   IconTool,
 } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   useLocation,
@@ -55,7 +55,7 @@ const OrderServicosForm = () => {
   const isViewMode = pathname.includes("view");
 
   const {
-    form: { onError, onSave, onClose },
+    form: { onError, onSuccess, onSave, onClose },
   } = useFormActions();
 
   const { setValue, handleSubmit, register } = useForm<OrdemServicoType>({
@@ -85,13 +85,19 @@ const OrderServicosForm = () => {
   const disableTabs = !!context?.ordemServico;
 
   const onSubmit = async (form: OrdemServicoType) => {
-    const { error } = await upsertOrdemServicos(form, Number(osId));
+    const response = await upsertOrdemServicos(form, Number(osId));
 
-    if (!error) {
-      return onSave();
+    if (!response.error) {
+      if (!window.confirm("Desejar imprimir a OS ?")) {
+        return onSave();
+      }
+
+      onSuccess();
+
+      return navigate(`/os/${response?.data[0]?.documento}/view`);
     }
 
-    return onError(error.message);
+    return onError(response?.error?.message);
   };
 
   useEffect(() => {

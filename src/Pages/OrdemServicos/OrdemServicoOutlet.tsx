@@ -58,8 +58,6 @@ const OrdemServicosOutlet = () => {
     uri: `/recebimento?ordem_servico_id=eq.${osId}`,
   });
 
-  console.table(ordemServico);
-
   if (isLoading) {
     return <Loading />;
   }
