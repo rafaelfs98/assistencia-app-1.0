@@ -20,6 +20,7 @@ const OrdemServicosOutlet = () => {
     defeito,
     observacao,
     acessorios,
+    solucao,
     equipamento_id,
     equipamentos (
       id,

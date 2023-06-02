@@ -13,12 +13,12 @@ import {
   IconCoin,
   IconDeviceMobile,
   IconHierarchy,
+  IconLayoutDashboard,
   IconSettings,
   IconTool,
   IconUsers,
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-import "./footer.css";
 import AvatarFooter from "../Layout/UserAvatar/AvatarFooter";
 
 const FooterApp = () => {
@@ -34,23 +34,27 @@ const FooterApp = () => {
         <Group position="apart">
           <Group>
             <UnstyledButton onClick={() => navigateTo("/")}>
-              <Image width={80} height={40} fit="contain" src="./SuiteOS.png" />
+              <Image width={50} height={40} fit="contain" src="./SuiteOS.png" />
             </UnstyledButton>
           </Group>
 
           <Group position="apart">
             <UnstyledButton ml="md" onClick={() => navigateTo("os")}>
-              <IconClipboardList size="1.5rem" stroke={1.5} />
+              <IconLayoutDashboard size="1.4rem" stroke={1.5} />
             </UnstyledButton>
+
+            <UnstyledButton ml="md" onClick={() => navigateTo("os")}>
+              <IconClipboardList size="1.4rem" stroke={1.5} />
+            </UnstyledButton>
+
             <UnstyledButton ml="md">
-              <IconCoin size="1.5rem" stroke={1.5} />
+              <IconCoin size="1.4rem" stroke={1.5} />
             </UnstyledButton>
 
             <Menu shadow="md" width={150} position="top">
               <Menu.Target>
                 <UnstyledButton ml="md">
-                  {" "}
-                  <IconArticle size="1.5rem" stroke={1.5} />
+                  <IconArticle size="1.4rem" stroke={1.5} />
                 </UnstyledButton>
               </Menu.Target>
 
@@ -90,11 +94,6 @@ const FooterApp = () => {
                   icon={<IconCash size="1.5rem" stroke={1.5} />}
                 >
                   Formas de Pagamentos
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Label>Gerencial</Menu.Label>
-                <Menu.Item icon={<IconSettings size={14} />}>
-                  Configuracao de Relatorio
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
