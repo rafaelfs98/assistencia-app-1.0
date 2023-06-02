@@ -1,7 +1,11 @@
 import { Outlet, useParams } from "react-router-dom";
-import { useSupabase } from "../../hooks/useSupabase";
-import { OrdemServicoType } from "../../services/Types/suiteOS";
 import Loading from "../../Components/Layout/Loader";
+import { useSupabase } from "../../hooks/useSupabase";
+import {
+  OrdemServicoType,
+  RecebimentoData,
+  ServicoToOrdemServico,
+} from "../../services/Types/suiteOS";
 
 const OrdemServicosOutlet = () => {
   const { osId } = useParams<{ osId: string }>();
@@ -22,13 +26,39 @@ const OrdemServicosOutlet = () => {
       modelo,
       cor,
       marca,
+      serie,
      clientes (
       name,
-      id
+      bairro,
+      cep,
+      cidade,
+      complemento,
+      email,
+      id,
+      logradouro,
+      name,
+      numero,
+      telefone
      )
     )
   `,
   });
+
+  const { data: ordemServicoXServico } = useSupabase<ServicoToOrdemServico>({
+    uri: `/servicoToOrdemServico?ordem_servico_id=eq.${osId}`,
+    select: `
+        id,
+        servicos (
+          name,
+          valor
+        )
+      `,
+  });
+  const { data: recebimentoToOrdemServico } = useSupabase<RecebimentoData>({
+    uri: `/recebimento?ordem_servico_id=eq.${osId}`,
+  });
+
+  console.table(ordemServico);
 
   if (isLoading) {
     return <Loading />;
@@ -39,6 +69,8 @@ const OrdemServicosOutlet = () => {
       <Outlet
         context={{
           ordemServico,
+          ordemServicoXServico,
+          recebimentoToOrdemServico,
         }}
       />
     );
