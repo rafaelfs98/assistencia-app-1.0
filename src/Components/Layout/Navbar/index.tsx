@@ -15,6 +15,7 @@ import {
   IconCoin,
   IconDeviceMobile,
   IconHierarchy,
+  IconLayoutDashboard,
   IconSettings,
   IconTool,
   IconUsers,
@@ -44,6 +45,12 @@ const NavbarApp = () => {
         <Navbar.Section grow>
           <Stack justify="center" spacing={0}>
             <NavLink
+              title="Dashboard"
+              label="Dashboard"
+              icon={<IconLayoutDashboard size="1.5rem" stroke={1.5} />}
+            />
+
+            <NavLink
               title="Ordem de Servicos"
               label="Ordem de Sevicos"
               icon={<IconClipboardList size="1.5rem" stroke={1.5} />}
@@ -62,8 +69,8 @@ const NavbarApp = () => {
             <Menu shadow="md" width={150} position="left-end">
               <Menu.Target>
                 <NavLink
-                  title="Gerencial"
-                  label="Gerencial"
+                  title="Cadastros"
+                  label="Cadastros"
                   icon={<IconArticle size="1.5rem" stroke={1.5} />}
                 />
               </Menu.Target>
@@ -104,11 +111,6 @@ const NavbarApp = () => {
                   icon={<IconCash size="1.5rem" stroke={1.5} />}
                 >
                   Formas de Pagamentos
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Label>Gerencial</Menu.Label>
-                <Menu.Item icon={<IconSettings size={14} />}>
-                  Configuracao de Relatorio
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>

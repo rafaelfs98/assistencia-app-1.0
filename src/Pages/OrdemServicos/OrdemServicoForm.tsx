@@ -287,7 +287,18 @@ const OrderServicosForm = () => {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="laudo" pt="xs">
-                  Settings tab content
+                  <Textarea
+                    mt="md"
+                    label="Defeito Constatado pelo tecnico"
+                    autosize
+                    {...register("defeito")}
+                  />
+                  <Textarea
+                    mt="md"
+                    label="Solucao"
+                    autosize
+                    {...register("solucao")}
+                  />
                 </Tabs.Panel>
               </>
             )}

@@ -68,6 +68,9 @@ const PrintOrderServico = () => {
     )
   );
 
+  const isVisibleLaudo =
+    !!context?.ordemServico[0]?.defeito || !!context?.ordemServico[0]?.solucao;
+
   return (
     <>
       <Group mt={10} mb={50} spacing="xl" position="right">
@@ -93,11 +96,13 @@ const PrintOrderServico = () => {
             >{`Ordem de Servico # ${osId}`}</Title>
             {context.ordemServico && (
               <Stack align="flex-end">
+                <Text className="print-order-servico__date">{`Status : ${context.ordemServico[0]?.status}`}</Text>
                 <Text className="print-order-servico__date">{`Entrada : ${context.ordemServico[0]?.data_entrada}`}</Text>
-                <Text className="print-order-servico__date">{`Saida : ${
-                  context.ordemServico[0]?.data_saida ||
-                  "Aparelho ainda aguarda retirada"
-                }`}</Text>
+                {context.ordemServico[0]?.data_saida && (
+                  <Text className="print-order-servico__date">{`Saida : ${
+                    context.ordemServico[0]?.data_saida || " "
+                  }`}</Text>
+                )}
               </Stack>
             )}
           </Group>
@@ -135,10 +140,6 @@ const PrintOrderServico = () => {
                   <Text className="print-order-servico__text">{`Modelo : ${context.ordemServico[0].equipamentos?.modelo}`}</Text>
                   <Text className="print-order-servico__text">{`Marca : ${context.ordemServico[0].equipamentos?.marca}`}</Text>
                   <Text className="print-order-servico__text">{`Cor :  ${context.ordemServico[0].equipamentos?.cor}`}</Text>
-                  <Text className="print-order-servico__text">{` Defeito: ${
-                    context.ordemServico[0]?.defeito ||
-                    "Ainda não foi constatado"
-                  }`}</Text>
                   <Text className="print-order-servico__text">{`Obs :  ${
                     context.ordemServico[0].observacao || ""
                   }`}</Text>
@@ -150,32 +151,72 @@ const PrintOrderServico = () => {
             </Grid.Col>
           </Grid>
         </Paper>
-        <Paper
-          className="print-order-servico__paper"
-          radius="md"
-          p="md"
-          withBorder
-        >
-          <Title className="print-order-servico__subtitle" order={4}>
-            Servicos
-          </Title>
-          <Group className="print-order-servico__group">
-            <table className="print-order-servico__table">
-              <thead>{tableHeaders}</thead>
-              <tbody>{tableRows}</tbody>
-            </table>
-          </Group>
-          <Divider className="print-order-servico__divider" />
-          <Title className="print-order-servico__subtitle" order={4}>
-            Informacoes de Pagamento
-          </Title>
-          <Group className="print-order-servico__group">
-            <table className="print-order-servico__table">
-              <thead>{tableHeadersRecebimento}</thead>
-              <tbody>{tableRowsRecebimento}</tbody>
-            </table>
-          </Group>
-        </Paper>
+        {isVisibleLaudo && (
+          <Paper
+            className="print-order-servico__paper"
+            radius="md"
+            p="md"
+            withBorder
+          >
+            <Title className="print-order-servico__subtitle" order={4}>
+              Laudo Tecnico
+            </Title>
+            <Grid justify="center" className="print-order-servico__grid" grow>
+              <Grid.Col className="print-order-servico__col" span={4}>
+                <Title className="print-order-servico__subtitle" order={4}>
+                  Defeito
+                </Title>
+                {context.ordemServico && (
+                  <Text className="print-order-servico__text">{`${
+                    context.ordemServico[0].defeito || ""
+                  }`}</Text>
+                )}
+              </Grid.Col>
+              <Grid.Col className="print-order-servico__col" span={4}>
+                <Title className="print-order-servico__subtitle" order={4}>
+                  Solucao
+                </Title>
+                {context.ordemServico && (
+                  <Text className="print-order-servico__text">{`${
+                    context.ordemServico[0].solucao || ""
+                  }`}</Text>
+                )}
+              </Grid.Col>
+            </Grid>
+          </Paper>
+        )}
+        {context?.ordemServicoXServico?.length > 0 && (
+          <Paper
+            className="print-order-servico__paper"
+            radius="md"
+            p="md"
+            withBorder
+          >
+            <Title className="print-order-servico__subtitle" order={4}>
+              Servicos
+            </Title>
+            <Group className="print-order-servico__group">
+              <table className="print-order-servico__table">
+                <thead>{tableHeaders}</thead>
+                <tbody>{tableRows}</tbody>
+              </table>
+            </Group>
+            {context?.recebimentoToOrdemServico.length > 0 && (
+              <>
+                <Divider className="print-order-servico__divider" />
+                <Title className="print-order-servico__subtitle" order={4}>
+                  Informacoes de Pagamento
+                </Title>
+                <Group className="print-order-servico__group">
+                  <table className="print-order-servico__table">
+                    <thead>{tableHeadersRecebimento}</thead>
+                    <tbody>{tableRowsRecebimento}</tbody>
+                  </table>
+                </Group>
+              </>
+            )}
+          </Paper>
+        )}
         <Paper
           className="print-order-servico__paper"
           radius="md"
