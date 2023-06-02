@@ -10,40 +10,28 @@ import {
   Title,
 } from "@mantine/core";
 
-import { useNavigate, useParams } from "react-router-dom";
-import { useSupabase } from "../../../hooks/useSupabase";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
 import {
   OrdemServicoType,
   RecebimentoData,
   ServicoToOrdemServico,
 } from "../../../services/Types/suiteOS";
-import { useReactToPrint } from "react-to-print";
-import { getInfoOrdemServicos } from "../../../services/OrdemServicos";
-import { useEffect, useState } from "react";
-import OrdemServicos from "../index";
 
 const PrintOrderServico = () => {
   const { osId } = useParams();
-  const [ordemServico, setOrdemServico] = useState<OrdemServicoType[]>();
-  const { data: ordemServicoXServico } = useSupabase<ServicoToOrdemServico>({
-    uri: `/servicoToOrdemServico?ordem_servico_id=eq.${osId}`,
-    select: `
-        id,
-        servicos (
-          name,
-          valor
-        )
-      `,
-  });
-  const { data: recebimento } = useSupabase<RecebimentoData>({
-    uri: `/recebimento?ordem_servico_id=eq.${osId}`,
-  });
+
+  const context = useOutletContext<{
+    ordemServico: OrdemServicoType[];
+    ordemServicoXServico: ServicoToOrdemServico[];
+    recebimentoToOrdemServico: RecebimentoData[];
+  }>();
 
   const navigate = useNavigate();
 
   const handlePrint = useReactToPrint({
     content: () => document.getElementById("content"),
-    documentTitle: "emp-data",
+    documentTitle: `OS #${osId}`,
     onAfterPrint: () => navigate(-1),
   });
 
@@ -54,7 +42,7 @@ const PrintOrderServico = () => {
     </tr>
   );
 
-  const tableRows = ordemServicoXServico?.map((item, index) => (
+  const tableRows = context?.ordemServicoXServico?.map((item, index) => (
     <tr key={index}>
       <td>{item?.servicos?.name}</td>
       <td>{`R$ ${item?.servicos?.valor.toFixed(2).replace(".", ",")}`}</td>
@@ -70,25 +58,15 @@ const PrintOrderServico = () => {
     </tr>
   );
 
-  const tableRowsRecebimento = recebimento?.map((item, index) => (
-    <tr key={index}>
-      <td>{item.data_pagamento}</td>
-      <td>{item.forma_pagamento}</td>
-      <td>{`R$ ${item?.valor_pago.toFixed(2).replace(".", ",")}`}</td>
-    </tr>
-  ));
-
-  const getOrdemServico = async () => {
-    const ordemServicoInfo = await getInfoOrdemServicos(osId as string);
-
-    if (ordemServicoInfo) {
-      setOrdemServico(ordemServicoInfo as any);
-    }
-  };
-
-  useEffect(() => {
-    getOrdemServico();
-  }, []);
+  const tableRowsRecebimento = context?.recebimentoToOrdemServico?.map(
+    (item, index) => (
+      <tr key={index}>
+        <td>{item.data_pagamento}</td>
+        <td>{item.forma_pagamento}</td>
+        <td>{`R$ ${item?.valor_pago.toFixed(2).replace(".", ",")}`}</td>
+      </tr>
+    )
+  );
 
   return (
     <>
@@ -110,11 +88,11 @@ const PrintOrderServico = () => {
               className="print-order-servico__title"
               order={3}
             >{`Ordem de Servico # ${osId}`}</Title>
-            {ordemServico && (
+            {context.ordemServico && (
               <Stack align="flex-end">
-                <Text className="print-order-servico__date">{`Entrada : ${ordemServico[0]?.data_entrada}`}</Text>
+                <Text className="print-order-servico__date">{`Entrada : ${context.ordemServico[0]?.data_entrada}`}</Text>
                 <Text className="print-order-servico__date">{`Saida : ${
-                  ordemServico[0]?.data_saida ||
+                  context.ordemServico[0]?.data_saida ||
                   "Aparelho ainda aguarda retirada"
                 }`}</Text>
               </Stack>
@@ -132,14 +110,14 @@ const PrintOrderServico = () => {
               <Title className="print-order-servico__subtitle" order={4}>
                 Dados do Cliente
               </Title>
-              {ordemServico && (
+              {context.ordemServico && (
                 <>
-                  <Text className="print-order-servico__text">{`Nome : ${ordemServico[0].equipamentos?.clientes?.name}`}</Text>
-                  <Text className="print-order-servico__text">{`Cep : ${ordemServico[0].equipamentos?.clientes?.cep}`}</Text>
-                  <Text className="print-order-servico__text">{`Rua : ${ordemServico[0].equipamentos?.clientes?.logradouro},${ordemServico[0].equipamentos?.clientes?.numero}`}</Text>
-                  <Text className="print-order-servico__text">{`Bairo/Cidade :  ${ordemServico[0].equipamentos?.clientes?.bairro},${ordemServico[0].equipamentos?.clientes?.cidade}`}</Text>
+                  <Text className="print-order-servico__text">{`Nome : ${context.ordemServico[0].equipamentos?.clientes?.name}`}</Text>
+                  <Text className="print-order-servico__text">{`Cep : ${context.ordemServico[0].equipamentos?.clientes?.cep}`}</Text>
+                  <Text className="print-order-servico__text">{`Rua : ${context.ordemServico[0].equipamentos?.clientes?.logradouro},${context.ordemServico[0].equipamentos?.clientes?.numero}`}</Text>
+                  <Text className="print-order-servico__text">{`Bairo/Cidade :  ${context.ordemServico[0].equipamentos?.clientes?.bairro},${context.ordemServico[0].equipamentos?.clientes?.cidade}`}</Text>
                   <Text className="print-order-servico__text">
-                    {`Telefone : ${ordemServico[0].equipamentos?.clientes?.telefone}`}
+                    {`Telefone : ${context.ordemServico[0].equipamentos?.clientes?.telefone}`}
                   </Text>
                 </>
               )}
@@ -148,20 +126,21 @@ const PrintOrderServico = () => {
               <Title className="print-order-servico__subtitle" order={4}>
                 Dados do Equipamento
               </Title>
-              {ordemServico && (
+              {context.ordemServico && (
                 <>
-                  <Text className="print-order-servico__text">{`Numero de Serie/IMEI : ${ordemServico[0].equipamentos?.serie}`}</Text>
-                  <Text className="print-order-servico__text">{`Modelo : ${ordemServico[0].equipamentos?.modelo}`}</Text>
-                  <Text className="print-order-servico__text">{`Marca : ${ordemServico[0].equipamentos?.marca}`}</Text>
-                  <Text className="print-order-servico__text">{`Cor :  ${ordemServico[0].equipamentos?.cor}`}</Text>
+                  <Text className="print-order-servico__text">{`Numero de Serie/IMEI : ${context.ordemServico[0].equipamentos?.serie}`}</Text>
+                  <Text className="print-order-servico__text">{`Modelo : ${context.ordemServico[0].equipamentos?.modelo}`}</Text>
+                  <Text className="print-order-servico__text">{`Marca : ${context.ordemServico[0].equipamentos?.marca}`}</Text>
+                  <Text className="print-order-servico__text">{`Cor :  ${context.ordemServico[0].equipamentos?.cor}`}</Text>
                   <Text className="print-order-servico__text">{` Defeito: ${
-                    ordemServico[0]?.defeito || "Ainda não foi constatado"
+                    context.ordemServico[0]?.defeito ||
+                    "Ainda não foi constatado"
                   }`}</Text>
                   <Text className="print-order-servico__text">{`Obs :  ${
-                    ordemServico[0].observacao || ""
+                    context.ordemServico[0].observacao || ""
                   }`}</Text>
                   <Text className="print-order-servico__text">{`Acessorios :  ${
-                    ordemServico[0].acessorios || ""
+                    context.ordemServico[0].acessorios || ""
                   }`}</Text>
                 </>
               )}
