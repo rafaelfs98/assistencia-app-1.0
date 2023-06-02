@@ -32,7 +32,7 @@ const PrintOrderServico = () => {
   const handlePrint = useReactToPrint({
     content: () => document.getElementById("content"),
     documentTitle: `OS #${osId}`,
-    onAfterPrint: () => navigate(-1),
+    onAfterPrint: () => navigate("/os"),
   });
 
   const tableHeaders = (
@@ -73,6 +73,9 @@ const PrintOrderServico = () => {
       <Group mt={10} mb={50} spacing="xl" position="right">
         <Button variant="gradient" onClick={() => handlePrint()}>
           Imprimir
+        </Button>
+        <Button variant="white" onClick={() => navigate("/os")}>
+          Cancelar
         </Button>
       </Group>
       <div id="content" className="print-order-servico__content">

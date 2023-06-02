@@ -39,7 +39,9 @@ const OrdemServicos: React.FC = () => {
 
   const rows = data?.map((item, index) => (
     <tr key={index}>
-      <td>{item.documento}</td>
+      <td onClick={() => navigate(`${item?.documento}/view`)}>
+        {item.documento}
+      </td>
       <td>{item.status}</td>
       <td>{item?.equipamentos?.clientes?.name}</td>
       <td>

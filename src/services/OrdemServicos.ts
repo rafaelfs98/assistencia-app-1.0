@@ -1,5 +1,5 @@
 import { supabase } from "./supabase/supabaseClient";
-import { OrdemServicoType, ServicoToOrdemServico } from "./Types/suiteOS";
+import { OrdemServicoType } from "./Types/suiteOS";
 
 export const upsertOrdemServicos = async (
   os: OrdemServicoType,
@@ -30,44 +30,4 @@ export const deleteOrdemServicos = async (osId: string) => {
     .eq("documento", osId);
 
   return responseDelete;
-};
-
-export const getInfoOrdemServicos = async (osId: string) => {
-  const { data } = await supabase
-    .from("ordem_servico")
-    .select(
-      `
-        documento,
-        status,
-        data_entrada,
-        data_saida,   
-        defeito,
-        observacao,
-        acessorios,
-        equipamento_id,
-        equipamentos (
-          id,
-          modelo,
-          cor,
-          marca,
-          serie,
-        clientes (
-          name,
-          bairro,
-          cep,
-          cidade,
-          complemento,
-          email,
-          id,
-          logradouro,
-          name,
-          numero,
-          telefone
-        )
-        )
-      `
-    )
-    .eq("documento", osId);
-
-  return data;
 };
