@@ -5,7 +5,7 @@ export const insertServicoToOrdemServico = async (
   os: ServicoToOrdemServico
 ) => {
   const responseUpsert = await supabase
-    .from("servicoToOrdemServico")
+    .from("ServiceToServiceOrder")
     .insert({
       ordem_servico_id: os.ordem_servico_id,
       servico_id: os.servico_id,
@@ -17,7 +17,7 @@ export const insertServicoToOrdemServico = async (
 
 export const deleteServicoToOrdemServicos = async (servicoId: string) => {
   const responseDelete = supabase
-    .from("servicoToOrdemServico")
+    .from("ServiceToServiceOrder")
     .delete()
     .eq("id", servicoId);
 

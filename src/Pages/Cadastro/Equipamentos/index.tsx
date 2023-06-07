@@ -12,12 +12,12 @@ const Equipamentos: React.FC = () => {
   const navigate = useNavigate();
 
   const { data, isLoading } = useSupabase<EquipamentosData>({
-    uri: `/equipamentos?order=id.asc`,
+    uri: `/Equipment?order=id.asc`,
     select: `
     id,
     modelo,
     serie,
-    clientes (
+    Client (
      name
     )
   `,
@@ -36,7 +36,7 @@ const Equipamentos: React.FC = () => {
     <tr key={index}>
       <td onClick={() => navigate(`${item?.id}/view`)}>{item.modelo}</td>
       <td>{item?.serie}</td>
-      <td>{item?.clientes.name}</td>
+      <td>{item?.Client.name}</td>
 
       <td>
         <EquipamentosActions equipamentoId={String(item?.id)} />

@@ -6,7 +6,7 @@ export const upsertServicos = async (
   servicoId: number
 ) => {
   const responseUpsert = await supabase
-    .from("servicos")
+    .from("Service")
     .upsert({
       id: servicoId ? servicoId : undefined,
       name: servico.name,
@@ -17,7 +17,7 @@ export const upsertServicos = async (
   return responseUpsert;
 };
 export const deleteServicos = async (servicoId: string) => {
-  const responseDelete = supabase.from("servicos").delete().eq("id", servicoId);
+  const responseDelete = supabase.from("Service").delete().eq("id", servicoId);
 
   return responseDelete;
 };

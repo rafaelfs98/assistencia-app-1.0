@@ -18,7 +18,7 @@ import {
   useOutletContext,
   useParams,
 } from "react-router-dom";
-import { KeyedMutator } from "swr";
+import { KeyedMutator, mutate } from "swr";
 import useFormActions from "../../../hooks/useFormActions";
 import { useSupabase } from "../../../hooks/useSupabase";
 import { upsertEquipamento } from "../../../services/Equipamentos";
@@ -30,14 +30,14 @@ import {
 
 const EquipamentosForm = () => {
   const navigate = useNavigate();
-  const { servicoId } = useParams();
+  const { equipamentoId } = useParams();
   const { pathname } = useLocation();
 
   const [title, setTitle] = useState<String>("Adicionar Servicos");
   const viewTrue = pathname.includes("view");
   const context = useOutletContext<{
     equipamentos: EquipamentosData[];
-    mutateServicos: KeyedMutator<ServicosData>;
+    mutateEquipamentos: KeyedMutator<EquipamentosData>;
   }>();
 
   const {
@@ -48,15 +48,18 @@ const EquipamentosForm = () => {
     defaultValues: context ? context?.equipamentos[0] : {},
   });
 
-  const { data: clientes, mutate: mutateEquipamentos } =
-    useSupabase<ClientesData>({
-      uri: `/clientes`,
-    });
+  const { data: clientes } = useSupabase<ClientesData>({
+    uri: `/Client`,
+  });
 
   const onSubmit = async (form: EquipamentosData) => {
-    const { error } = await upsertEquipamento(form, Number(servicoId));
+    const { data, error } = await upsertEquipamento(
+      form,
+      Number(equipamentoId)
+    );
 
     if (!error) {
+      context.mutateEquipamentos(data as any);
       return onSave();
     }
 
@@ -110,7 +113,7 @@ const EquipamentosForm = () => {
               defaultValue={String(context?.equipamentos[0]?.cliente_id)}
               data={
                 clientes
-                  ? clientes?.map((item) => ({
+                  ? clientes.map((item) => ({
                       label: item.telefone + " - " + item.name,
                       value: String(item.id),
                     }))

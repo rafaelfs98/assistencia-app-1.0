@@ -63,20 +63,20 @@ const OrderServicosForm = () => {
   });
 
   const { data: status } = useSupabase<ServicosData>({
-    uri: `/status`,
+    uri: `/Status`,
   });
 
   const { data: equipamentos } = useSupabase<EquipamentosData>({
-    uri: `/equipamentos`,
+    uri: `/Equipment`,
   });
 
   const { data: clientes } = useSupabase<ClientesData>({
-    uri: `/clientes`,
+    uri: `/Client`,
     select: `
     id,
     name,
     telefone,
-    equipamentos (
+    Equipment (
      modelo
     )
   `,
@@ -117,7 +117,7 @@ const OrderServicosForm = () => {
 
       setEquipamentosByCliente(
         context?.ordemServico.map(
-          ({ equipamentos }) => equipamentos
+          ({ Equipment }) => Equipment
         ) as EquipamentosData[]
       );
     } else {
@@ -205,7 +205,7 @@ const OrderServicosForm = () => {
               <Select
                 data={
                   clientes
-                    ? clientes?.map((item) => ({
+                    ? clientes.map((item) => ({
                         label: item.name + " - " + item.telefone,
                         value: String(item.id),
                       }))
@@ -226,7 +226,7 @@ const OrderServicosForm = () => {
                   setClienteId(String(value));
                 }}
                 defaultValue={String(
-                  context?.ordemServico[0]?.equipamentos?.clientes?.id
+                  context?.ordemServico[0]?.Equipment?.Client.id
                 )}
                 required
                 searchable
@@ -258,9 +258,7 @@ const OrderServicosForm = () => {
                 onChange={(value) => {
                   setValue("equipamento_id", String(value));
                 }}
-                defaultValue={String(
-                  context?.ordemServico[0]?.equipamentos?.id
-                )}
+                defaultValue={String(context?.ordemServico[0]?.Equipment?.id)}
                 required
                 searchable
               />

@@ -30,7 +30,7 @@ const AvatarNavbar: React.FC = () => {
 
     if (user) {
       await supabase
-        .from("users")
+        .from("Users")
         .select()
         .eq("email", user?.email)
         .then((response) => setUsuario(response?.data as any));

@@ -44,8 +44,8 @@ const PrintOrderServico = () => {
 
   const tableRows = context?.ordemServicoXServico?.map((item, index) => (
     <tr key={index}>
-      <td>{item?.servicos?.name}</td>
-      <td>{`R$ ${item?.servicos?.valor.toFixed(2).replace(".", ",")}`}</td>
+      <td>{item?.Service?.name}</td>
+      <td>{`R$ ${item?.Service?.valor.toFixed(2).replace(".", ",")}`}</td>
     </tr>
   ));
 
@@ -89,7 +89,7 @@ const PrintOrderServico = () => {
           withBorder
         >
           <Group className="print-order-servico__group" grow>
-            <Image fit="contain" src="./SuiteOS.png" />
+            <Image width={200} height={80} fit="contain" src="./SuiteOS.png" />
             <Title
               className="print-order-servico__title"
               order={3}
@@ -120,12 +120,12 @@ const PrintOrderServico = () => {
               </Title>
               {context.ordemServico && (
                 <>
-                  <Text className="print-order-servico__text">{`Nome : ${context.ordemServico[0].equipamentos?.clientes?.name}`}</Text>
-                  <Text className="print-order-servico__text">{`Cep : ${context.ordemServico[0].equipamentos?.clientes?.cep}`}</Text>
-                  <Text className="print-order-servico__text">{`Rua : ${context.ordemServico[0].equipamentos?.clientes?.logradouro},${context.ordemServico[0].equipamentos?.clientes?.numero}`}</Text>
-                  <Text className="print-order-servico__text">{`Bairo/Cidade :  ${context.ordemServico[0].equipamentos?.clientes?.bairro},${context.ordemServico[0].equipamentos?.clientes?.cidade}`}</Text>
+                  <Text className="print-order-servico__text">{`Nome : ${context.ordemServico[0].Equipment?.Client.name}`}</Text>
+                  <Text className="print-order-servico__text">{`Cep : ${context.ordemServico[0].Equipment?.Client.cep}`}</Text>
+                  <Text className="print-order-servico__text">{`Rua : ${context.ordemServico[0].Equipment?.Client.logradouro},${context.ordemServico[0].Equipment?.Client.numero}`}</Text>
+                  <Text className="print-order-servico__text">{`Bairo/Cidade :  ${context.ordemServico[0].Equipment?.Client.bairro},${context.ordemServico[0].Equipment?.Client.cidade}`}</Text>
                   <Text className="print-order-servico__text">
-                    {`Telefone : ${context.ordemServico[0].equipamentos?.clientes?.telefone}`}
+                    {`Telefone : ${context.ordemServico[0].Equipment?.Client.telefone}`}
                   </Text>
                 </>
               )}
@@ -136,10 +136,10 @@ const PrintOrderServico = () => {
               </Title>
               {context.ordemServico && (
                 <>
-                  <Text className="print-order-servico__text">{`Numero de Serie/IMEI : ${context.ordemServico[0].equipamentos?.serie}`}</Text>
-                  <Text className="print-order-servico__text">{`Modelo : ${context.ordemServico[0].equipamentos?.modelo}`}</Text>
-                  <Text className="print-order-servico__text">{`Marca : ${context.ordemServico[0].equipamentos?.marca}`}</Text>
-                  <Text className="print-order-servico__text">{`Cor :  ${context.ordemServico[0].equipamentos?.cor}`}</Text>
+                  <Text className="print-order-servico__text">{`Numero de Serie/IMEI : ${context.ordemServico[0].Equipment?.serie}`}</Text>
+                  <Text className="print-order-servico__text">{`Modelo : ${context.ordemServico[0].Equipment?.modelo}`}</Text>
+                  <Text className="print-order-servico__text">{`Marca : ${context.ordemServico[0].Equipment?.marca}`}</Text>
+                  <Text className="print-order-servico__text">{`Cor :  ${context.ordemServico[0].Equipment?.cor}`}</Text>
                   <Text className="print-order-servico__text">{`Obs :  ${
                     context.ordemServico[0].observacao || ""
                   }`}</Text>

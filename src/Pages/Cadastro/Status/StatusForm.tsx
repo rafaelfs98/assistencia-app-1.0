@@ -9,7 +9,7 @@ import { KeyedMutator } from "swr";
 import { upsertStatus } from "../../../services/Status";
 
 const StatussForm = () => {
-  const { StatusId } = useParams();
+  const { statusId } = useParams();
   const [title, setTitle] = useState<String>("Adicionar Status");
   const context = useOutletContext<{
     status: StatusData[];
@@ -25,7 +25,7 @@ const StatussForm = () => {
   });
 
   const onSubmit = async (form: StatusData) => {
-    const { error } = await upsertStatus(form, Number(StatusId));
+    const { error } = await upsertStatus(form, Number(statusId));
 
     if (!error) {
       return onSave();

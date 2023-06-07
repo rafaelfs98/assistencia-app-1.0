@@ -3,7 +3,7 @@ import { supabase } from "./supabase/supabaseClient";
 
 export const insertRecebimento = async (os: RecebimentoData) => {
   const responseUpsert = await supabase
-    .from("recebimento")
+    .from("PaymentReceived")
     .insert({
       forma_pagamento: os.forma_pagamento,
       ordem_servico_id: os.ordem_servico_id,
@@ -14,7 +14,7 @@ export const insertRecebimento = async (os: RecebimentoData) => {
   return responseUpsert;
 };
 export const deleteRecebimento = async (id: string) => {
-  const responseDelete = supabase.from("recebimento").delete().eq("id", id);
+  const responseDelete = supabase.from("PaymentReceived").delete().eq("id", id);
 
   return responseDelete;
 };

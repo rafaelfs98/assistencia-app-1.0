@@ -9,7 +9,7 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      clientes: {
+      Client: {
         Row: {
           bairro: string;
           cep: string;
@@ -50,7 +50,7 @@ export interface Database {
           telefone?: string | null;
         };
       };
-      equipamentos: {
+      Equipment: {
         Row: {
           cliente_id: number | null;
           cor: string | null;
@@ -79,7 +79,7 @@ export interface Database {
           serie?: string | null;
         };
       };
-      formasPagamento: {
+      PaymentMethods: {
         Row: {
           id: number;
           name: string | null;
@@ -93,24 +93,53 @@ export interface Database {
           name?: string | null;
         };
       };
-      imagens: {
+      PaymentReceived: {
         Row: {
-          dados_imagem: string | null;
+          data_pagamento: string | null;
+          forma_pagamento: string | null;
           id: number;
-          nome: string | null;
+          ordem_servico_id: number | null;
+          pago_total: boolean | null;
+          valor_pago: number | null;
         };
         Insert: {
-          dados_imagem?: string | null;
+          data_pagamento?: string | null;
+          forma_pagamento?: string | null;
           id?: number;
-          nome?: string | null;
+          ordem_servico_id?: number | null;
+          pago_total?: boolean | null;
+          valor_pago?: number | null;
         };
         Update: {
-          dados_imagem?: string | null;
+          data_pagamento?: string | null;
+          forma_pagamento?: string | null;
           id?: number;
-          nome?: string | null;
+          ordem_servico_id?: number | null;
+          pago_total?: boolean | null;
+          valor_pago?: number | null;
         };
       };
-      ordem_servico: {
+      Service: {
+        Row: {
+          created_at: string | null;
+          id: number;
+          name: string | null;
+          valor: number | null;
+        };
+        Insert: {
+          created_at?: string | null;
+          id?: number;
+          name?: string | null;
+          valor?: number | null;
+        };
+        Update: {
+          created_at?: string | null;
+          id?: number;
+          name?: string | null;
+          valor?: number | null;
+        };
+      };
+      ServiceOrder: {
         Row: {
           acessorios: string | null;
           data_entrada: string | null;
@@ -145,76 +174,30 @@ export interface Database {
           status?: string | null;
         };
       };
-      recebimento: {
-        Row: {
-          data_pagamento: string | null;
-          forma_pagamento: string | null;
-          id: number;
-          ordem_servico_id: number | null;
-          pago_total: boolean | null;
-          valor_pago: number | null;
-        };
-        Insert: {
-          data_pagamento?: string | null;
-          forma_pagamento?: string | null;
-          id?: number;
-          ordem_servico_id?: number | null;
-          pago_total?: boolean | null;
-          valor_pago?: number | null;
-        };
-        Update: {
-          data_pagamento?: string | null;
-          forma_pagamento?: string | null;
-          id?: number;
-          ordem_servico_id?: number | null;
-          pago_total?: boolean | null;
-          valor_pago?: number | null;
-        };
-      };
-      servicos: {
-        Row: {
-          created_at: string | null;
-          id: number;
-          name: string | null;
-          valor: number | null;
-        };
-        Insert: {
-          created_at?: string | null;
-          id?: number;
-          name?: string | null;
-          valor?: number | null;
-        };
-        Update: {
-          created_at?: string | null;
-          id?: number;
-          name?: string | null;
-          valor?: number | null;
-        };
-      };
-      servicoToOrdemServico: {
+      ServiceToServiceOrder: {
         Row: {
           created_at: string | null;
           id: number;
           ordem_servico_id: number | null;
-          servico_id: number | null;
           pago: boolean | null;
+          servico_id: number | null;
         };
         Insert: {
           created_at?: string | null;
           id?: number;
           ordem_servico_id?: number | null;
-          servico_id?: number | null;
           pago?: boolean | null;
+          servico_id?: number | null;
         };
         Update: {
           created_at?: string | null;
           id?: number;
           ordem_servico_id?: number | null;
-          servico_id?: number | null;
           pago?: boolean | null;
+          servico_id?: number | null;
         };
       };
-      status: {
+      Status: {
         Row: {
           created_at: string | null;
           id: number;
@@ -231,7 +214,7 @@ export interface Database {
           name?: string | null;
         };
       };
-      users: {
+      Users: {
         Row: {
           created_at: string | null;
           email: string | null;
