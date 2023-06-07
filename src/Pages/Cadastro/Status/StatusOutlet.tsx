@@ -7,7 +7,7 @@ const StatussOutlet = () => {
   const { statusId } = useParams<{ statusId: string }>();
 
   const { data: status, mutate: mutateStatus } = useSupabase<StatusData>({
-    uri: `/status?id=eq.${statusId}`,
+    uri: `/Status?id=eq.${statusId}`,
   });
 
   if (status) {

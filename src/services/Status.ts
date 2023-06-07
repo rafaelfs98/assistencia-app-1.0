@@ -3,7 +3,7 @@ import { StatusData } from "./Types/suiteOS";
 
 export const upsertStatus = async (status: StatusData, statusId: number) => {
   const responseStatus = await supabase
-    .from("status")
+    .from("Status")
     .upsert({
       id: statusId ? statusId : undefined,
       name: status.name,
@@ -13,5 +13,5 @@ export const upsertStatus = async (status: StatusData, statusId: number) => {
   return responseStatus;
 };
 export const deleteStatus = async (Status: string) => {
-  await supabase.from("status").delete().eq("id", Status);
+  await supabase.from("Status").delete().eq("id", Status);
 };

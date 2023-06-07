@@ -12,7 +12,7 @@ const Status: React.FC = () => {
   document.title = "Status";
 
   const { data, isLoading } = useSupabase<StatusData>({
-    uri: "/status?order=id.asc",
+    uri: "/Status?order=id.asc",
   });
 
   const ths = (

@@ -6,7 +6,7 @@ export const upsertOrdemServicos = async (
   osId: number
 ) => {
   const responseUpsert = await supabase
-    .from("ordem_servico")
+    .from("ServiceOrder")
     .upsert({
       acessorios: os.acessorios,
       data_entrada: os.data_entrada,
@@ -25,7 +25,7 @@ export const upsertOrdemServicos = async (
 
 export const deleteOrdemServicos = async (osId: string) => {
   const responseDelete = supabase
-    .from("ordem_servico")
+    .from("ServiceOrder")
     .delete()
     .eq("documento", osId);
 

@@ -40,10 +40,10 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
 
   const { data: ordemServicoXServico, mutate } =
     useSupabase<ServicoToOrdemServico>({
-      uri: `/servicoToOrdemServico?ordem_servico_id=eq.${ordem_servico_id}`,
+      uri: `/ServiceToServiceOrder?ordem_servico_id=eq.${ordem_servico_id}`,
       select: `
         id,
-        servicos (
+        Service (
           name,
           valor
         )
@@ -65,7 +65,7 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
   };
 
   const { data: servicos } = useSupabase<ServicosData>({
-    uri: `/servicos`,
+    uri: `/Service`,
   });
 
   const tableHeaders = (
@@ -78,8 +78,8 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
 
   const tableRows = ordemServicoXServico?.map((item, index) => (
     <tr key={index}>
-      <td>{item?.servicos?.name}</td>
-      <td>{`R$ ${item?.servicos?.valor.toFixed(2).replace(".", ",")}`}</td>
+      <td>{item?.Service?.name}</td>
+      <td>{`R$ ${item?.Service?.valor.toFixed(2).replace(".", ",")}`}</td>
       <td>
         <UnstyledButton
           onClick={() =>
@@ -95,8 +95,8 @@ const ServicoToOrdemServicoForm: React.FC<ServicoToOrdemServicoProps> = ({
   ));
 
   const getTotalServicos = useCallback(() => {
-    const servicoValues = ordemServicoXServico?.map(({ servicos }) =>
-      Number(servicos?.valor)
+    const servicoValues = ordemServicoXServico?.map(({ Service }) =>
+      Number(Service?.valor)
     );
 
     const totalServico = servicoValues?.reduce(

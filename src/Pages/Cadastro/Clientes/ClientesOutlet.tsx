@@ -6,7 +6,7 @@ const ClientesOutlet = () => {
   const { clienteId } = useParams<{ clienteId: string }>();
 
   const { data: cliente, mutate: mutateCliente } = useSupabase<ClientesData>({
-    uri: `/clientes?id=eq.${clienteId}`,
+    uri: `/Client?id=eq.${clienteId}`,
   });
 
   if (cliente) {

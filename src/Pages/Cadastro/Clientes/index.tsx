@@ -20,7 +20,7 @@ const Clientes: React.FC = () => {
   const navigate = useNavigate();
 
   const { data, isLoading } = useSupabase<ClientesData>({
-    uri: `/clientes?order=id.asc`,
+    uri: `/Client?order=id.asc`,
   });
 
   const ths = (

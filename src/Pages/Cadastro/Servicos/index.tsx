@@ -11,7 +11,7 @@ const Servicos: React.FC = () => {
   const navigate = useNavigate();
 
   const { data, isLoading } = useSupabase<ServicosData>({
-    uri: "/servicos?order=id.asc",
+    uri: "/Service?order=id.asc",
   });
 
   const ths = (

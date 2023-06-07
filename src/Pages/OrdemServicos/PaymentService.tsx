@@ -51,24 +51,24 @@ const PaymentService = () => {
   const { setValue, handleSubmit } = useForm<RecebimentoData>();
 
   const { data: paymentMethods } = useSupabase<FormaPagmentoData>({
-    uri: `/formasPagamento`,
+    uri: `/PaymentMethods`,
   });
 
   const { data: recebimento, mutate } = useSupabase<RecebimentoData>({
-    uri: `/recebimento?ordem_servico_id=eq.${osId}`,
+    uri: `/PaymentReceived?ordem_servico_id=eq.${osId}`,
   });
 
   const { data: servicoToOrdemServico } = useSupabase<ServicoToOrdemServico>({
-    uri: `/servicoToOrdemServico?ordem_servico_id=eq.${osId}`,
+    uri: `/ServiceToServiceOrder?ordem_servico_id=eq.${osId}`,
     select: `
-        servicos (
+        Service (
           valor
         )
       `,
   });
 
-  const totalValues = servicoToOrdemServico?.map(({ servicos }) =>
-    Number(servicos?.valor)
+  const totalValues = servicoToOrdemServico?.map(({ Service }) =>
+    Number(Service?.valor)
   );
 
   const currentValues = recebimento?.map(({ valor_pago }) => valor_pago);

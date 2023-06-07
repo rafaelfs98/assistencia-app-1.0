@@ -11,7 +11,7 @@ const OrdemServicosOutlet = () => {
   const { osId } = useParams<{ osId: string }>();
 
   const { data: ordemServico, isLoading } = useSupabase<OrdemServicoType>({
-    uri: `/ordem_servico?documento=eq.${osId}`,
+    uri: `/ServiceOrder?documento=eq.${osId}`,
     select: `
     documento,
     status,
@@ -22,13 +22,13 @@ const OrdemServicosOutlet = () => {
     acessorios,
     solucao,
     equipamento_id,
-    equipamentos (
+    Equipment (
       id,
       modelo,
       cor,
       marca,
       serie,
-     clientes (
+     Client (
       name,
       bairro,
       cep,
@@ -46,17 +46,17 @@ const OrdemServicosOutlet = () => {
   });
 
   const { data: ordemServicoXServico } = useSupabase<ServicoToOrdemServico>({
-    uri: `/servicoToOrdemServico?ordem_servico_id=eq.${osId}`,
+    uri: `/ServiceToServiceOrder?ordem_servico_id=eq.${osId}`,
     select: `
         id,
-        servicos (
+        Service (
           name,
           valor
         )
       `,
   });
   const { data: recebimentoToOrdemServico } = useSupabase<RecebimentoData>({
-    uri: `/recebimento?ordem_servico_id=eq.${osId}`,
+    uri: `/PaymentReceived?ordem_servico_id=eq.${osId}`,
   });
 
   if (isLoading) {

@@ -17,7 +17,7 @@ export type EquipamentosData = {
   cor: string;
   serie: string;
   cliente_id: number;
-  clientes: ClientesData;
+  Client: ClientesData;
 };
 
 export type FormaPagmentoData = {
@@ -50,7 +50,7 @@ export type OrdemServicoType = {
   defeito?: string;
   documento: number;
   equipamento_id?: string;
-  equipamentos?: EquipamentosData;
+  Equipment?: EquipamentosData;
   observacao?: string;
   solucao?: string;
   status?: string;
@@ -59,9 +59,9 @@ export type ServicoToOrdemServico = {
   created_at?: string;
   id?: number;
   ordem_servico_id: number;
-  ordem_servico?: OrdemServicoType;
+  ServiceOrder?: OrdemServicoType;
   servico_id: number;
-  servicos?: ServicosData;
+  Service?: ServicosData;
   pago?: boolean;
 };
 export type RecebimentoData = {

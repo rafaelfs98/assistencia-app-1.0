@@ -11,13 +11,13 @@ const OrdemServicos: React.FC = () => {
   const navigate = useNavigate();
 
   const { data, isLoading } = useSupabase<OrdemServicoType>({
-    uri: "/ordem_servico?order=documento.asc",
+    uri: "/ServiceOrder?order=documento.asc",
     select: `
     documento,
     status,
     equipamento_id,
-    equipamentos (
-     clientes (
+    Equipment (
+     Client (
       name
      )
     )
@@ -43,7 +43,7 @@ const OrdemServicos: React.FC = () => {
         {item.documento}
       </td>
       <td>{item.status}</td>
-      <td>{item?.equipamentos?.clientes?.name}</td>
+      <td>{item?.Equipment?.Client.name}</td>
       <td>
         <OrdemServicoActions osId={String(item.documento)} />
       </td>

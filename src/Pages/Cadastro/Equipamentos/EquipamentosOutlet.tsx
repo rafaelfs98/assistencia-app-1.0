@@ -7,7 +7,7 @@ const EquipamentosOutlet = () => {
 
   const { data: equipamentos, mutate: mutateEquipamentos } =
     useSupabase<ServicosData>({
-      uri: `/equipamentos?id=eq.${equipamentoId}`,
+      uri: `/Equipment?id=eq.${equipamentoId}`,
     });
 
   if (equipamentos) {

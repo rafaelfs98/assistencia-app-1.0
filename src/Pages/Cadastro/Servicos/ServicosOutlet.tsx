@@ -6,7 +6,7 @@ const ServicosOutlet = () => {
   const { servicoId } = useParams<{ servicoId: string }>();
 
   const { data: servicos, mutate: mutateServicos } = useSupabase<ServicosData>({
-    uri: `/servicos?id=eq.${servicoId}`,
+    uri: `/Service?id=eq.${servicoId}`,
   });
 
   if (servicos) {
