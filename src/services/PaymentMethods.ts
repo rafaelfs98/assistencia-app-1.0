@@ -1,15 +1,15 @@
-import { PaymentMethodsData } from "./Types/suiteOS";
+import { PaymentMethodData } from "./Types/suiteOS";
 import { supabase } from "./supabase/supabaseClient";
 
-export const PaymentMethods = async (
-  paymentMethods: PaymentMethodsData,
+export const paymentMethodsUpsert = async (
+  paymentMethod: PaymentMethodData,
   paymentMethodsid: number
 ) => {
   const responseUpsert = await supabase
     .from("PaymentMethods")
     .upsert({
       id: paymentMethodsid ? paymentMethodsid : undefined,
-      name: paymentMethods.name,
+      name: paymentMethod.name,
     })
     .select();
 
