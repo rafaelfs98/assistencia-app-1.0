@@ -5,6 +5,8 @@ import Loading from "../../../Components/Layout/Loader";
 import { useSupabase } from "../../../hooks/useSupabase";
 import { PaymentMethodData } from "../../../services/Types/suiteOS";
 import { useEffect } from "react";
+import PaymentMethodActions from "./paymentMethodsActions";
+
 const PaymentMethods: React.FC = () => {
   const navigate = useNavigate();
   document.title = "Forma de pagamento";
@@ -24,6 +26,7 @@ const PaymentMethods: React.FC = () => {
     <tr key={index}>
       <td>{item.name}</td>
       <td>
+        <PaymentMethodActions paymentMethodId={String(item?.id)} />
       </td>
     </tr>
   ));
