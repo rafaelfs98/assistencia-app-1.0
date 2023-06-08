@@ -92,6 +92,7 @@ const FooterApp = () => {
                 <Menu.Item
                   title="Formas de Pagamentos"
                   icon={<IconCash size="1.5rem" stroke={1.5} />}
+                  onClick={() => navigateTo("paymentmethods")}
                 >
                   Formas de Pagamentos
                 </Menu.Item>
