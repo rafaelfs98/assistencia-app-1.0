@@ -24,6 +24,9 @@ import PaymentService from "./Pages/OrdemServicos/PaymentService";
 import CloseOrderService from "./Pages/OrdemServicos/FecharOrdemServico";
 import printOrderServico from "./Pages/OrdemServicos/OrdeServicoReports/ImprimirOrdemServico";
 import PrintOrderServico from "./Pages/OrdemServicos/OrdeServicoReports/ImprimirOrdemServico";
+import PaymentMethods from "./Pages/Cadastro/FormasDePagamentos";
+import PaymentMethodsForm from "./Pages/Cadastro/FormasDePagamentos/paymentMethodsForm";
+import PaymentMethodOutlet from "./Pages/Cadastro/FormasDePagamentos/paymentMethodsOutlet";
 
 const AppRouter = () => {
   return (
@@ -61,6 +64,13 @@ const AppRouter = () => {
             <Route element={<EquipamentosOutlet />} path=":equipamentoId">
               <Route element={<EquipamentosForm />} path="update" />
               <Route element={<EquipamentosForm />} path="view" />
+            </Route>
+          </Route>
+          <Route element={<OutletBridge />} path="paymentmethods">
+            <Route element={<PaymentMethods />} index />
+            <Route element={<PaymentMethodsForm />} path="create" />
+            <Route element={<PaymentMethodOutlet />} path=":paymentmethodId">
+              <Route element={<PaymentMethodsForm />} path="update" />
             </Route>
           </Route>
           <Route element={<OutletBridge />} path="os">
