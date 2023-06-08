@@ -1,8 +1,12 @@
+import { Button, Group, Table, Title } from "@mantine/core";
+import { IconPlus } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 import Loading from "../../../Components/Layout/Loader";
 import { useSupabase } from "../../../hooks/useSupabase";
 import { PaymentMethodData } from "../../../services/Types/suiteOS";
 import { useEffect } from "react";
 const PaymentMethods: React.FC = () => {
+  const navigate = useNavigate();
   document.title = "Forma de pagamento";
 
   const { data, isLoading } = useSupabase<PaymentMethodData>({
@@ -38,6 +42,15 @@ const PaymentMethods: React.FC = () => {
         <Title order={3}>Formas de Pagamentos</Title>
       </Group>
 
+      <Group
+        position="right"
+        mr={10}
+        style={{ display: "flex", justifyContent: "end" }}
+      >
+        <Button onClick={() => navigate("create")}>
+          <IconPlus size="1rem" />
+        </Button>
+      </Group>
 
       <Table highlightOnHover mb={50} mx={"auto"}>
         <thead>{ths}</thead>
