@@ -72,3 +72,7 @@ export type RecebimentoData = {
   pago_total?: boolean;
   valor_pago: number;
 };
+export type PaymentMethodsData = {
+  id?: number;
+  name: string;
+};
