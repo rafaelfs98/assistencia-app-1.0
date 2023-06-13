@@ -32,6 +32,7 @@ const NavbarApp = () => {
 
   return (
     <MediaQuery
+      className="loading__media_query"
       smallerThan="sm"
       styles={{ display: "none", backgroundColor: "#1A1B1E" }}
     >
