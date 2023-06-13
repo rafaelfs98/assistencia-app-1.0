@@ -2,14 +2,7 @@ import { Container, Loader } from "@mantine/core";
 
 const Loading = () => {
   return (
-    <Container
-      style={{
-        alignItems: "center",
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "row",
-      }}
-    >
+    <Container className="loading__container">
       <Loader />
     </Container>
   );

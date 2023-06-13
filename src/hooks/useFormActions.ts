@@ -12,15 +12,9 @@
  * details.
  */
 
+import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { notifications } from "@mantine/notifications";
-import { IconX } from "@tabler/icons-react";
-
-type OnSubmitOptionsRest<T = any> = {
-  create: (data: any) => Promise<T>;
-  update: (id: number, data: any) => Promise<T>;
-};
 
 export type FormOptions = {
   onChange: (state: any) => (event: React.FormEvent<HTMLInputElement>) => void;
@@ -39,7 +33,7 @@ export type Form = {
 
 export type FormComponent = Omit<Form, "forceRefetch">;
 
-const onError = (error: any) => {
+const onError = () => {
   let errorMessage = "an-unexpected-error-occurred";
 
   console.error(errorMessage);
