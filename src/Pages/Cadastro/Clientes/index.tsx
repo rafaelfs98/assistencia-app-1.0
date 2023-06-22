@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../../Components/Layout/Loader";
+import Loading from "../../../Components/Loader";
 import { useSupabase } from "../../../hooks/useSupabase";
 import { ClientesData } from "../../../services/Types/suiteOS";
 

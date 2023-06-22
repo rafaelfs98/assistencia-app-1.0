@@ -1,24 +1,35 @@
 import {
   Avatar,
+  Box,
+  Center,
   Divider,
   Group,
   Menu,
+  SegmentedControl,
+  Switch,
   Text,
   UnstyledButton,
+  useMantineColorScheme,
+  useMantineTheme,
 } from "@mantine/core";
 import { supabase } from "../../../services/supabase/supabaseClient";
 import { useEffect, useState } from "react";
 import { LoginType } from "../../../services/Types/suiteOS";
 
 import {
+  IconMoon,
+  IconMoonStars,
   IconPower,
   IconSettings,
+  IconSun,
   IconTrademark,
   IconUser,
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
 const AvatarFooter: React.FC = () => {
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const theme = useMantineTheme();
   const [usuario, setUsuario] = useState<LoginType[]>();
   const navigate = useNavigate();
 
@@ -57,7 +68,27 @@ const AvatarFooter: React.FC = () => {
           </Group>
         </UnstyledButton>
       </Menu.Target>
+
       <Menu.Dropdown>
+        <Menu.Item>
+          <Group position="center">
+            <Switch
+              checked={colorScheme === "dark"}
+              onChange={() => toggleColorScheme()}
+              onLabel={
+                <IconSun color={theme.white} size="1.25rem" stroke={1.5} />
+              }
+              offLabel={
+                <IconMoonStars
+                  color={theme.colors.gray[6]}
+                  size="1.25rem"
+                  stroke={1.5}
+                />
+              }
+            />
+          </Group>
+        </Menu.Item>
+        <Divider my="sm" />
         <Menu.Item icon={<IconTrademark size={14} />}>Empresa</Menu.Item>
         <Menu.Item icon={<IconUser size={14} />}>Perfil</Menu.Item>
         <Divider my="sm" />

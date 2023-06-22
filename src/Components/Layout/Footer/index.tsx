@@ -14,12 +14,11 @@ import {
   IconDeviceMobile,
   IconHierarchy,
   IconLayoutDashboard,
-  IconSettings,
   IconTool,
   IconUsers,
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-import AvatarFooter from "../Layout/UserAvatar/AvatarFooter";
+import AvatarFooter from "../UserAvatar/AvatarFooter";
 
 const FooterApp = () => {
   const navigate = useNavigate();

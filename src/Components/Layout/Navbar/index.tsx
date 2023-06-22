@@ -7,6 +7,7 @@ import {
   NavLink,
   Stack,
   UnstyledButton,
+  useMantineTheme,
 } from "@mantine/core";
 import {
   IconArticle,
@@ -34,9 +35,20 @@ const NavbarApp = () => {
     <MediaQuery
       className="loading__media_query"
       smallerThan="sm"
-      styles={{ display: "none", backgroundColor: "#1A1B1E" }}
+      styles={{ display: "none" }}
     >
-      <Navbar hiddenBreakpoint="xs" p="md" width={{ base: 240 }}>
+      <Navbar
+        hiddenBreakpoint="xs"
+        p="md"
+        width={{ base: 240 }}
+        sx={(theme) => ({
+          // subscribe to color scheme changes
+          backgroundColor:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[8]
+              : theme.colors.gray[3],
+        })}
+      >
         <Navbar.Section p="xs">
           <UnstyledButton onClick={() => navigateTo("/")}>
             <Image width={200} height={80} fit="contain" src="./SuiteOS.png" />
@@ -49,6 +61,8 @@ const NavbarApp = () => {
               title="Dashboard"
               label="Dashboard"
               icon={<IconLayoutDashboard size="1.5rem" stroke={1.5} />}
+              variant="filled"
+              active
             />
 
             <NavLink
@@ -56,12 +70,18 @@ const NavbarApp = () => {
               label="Ordem de Sevicos"
               icon={<IconClipboardList size="1.5rem" stroke={1.5} />}
               onClick={() => navigateTo("os")}
+              variant="subtle"
+              color="dark"
+              active
             />
 
             <NavLink
               title="Orcamento"
               label="Orcamento"
               icon={<IconCoin size="1.5rem" stroke={1.5} />}
+              variant="subtle"
+              color="dark"
+              active
             />
           </Stack>
         </Navbar.Section>
@@ -73,6 +93,9 @@ const NavbarApp = () => {
                   title="Cadastros"
                   label="Cadastros"
                   icon={<IconArticle size="1.5rem" stroke={1.5} />}
+                  variant="subtle"
+                  color="dark"
+                  active
                 />
               </Menu.Target>
 
