@@ -201,7 +201,7 @@ const PrintOrderServico = () => {
                 <tbody>{tableRows}</tbody>
               </table>
             </Group>
-            {context?.recebimentoToOrdemServico.length > 0 && (
+            {context?.recebimentoToOrdemServico?.length > 0 && (
               <>
                 <Divider className="print-order-servico__divider" />
                 <Title className="print-order-servico__subtitle" order={4}>

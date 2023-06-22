@@ -1,5 +1,5 @@
 import { Outlet, useParams } from "react-router-dom";
-import Loading from "../../Components/Layout/Loader";
+import Loading from "../../Components/Loader";
 import { useSupabase } from "../../hooks/useSupabase";
 import {
   OrdemServicoType,

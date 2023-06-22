@@ -3,7 +3,7 @@ import { IconPlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { ServicosData } from "../../../services/Types/suiteOS";
 import { useSupabase } from "../../../hooks/useSupabase";
-import Loading from "../../../Components/Layout/Loader";
+import Loading from "../../../Components/Loader";
 import ServicosActions from "./ServicosActions";
 import { useEffect } from "react";
 

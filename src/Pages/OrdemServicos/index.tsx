@@ -2,7 +2,7 @@ import { Button, Group, Table, Title } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../Components/Layout/Loader";
+import Loading from "../../Components/Loader";
 import { useSupabase } from "../../hooks/useSupabase";
 import { OrdemServicoType } from "../../services/Types/suiteOS";
 import OrdemServicoActions from "./OrdemServicoActions";

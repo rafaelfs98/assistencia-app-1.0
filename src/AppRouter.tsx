@@ -17,7 +17,6 @@ import Status from "./Pages/Cadastro/Status/index";
 import Login from "./Pages/Login/LoginPage";
 import NewUserForm from "./Pages/Login/NewUserForm";
 import OrdemServicos from "./Pages/OrdemServicos";
-import FecharOrdemServicosForm from "./Pages/OrdemServicos/FecharOrdemServico";
 import OrdemServicosForm from "./Pages/OrdemServicos/OrdemServicoForm";
 import OrdemServicosOutlet from "./Pages/OrdemServicos/OrdemServicoOutlet";
 import PaymentService from "./Pages/OrdemServicos/PaymentService";
