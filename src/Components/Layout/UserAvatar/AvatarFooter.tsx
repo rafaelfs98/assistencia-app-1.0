@@ -30,27 +30,16 @@ import { useNavigate } from "react-router-dom";
 const AvatarFooter: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const theme = useMantineTheme();
-  const [usuario, setUsuario] = useState<LoginType[]>();
+  const [usuario, setUsuario] = useState<LoginType>();
   const navigate = useNavigate();
 
-  const logoutUser = () => {
-    supabase.auth.signOut();
-
-    navigate("/");
-  };
-
   const getUser = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const userSessionStorage =
+      sessionStorage.getItem("user") ?? localStorage.getItem("user");
 
-    if (user) {
-      await supabase
-        .from("Users")
-        .select()
-        .eq("email", user?.email)
-        .then((response) => setUsuario(response?.data as any));
-    }
+    const userLoggedIn = JSON.parse(userSessionStorage as string);
+
+    setUsuario(userLoggedIn);
   };
 
   useEffect(() => {
@@ -63,7 +52,7 @@ const AvatarFooter: React.FC = () => {
         <UnstyledButton mr={10} ml={5} style={{ display: "block" }}>
           <Group>
             <Avatar color="cyan" radius="xl">
-              {usuario?.map((user) => user?.name.substring(0, 2))}
+              {usuario?.name?.substring(0, 2)}
             </Avatar>
           </Group>
         </UnstyledButton>
@@ -94,7 +83,8 @@ const AvatarFooter: React.FC = () => {
         <Divider my="sm" />
         <Menu.Item
           onClick={async () => {
-            await supabase.auth.signOut();
+            localStorage.removeItem("user");
+            sessionStorage.removeItem("user");
 
             navigate("/login");
           }}

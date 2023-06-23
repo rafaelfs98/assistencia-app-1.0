@@ -8,7 +8,7 @@ const Home = () => {
           maw={240}
           mx="auto"
           radius="md"
-          src="./SuiteOS.png"
+          src="./SuiteOSBack.png"
           alt="Random image"
         />
       </Container>

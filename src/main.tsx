@@ -7,8 +7,9 @@ import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { Notifications } from "@mantine/notifications";
 import { StrictMode } from "react";
 import { Root, createRoot } from "react-dom/client";
-import AppRouter from "./AppRouter";
+
 import "./styles/index.scss";
+import AppRouter from "./AppRouter";
 
 const App = () => {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({

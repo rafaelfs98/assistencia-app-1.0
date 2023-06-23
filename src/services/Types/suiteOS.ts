@@ -38,9 +38,11 @@ export type apiData = {
 }[];
 
 export type LoginType = {
-  name: string;
-  email: string;
-  password: string;
+  id: number;
+  usuario?: string;
+  name?: string;
+  email?: string;
+  senha?: string;
 };
 
 export type OrdemServicoType = {

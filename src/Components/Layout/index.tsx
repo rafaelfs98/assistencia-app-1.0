@@ -1,27 +1,25 @@
-import { AppShell, Box, Container } from "@mantine/core";
+import { AppShell } from "@mantine/core";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { supabase } from "../../services/supabase/supabaseClient";
 import NavbarApp from "./Navbar";
 
-import HeaderApp from "./Header";
 import FooterApp from "./Footer";
+import HeaderApp from "./Header";
 
 export default function AppShellDemo() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getLoggedInUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+    const isLoggedIn = () => {
+      const user =
+        sessionStorage.getItem("user") ?? localStorage.getItem("user");
 
       if (!user) {
         navigate("login");
       }
     };
 
-    getLoggedInUser();
+    isLoggedIn();
   }, []);
 
   return (

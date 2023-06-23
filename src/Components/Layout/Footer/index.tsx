@@ -5,6 +5,7 @@ import {
   MediaQuery,
   Menu,
   UnstyledButton,
+  useMantineTheme,
 } from "@mantine/core";
 import {
   IconArticle,
@@ -22,6 +23,14 @@ import AvatarFooter from "../UserAvatar/AvatarFooter";
 
 const FooterApp = () => {
   const navigate = useNavigate();
+  const theme = useMantineTheme();
+
+  const handleThemeChange = () => {
+    const logoSrc =
+      theme.colorScheme === "dark" ? "./SuiteOSBack.png" : "./SuiteOSBack.png";
+
+    return logoSrc;
+  };
 
   const navigateTo = (resource: string) => {
     navigate(resource);
@@ -33,7 +42,12 @@ const FooterApp = () => {
         <Group position="apart">
           <Group>
             <UnstyledButton onClick={() => navigateTo("/")}>
-              <Image width={50} height={40} fit="contain" src="./SuiteOS.png" />
+              <Image
+                width={50}
+                height={40}
+                fit="contain"
+                src={handleThemeChange()}
+              />
             </UnstyledButton>
           </Group>
 

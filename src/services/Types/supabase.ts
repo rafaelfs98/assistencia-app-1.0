@@ -49,6 +49,7 @@ export interface Database {
           numero?: number;
           telefone?: string | null;
         };
+        Relationships: [];
       };
       Equipment: {
         Row: {
@@ -78,6 +79,14 @@ export interface Database {
           modelo?: string | null;
           serie?: string | null;
         };
+        Relationships: [
+          {
+            foreignKeyName: "Equipment_cliente_id_fkey";
+            columns: ["cliente_id"];
+            referencedRelation: "Client";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       PaymentMethods: {
         Row: {
@@ -92,6 +101,7 @@ export interface Database {
           id?: number;
           name?: string | null;
         };
+        Relationships: [];
       };
       PaymentReceived: {
         Row: {
@@ -118,6 +128,14 @@ export interface Database {
           pago_total?: boolean | null;
           valor_pago?: number | null;
         };
+        Relationships: [
+          {
+            foreignKeyName: "PaymentReceived_ordem_servico_id_fkey";
+            columns: ["ordem_servico_id"];
+            referencedRelation: "ServiceOrder";
+            referencedColumns: ["documento"];
+          }
+        ];
       };
       Service: {
         Row: {
@@ -138,6 +156,7 @@ export interface Database {
           name?: string | null;
           valor?: number | null;
         };
+        Relationships: [];
       };
       ServiceOrder: {
         Row: {
@@ -173,6 +192,14 @@ export interface Database {
           solucao?: string | null;
           status?: string | null;
         };
+        Relationships: [
+          {
+            foreignKeyName: "ServiceOrder_equipamento_id_fkey";
+            columns: ["equipamento_id"];
+            referencedRelation: "Equipment";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       ServiceToServiceOrder: {
         Row: {
@@ -196,6 +223,20 @@ export interface Database {
           pago?: boolean | null;
           servico_id?: number | null;
         };
+        Relationships: [
+          {
+            foreignKeyName: "ServiceToServiceOrder_ordem_servico_id_fkey";
+            columns: ["ordem_servico_id"];
+            referencedRelation: "ServiceOrder";
+            referencedColumns: ["documento"];
+          },
+          {
+            foreignKeyName: "ServiceToServiceOrder_servico_id_fkey";
+            columns: ["servico_id"];
+            referencedRelation: "Service";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       Status: {
         Row: {
@@ -213,26 +254,31 @@ export interface Database {
           id?: number;
           name?: string | null;
         };
+        Relationships: [];
       };
       Users: {
         Row: {
-          created_at: string | null;
           email: string | null;
           id: number;
           name: string | null;
+          senha: string;
+          usuario: string;
         };
         Insert: {
-          created_at?: string | null;
           email?: string | null;
           id?: number;
           name?: string | null;
+          senha?: string;
+          usuario?: string;
         };
         Update: {
-          created_at?: string | null;
           email?: string | null;
           id?: number;
           name?: string | null;
+          senha?: string;
+          usuario?: string;
         };
+        Relationships: [];
       };
     };
     Views: {
