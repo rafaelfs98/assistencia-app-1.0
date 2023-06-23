@@ -117,7 +117,7 @@ const UserForm = () => {
                 className={classNames({
                   disabled: disabledCheckBox(id),
                 })}
-                defaultChecked={id === context.user[0].role_id}
+                defaultChecked={id === context?.user[0]?.role_id}
                 label={Role}
                 value={id}
                 key={index}
