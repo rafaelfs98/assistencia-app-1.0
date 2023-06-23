@@ -12,7 +12,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { LoginType } from "../../../services/Types/suiteOS";
+import { UserInfo } from "../../../services/Types/suiteOS";
 
 import {
   IconMoon,
@@ -20,13 +20,14 @@ import {
   IconSun,
   IconTrademark,
   IconUser,
+  IconUsers,
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
 const AvatarNavbar = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-  const [usuario, setUsuario] = useState<LoginType>();
+  const [usuario, setUsuario] = useState<UserInfo>();
   const navigate = useNavigate();
 
   const getUser = async () => {
@@ -41,6 +42,10 @@ const AvatarNavbar = () => {
   useEffect(() => {
     getUser();
   }, []);
+
+  const navigateTo = (resource: string) => {
+    navigate(resource);
+  };
 
   return (
     <Menu shadow="md" width={200} position="top-end">
@@ -91,6 +96,15 @@ const AvatarNavbar = () => {
             />
           </Group>
         </Menu.Item>
+
+        {usuario?.role_id === 1 && (
+          <Menu.Item
+            icon={<IconUsers size={14} />}
+            onClick={() => navigateTo("users")}
+          >
+            Usuarios
+          </Menu.Item>
+        )}
         <Menu.Item icon={<IconTrademark size={14} />}>Empresa</Menu.Item>
         <Menu.Item icon={<IconUser size={14} />}>Perfil</Menu.Item>
         <Divider my="sm" />

@@ -51,6 +51,21 @@ export interface Database {
         };
         Relationships: [];
       };
+      Empresa: {
+        Row: {
+          id: number;
+          name: string;
+        };
+        Insert: {
+          id?: number;
+          name: string;
+        };
+        Update: {
+          id?: number;
+          name?: string;
+        };
+        Relationships: [];
+      };
       Equipment: {
         Row: {
           cliente_id: number | null;
@@ -136,6 +151,21 @@ export interface Database {
             referencedColumns: ["documento"];
           }
         ];
+      };
+      Roles: {
+        Row: {
+          id: number;
+          Role: string | null;
+        };
+        Insert: {
+          id?: number;
+          Role?: string | null;
+        };
+        Update: {
+          id?: number;
+          Role?: string | null;
+        };
+        Relationships: [];
       };
       Service: {
         Row: {
@@ -259,26 +289,45 @@ export interface Database {
       Users: {
         Row: {
           email: string | null;
+          empresa_id: number | null;
           id: number;
           name: string | null;
+          role_id: number | null;
           senha: string;
           usuario: string;
         };
         Insert: {
           email?: string | null;
+          empresa_id?: number | null;
           id?: number;
           name?: string | null;
+          role_id?: number | null;
           senha?: string;
           usuario?: string;
         };
         Update: {
           email?: string | null;
+          empresa_id?: number | null;
           id?: number;
           name?: string | null;
+          role_id?: number | null;
           senha?: string;
           usuario?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "Users_empresa_id_fkey";
+            columns: ["empresa_id"];
+            referencedRelation: "Empresa";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "Users_role_id_fkey";
+            columns: ["role_id"];
+            referencedRelation: "Roles";
+            referencedColumns: ["id"];
+          }
+        ];
       };
     };
     Views: {
