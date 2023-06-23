@@ -6,21 +6,17 @@ import {
   Group,
   Menu,
   SegmentedControl,
-  Switch,
   Text,
   UnstyledButton,
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { supabase } from "../../../services/supabase/supabaseClient";
 import { useEffect, useState } from "react";
 import { LoginType } from "../../../services/Types/suiteOS";
 
 import {
   IconMoon,
-  IconMoonStars,
   IconPower,
-  IconSettings,
   IconSun,
   IconTrademark,
   IconUser,
@@ -29,23 +25,17 @@ import { useNavigate } from "react-router-dom";
 
 const AvatarNavbar = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const theme = useMantineTheme();
 
-  const [usuario, setUsuario] = useState<LoginType[]>();
+  const [usuario, setUsuario] = useState<LoginType>();
   const navigate = useNavigate();
 
   const getUser = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const userSessionStorage =
+      sessionStorage.getItem("user") ?? localStorage.getItem("user");
 
-    if (user) {
-      await supabase
-        .from("Users")
-        .select()
-        .eq("email", user?.email)
-        .then((response) => setUsuario(response?.data as any));
-    }
+    const userLoggedIn = JSON.parse(userSessionStorage as string);
+
+    setUsuario(userLoggedIn);
   };
 
   useEffect(() => {
@@ -58,15 +48,15 @@ const AvatarNavbar = () => {
         <UnstyledButton ml={5} style={{ display: "block" }}>
           <Group>
             <Avatar color="cyan" radius="xl">
-              {usuario?.map((user) => user?.name.substring(0, 2))}
+              {usuario?.name?.substring(0, 2)}
             </Avatar>
             <div style={{ flex: 1 }}>
               <Text size="sm" weight={500}>
-                {usuario?.map((user) => user?.name)}
+                {usuario?.name}
               </Text>
 
               <Text color="dimmed" size="xs">
-                {usuario?.map((user) => user?.email)}
+                {usuario?.email}
               </Text>
             </div>
           </Group>
@@ -106,7 +96,8 @@ const AvatarNavbar = () => {
         <Divider my="sm" />
         <Menu.Item
           onClick={async () => {
-            await supabase.auth.signOut();
+            sessionStorage.removeItem("user");
+            localStorage.removeItem("user");
 
             navigate("/login");
           }}

@@ -22,15 +22,14 @@ const NewUserForm = () => {
 
   const handleFormSubmit = async (form: LoginType) => {
     try {
-      const { data } = await supabase.auth.signUp({
-        email: form.email,
-        password: form.password,
-      });
-
-      if (data.session) {
-        await insertUser(form);
-        onSave();
-      }
+      // const { data } = await supabase.auth.signUp({
+      //   // email: form.email,
+      //   // password: form.password,
+      // });
+      // if (data.session) {
+      //   await insertUser(form);
+      //   onSave();
+      // }
     } catch (error) {
       onError();
       console.error(error);
@@ -70,7 +69,7 @@ const NewUserForm = () => {
             placeholder="Your password"
             required
             mt="md"
-            {...register("password")}
+            // {...register("password")}
           />
 
           <Button type="submit" fullWidth mt="xl">

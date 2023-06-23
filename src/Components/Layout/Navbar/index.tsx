@@ -23,9 +23,18 @@ import {
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import AvatarNavbar from "../UserAvatar/AvatarNavbar";
+import { useEffect, useState } from "react";
 
 const NavbarApp = () => {
   const navigate = useNavigate();
+  const theme = useMantineTheme();
+
+  const handleThemeChange = () => {
+    const logoSrc =
+      theme.colorScheme === "dark" ? "./SuiteOSBack.png" : "./SuiteOSBack.png";
+
+    return logoSrc;
+  };
 
   const navigateTo = (resource: string) => {
     navigate(resource);
@@ -51,7 +60,12 @@ const NavbarApp = () => {
       >
         <Navbar.Section p="xs">
           <UnstyledButton onClick={() => navigateTo("/")}>
-            <Image width={200} height={80} fit="contain" src="./SuiteOS.png" />
+            <Image
+              width={200}
+              height={80}
+              fit="contain"
+              src={handleThemeChange()}
+            />
           </UnstyledButton>
         </Navbar.Section>
         <Divider my="sm" />

@@ -1,91 +1,114 @@
 import { useState } from "react";
+import backgroundImage from "../../../public/img_tools.jpg";
+
 import {
-  TextInput,
-  PasswordInput,
-  Anchor,
-  Paper,
-  Title,
-  Text,
+  Button,
+  Checkbox,
   Container,
   Group,
-  Button,
+  Image,
+  Paper,
+  PasswordInput,
+  TextInput,
+  Title,
+  useMantineTheme,
 } from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../services/supabase/supabaseClient";
 import { LoginType } from "../../services/Types/suiteOS";
+import { supabase } from "../../services/supabase/supabaseClient";
 
 const Login = () => {
   const navigate = useNavigate();
+  const theme = useMantineTheme();
   const { handleSubmit, register } = useForm<LoginType>();
   const [error, setError] = useState<string>("");
+  const [isChecked, setIsChecked] = useState(false);
 
-  const _onSubmit = async (form: LoginType) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: form.email,
-      password: form.password,
-    });
+  const handleThemeChange = () => {
+    const logoSrc =
+      theme.colorScheme === "dark" ? "./SuiteOSBack.png" : "./SuiteOSBack.png";
 
-    if (error) {
-      setError(error.message);
-      return;
-    }
-
-    navigate("/");
+    return logoSrc;
   };
 
-  const handleCreateAccountClick = () => {
-    navigate("/createLogin");
+  const _onSubmit = async (form: LoginType) => {
+    const { data: users, error } = await supabase
+      .from("Users")
+      .select()
+      .eq("usuario", form.usuario)
+      .eq("senha", form.senha)
+      .single();
+
+    if (error || !users) {
+      setError(error.message);
+      alert("Erro ao fazer login");
+      return;
+    } else {
+      alert("Login bem-sucedido");
+      if (isChecked) {
+        localStorage.setItem("user", JSON.stringify(users));
+        return navigate("/");
+      }
+
+      sessionStorage.setItem("user", JSON.stringify(users));
+      navigate("/");
+    }
   };
 
   return (
-    <Container size={420} my={40}>
-      <Title
-        align="center"
-        sx={(theme) => ({
-          fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-          fontWeight: 900,
-        })}
-      >
-        Welcome back!
-      </Title>
-      <Text color="dimmed" size="sm" align="center" mt={5}>
-        Do not have an account yet?{" "}
-        <Anchor size="sm" component="button" onClick={handleCreateAccountClick}>
-          Create account
-        </Anchor>
-      </Text>
-      <form onSubmit={handleSubmit(_onSubmit)}>
-        {error && (
-          <Paper withBorder shadow="md" p={20} mt={20} radius="md" color="red">
-            {error}
+    <div className="login">
+      <Container size={420}>
+        <form onSubmit={handleSubmit(_onSubmit)}>
+          {error && (
+            <Paper
+              withBorder
+              shadow="md"
+              p={20}
+              mt={20}
+              radius="md"
+              color="red"
+            >
+              {error}
+            </Paper>
+          )}
+          <Paper withBorder shadow="md" p={30} mt={error ? 10 : 30} radius="md">
+            <Image
+              width={300}
+              height={80}
+              fit="contain"
+              src={handleThemeChange()}
+            />
+            <Group position="center">
+              <Title className="login__title">Login</Title>
+            </Group>
+            <TextInput
+              label="Usuario"
+              placeholder="Digite o nome do usuario..."
+              required
+              {...register("usuario")}
+            />
+            <PasswordInput
+              label="Password"
+              placeholder="Digite a senha..."
+              required
+              mt="md"
+              {...register("senha")}
+            />
+            <Group position="apart" mt="lg">
+              <Checkbox
+                label="Manter-me Logado"
+                checked={isChecked}
+                onChange={(event) => setIsChecked(event.currentTarget.checked)}
+              />
+            </Group>
+            <Button type="submit" fullWidth mt="xl">
+              Entrar
+            </Button>
           </Paper>
-        )}
-        <Paper withBorder shadow="md" p={30} mt={error ? 10 : 30} radius="md">
-          <TextInput
-            label="Email"
-            placeholder="you@mantine.dev"
-            required
-            {...register("email")}
-          />
-          <PasswordInput
-            label="Password"
-            placeholder="Your password"
-            required
-            mt="md"
-            {...register("password")}
-          />
-          <Group position="apart" mt="lg">
-            <Anchor component="button" size="sm">
-              Forgot password?
-            </Anchor>
-          </Group>
-          <Button type="submit" fullWidth mt="xl">
-            Sign in
-          </Button>
-        </Paper>
-      </form>
-    </Container>
+        </form>
+      </Container>
+    </div>
   );
 };
 
