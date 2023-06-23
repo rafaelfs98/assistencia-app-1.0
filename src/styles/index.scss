@@ -3,3 +3,17 @@
 @import "Components/header";
 @import "Components/loading";
 @import "Pages/login";
+
+.mantine-1xir3ka:has(input:disabled) label {
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.mantine-1bzbr75:checked {
+  background-color: #1971c2 !important;
+  border-color: #1971c2 !important;
+}
+
+.mantine-1bzbr75:disabled + .___ref-icon {
+  color: white !important;
+}

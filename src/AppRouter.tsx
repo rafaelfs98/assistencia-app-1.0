@@ -25,6 +25,9 @@ import PrintOrderServico from "./Pages/OrdemServicos/OrdeServicoReports/Imprimir
 import PaymentMethods from "./Pages/Cadastro/FormasDePagamentos";
 import PaymentMethodsForm from "./Pages/Cadastro/FormasDePagamentos/paymentMethodsForm";
 import PaymentMethodOutlet from "./Pages/Cadastro/FormasDePagamentos/paymentMethodsOutlet";
+import ManagerUser from "./Pages/Login/ManagerUser";
+import UserOutlet from "./Pages/Login/ManagerUser/userOutlet";
+import UserForm from "./Pages/Login/ManagerUser/userForm";
 
 const AppRouter = () => {
   return (
@@ -78,6 +81,13 @@ const AppRouter = () => {
               <Route element={<CloseOrderService />} path="encerrar" />
               <Route element={<PaymentService />} path="pagamento" />
               <Route element={<PrintOrderServico />} path="view" />
+            </Route>
+          </Route>
+          <Route element={<OutletBridge />} path="users">
+            <Route element={<ManagerUser />} index />
+            <Route element={<UserForm />} path="create" />
+            <Route element={<UserOutlet />} path=":userId">
+              <Route element={<UserForm />} path="update" />
             </Route>
           </Route>
         </Route>

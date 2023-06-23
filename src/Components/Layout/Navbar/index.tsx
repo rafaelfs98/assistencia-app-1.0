@@ -17,13 +17,11 @@ import {
   IconDeviceMobile,
   IconHierarchy,
   IconLayoutDashboard,
-  IconSettings,
   IconTool,
   IconUsers,
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import AvatarNavbar from "../UserAvatar/AvatarNavbar";
-import { useEffect, useState } from "react";
 
 const NavbarApp = () => {
   const navigate = useNavigate();
@@ -51,7 +49,6 @@ const NavbarApp = () => {
         p="md"
         width={{ base: 240 }}
         sx={(theme) => ({
-          // subscribe to color scheme changes
           backgroundColor:
             theme.colorScheme === "dark"
               ? theme.colors.dark[8]
