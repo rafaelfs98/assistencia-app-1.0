@@ -15,7 +15,6 @@ import StatusForm from "./Pages/Cadastro/Status/StatusForm";
 import StatusOutlet from "./Pages/Cadastro/Status/StatusOutlet";
 import Status from "./Pages/Cadastro/Status/index";
 import Login from "./Pages/Login/LoginPage";
-import NewUserForm from "./Pages/Login/NewUserForm";
 import OrdemServicos from "./Pages/OrdemServicos";
 import OrdemServicosForm from "./Pages/OrdemServicos/OrdemServicoForm";
 import OrdemServicosOutlet from "./Pages/OrdemServicos/OrdemServicoOutlet";
@@ -32,7 +31,6 @@ const AppRouter = () => {
     <HashRouter>
       <Routes>
         <Route element={<Login />} path="/login" />
-        <Route element={<NewUserForm />} path="/createLogin" />
         <Route element={<Layout />} path="/">
           <Route element={<Home />} index />
           <Route element={<OutletBridge />} path="clientes">
