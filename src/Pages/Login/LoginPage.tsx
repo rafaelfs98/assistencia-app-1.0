@@ -1,5 +1,4 @@
 import { useState } from "react";
-import backgroundImage from "../../../public/img_tools.jpg";
 
 import {
   Button,
@@ -15,13 +14,13 @@ import {
 } from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { LoginType } from "../../services/Types/suiteOS";
+import { UserInfo } from "../../services/Types/suiteOS";
 import { supabase } from "../../services/supabase/supabaseClient";
 
 const Login = () => {
   const navigate = useNavigate();
   const theme = useMantineTheme();
-  const { handleSubmit, register } = useForm<LoginType>();
+  const { handleSubmit, register } = useForm<UserInfo>();
   const [error, setError] = useState<string>("");
   const [isChecked, setIsChecked] = useState(false);
 
@@ -32,7 +31,7 @@ const Login = () => {
     return logoSrc;
   };
 
-  const _onSubmit = async (form: LoginType) => {
+  const _onSubmit = async (form: UserInfo) => {
     const { data: users, error } = await supabase
       .from("Users")
       .select()

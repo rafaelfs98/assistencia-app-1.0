@@ -37,12 +37,24 @@ export type apiData = {
   [x: string]: any;
 }[];
 
-export type LoginType = {
+export type UserInfo = {
   id: number;
   usuario?: string;
   name?: string;
   email?: string;
   senha?: string;
+  role_id?: number;
+  Roles: RolesData;
+};
+
+export type EmpresaData = {
+  id: number;
+  name: string;
+};
+
+export type RolesData = {
+  id: number;
+  Role: string;
 };
 
 export type OrdemServicoType = {

@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import { supabase } from "../../../services/supabase/supabaseClient";
 import { useEffect, useState } from "react";
-import { LoginType } from "../../../services/Types/suiteOS";
+import { UserInfo } from "../../../services/Types/suiteOS";
 
 import {
   IconMoon,
@@ -24,13 +24,14 @@ import {
   IconSun,
   IconTrademark,
   IconUser,
+  IconUsers,
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
 const AvatarFooter: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const theme = useMantineTheme();
-  const [usuario, setUsuario] = useState<LoginType>();
+  const [usuario, setUsuario] = useState<UserInfo>();
   const navigate = useNavigate();
 
   const getUser = async () => {
@@ -45,6 +46,10 @@ const AvatarFooter: React.FC = () => {
   useEffect(() => {
     getUser();
   }, []);
+
+  const navigateTo = (resource: string) => {
+    navigate(resource);
+  };
 
   return (
     <Menu shadow="md" width={150} position="top">
@@ -78,6 +83,14 @@ const AvatarFooter: React.FC = () => {
           </Group>
         </Menu.Item>
         <Divider my="sm" />
+        {usuario?.role_id === 1 && (
+          <Menu.Item
+            icon={<IconUsers size={14} />}
+            onClick={() => navigateTo("users")}
+          >
+            Usuarios
+          </Menu.Item>
+        )}
         <Menu.Item icon={<IconTrademark size={14} />}>Empresa</Menu.Item>
         <Menu.Item icon={<IconUser size={14} />}>Perfil</Menu.Item>
         <Divider my="sm" />
