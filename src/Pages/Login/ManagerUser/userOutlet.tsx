@@ -14,7 +14,6 @@ const UserOutlet = () => {
       <Outlet
         context={{
           user,
-
           mutateUser,
         }}
       />

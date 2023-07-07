@@ -31,7 +31,7 @@ const ClientesForm = () => {
   const viewTrue = pathname.includes("view");
   const context = useOutletContext<{
     cliente: ClientesData[];
-    mutateCliente: KeyedMutator<ClientesData>;
+    mutateCliente: KeyedMutator<ClientesData[]>;
   }>();
 
   const [cep, setCep] = useState<Endereco>();
@@ -48,27 +48,28 @@ const ClientesForm = () => {
   const cepWatch = watch("cep");
 
   const onSubmit = async (form: ClientesData) => {
-    const { error } = await upsertCliente(form, Number(clienteId));
+    try {
+      const response = await upsertCliente(form, Number(clienteId));
 
-    if (!error) {
+      context?.mutateCliente(response as ClientesData[]);
       return onSave();
+    } catch (error) {
+      return onError(error);
     }
-
-    return onError(error.message);
   };
 
   const handleCepSearch = async () => {
     try {
-      const response = await apiBuscaCep.get(`${cepWatch}/json`);
+      const { data } = await apiBuscaCep.get(`${cepWatch}/json`);
 
-      setCep(response.data);
+      setCep(data);
+
+      setValue("logradouro", data?.logradouro);
+      setValue("cidade", data?.localidade);
+      setValue("bairro", data?.bairro);
     } catch (error) {
       alert("Opa! Tem algum erro aí");
     }
-
-    setValue("logradouro", cep?.logradouro ?? "");
-    setValue("cidade", cep?.localidade ?? "");
-    setValue("bairro", cep?.bairro ?? "");
   };
 
   useEffect(() => {

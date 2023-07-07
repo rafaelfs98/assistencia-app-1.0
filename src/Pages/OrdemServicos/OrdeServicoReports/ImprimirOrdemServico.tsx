@@ -120,12 +120,12 @@ const PrintOrderServico = () => {
               </Title>
               {context.ordemServico && (
                 <>
-                  <Text className="print-order-servico__text">{`Nome : ${context.ordemServico[0].Equipment?.Client.name}`}</Text>
-                  <Text className="print-order-servico__text">{`Cep : ${context.ordemServico[0].Equipment?.Client.cep}`}</Text>
-                  <Text className="print-order-servico__text">{`Rua : ${context.ordemServico[0].Equipment?.Client.logradouro},${context.ordemServico[0].Equipment?.Client.numero}`}</Text>
-                  <Text className="print-order-servico__text">{`Bairo/Cidade :  ${context.ordemServico[0].Equipment?.Client.bairro},${context.ordemServico[0].Equipment?.Client.cidade}`}</Text>
+                  <Text className="print-order-servico__text">{`Nome : ${context.ordemServico[0].Equipment?.Client?.name}`}</Text>
+                  <Text className="print-order-servico__text">{`Cep : ${context.ordemServico[0].Equipment?.Client?.cep}`}</Text>
+                  <Text className="print-order-servico__text">{`Rua : ${context.ordemServico[0].Equipment?.Client?.logradouro},${context.ordemServico[0].Equipment?.Client?.numero}`}</Text>
+                  <Text className="print-order-servico__text">{`Bairo/Cidade :  ${context.ordemServico[0].Equipment?.Client?.bairro},${context.ordemServico[0].Equipment?.Client?.cidade}`}</Text>
                   <Text className="print-order-servico__text">
-                    {`Telefone : ${context.ordemServico[0].Equipment?.Client.telefone}`}
+                    {`Telefone : ${context.ordemServico[0].Equipment?.Client?.telefone}`}
                   </Text>
                 </>
               )}

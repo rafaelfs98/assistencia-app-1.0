@@ -37,7 +37,7 @@ const EquipamentosForm = () => {
   const viewTrue = pathname.includes("view");
   const context = useOutletContext<{
     equipamentos: EquipamentosData[];
-    mutateEquipamentos: KeyedMutator<EquipamentosData>;
+    mutateEquipamentos: KeyedMutator<EquipamentosData[]>;
   }>();
 
   const {
@@ -53,17 +53,14 @@ const EquipamentosForm = () => {
   });
 
   const onSubmit = async (form: EquipamentosData) => {
-    const { data, error } = await upsertEquipamento(
-      form,
-      Number(equipamentoId)
-    );
+    try {
+      const response = await upsertEquipamento(form, Number(equipamentoId));
 
-    if (!error) {
-      context.mutateEquipamentos(data as any);
+      context?.mutateEquipamentos(response as EquipamentosData[]);
       return onSave();
+    } catch (error) {
+      return onError(error);
     }
-
-    return onError(error.message);
   };
 
   useEffect(() => {

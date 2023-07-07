@@ -10,7 +10,11 @@ import {
 const OrdemServicosOutlet = () => {
   const { osId } = useParams<{ osId: string }>();
 
-  const { data: ordemServico, isLoading } = useSupabase<OrdemServicoType>({
+  const {
+    data: ordemServico,
+    isLoading,
+    mutate: mutateOrdemServico,
+  } = useSupabase<OrdemServicoType>({
     uri: `/ServiceOrder?documento=eq.${osId}`,
     select: `
     documento,
@@ -45,20 +49,6 @@ const OrdemServicosOutlet = () => {
   `,
   });
 
-  const { data: ordemServicoXServico } = useSupabase<ServicoToOrdemServico>({
-    uri: `/ServiceToServiceOrder?ordem_servico_id=eq.${osId}`,
-    select: `
-        id,
-        Service (
-          name,
-          valor
-        )
-      `,
-  });
-  const { data: recebimentoToOrdemServico } = useSupabase<RecebimentoData>({
-    uri: `/PaymentReceived?ordem_servico_id=eq.${osId}`,
-  });
-
   if (isLoading) {
     return <Loading />;
   }
@@ -67,9 +57,8 @@ const OrdemServicosOutlet = () => {
     return (
       <Outlet
         context={{
+          mutateOrdemServico,
           ordemServico,
-          ordemServicoXServico,
-          recebimentoToOrdemServico,
         }}
       />
     );

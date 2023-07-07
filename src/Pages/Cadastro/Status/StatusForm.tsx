@@ -13,7 +13,7 @@ const StatussForm = () => {
   const [title, setTitle] = useState<String>("Adicionar Status");
   const context = useOutletContext<{
     status: StatusData[];
-    mutateStatus: KeyedMutator<StatusData>;
+    mutateStatus: KeyedMutator<StatusData[]>;
   }>();
 
   const {
@@ -25,13 +25,14 @@ const StatussForm = () => {
   });
 
   const onSubmit = async (form: StatusData) => {
-    const { error } = await upsertStatus(form, Number(statusId));
+    try {
+      const response = await upsertStatus(form, Number(statusId));
 
-    if (!error) {
+      context?.mutateStatus(response as StatusData[]);
       return onSave();
+    } catch (error) {
+      return onError(error);
     }
-
-    return onError(error.message);
   };
 
   useEffect(() => {

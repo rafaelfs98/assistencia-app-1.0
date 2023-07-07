@@ -17,7 +17,7 @@ export type EquipamentosData = {
   cor: string;
   serie: string;
   cliente_id: number;
-  Client: ClientesData;
+  Client?: ClientesData;
 };
 
 export type FormaPagmentoData = {
@@ -44,7 +44,7 @@ export type UserInfo = {
   email?: string;
   senha?: string;
   role_id?: number;
-  Roles: RolesData;
+  Roles?: RolesData;
 };
 
 export type EmpresaData = {
@@ -58,12 +58,12 @@ export type RolesData = {
 };
 
 export type OrdemServicoType = {
-  acessorios: string;
+  acessorios?: string;
   data_entrada: string;
   data_saida?: string;
   defeito?: string;
   documento: number;
-  equipamento_id?: string;
+  equipamento_id?: number;
   Equipment?: EquipamentosData;
   observacao?: string;
   solucao?: string;

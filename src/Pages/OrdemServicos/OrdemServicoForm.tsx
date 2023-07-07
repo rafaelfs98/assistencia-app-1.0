@@ -36,6 +36,7 @@ import {
   ServicosData,
 } from "../../services/Types/suiteOS";
 import ServicoToOrdemServicoForm from "./ServicoToOrdemServico";
+import { KeyedMutator } from "swr";
 
 const OrderServicosForm = () => {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ const OrderServicosForm = () => {
 
   const context = useOutletContext<{
     ordemServico: OrdemServicoType[];
+    mutateOrdemServico: KeyedMutator<OrdemServicoType[]>;
   }>();
 
   const [equipamentosByCliente, setEquipamentosByCliente] =
@@ -85,19 +87,22 @@ const OrderServicosForm = () => {
   const disableTabs = !!context?.ordemServico;
 
   const onSubmit = async (form: OrdemServicoType) => {
-    const response = await upsertOrdemServicos(form, Number(osId));
+    try {
+      const response = await upsertOrdemServicos(form, Number(osId));
 
-    if (!response.error) {
+      console.log(response);
+
+      context?.mutateOrdemServico(response as OrdemServicoType[]);
       if (!window.confirm("Desejar imprimir a OS ?")) {
         return onSave();
       }
 
       onSuccess();
 
-      return navigate(`/os/${response?.data[0]?.documento}/view`);
+      return navigate(`/os/${response[0]?.documento}/view`);
+    } catch (error) {
+      return onError(error);
     }
-
-    return onError(response?.error?.message);
   };
 
   useEffect(() => {
@@ -226,7 +231,7 @@ const OrderServicosForm = () => {
                   setClienteId(String(value));
                 }}
                 defaultValue={String(
-                  context?.ordemServico[0]?.Equipment?.Client.id
+                  context?.ordemServico[0]?.Equipment?.Client?.id
                 )}
                 required
                 searchable
@@ -256,7 +261,7 @@ const OrderServicosForm = () => {
                   </UnstyledButton>
                 }
                 onChange={(value) => {
-                  setValue("equipamento_id", String(value));
+                  setValue("equipamento_id", Number(value));
                 }}
                 defaultValue={String(context?.ordemServico[0]?.Equipment?.id)}
                 required

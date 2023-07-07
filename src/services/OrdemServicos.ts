@@ -5,7 +5,7 @@ export const upsertOrdemServicos = async (
   os: OrdemServicoType,
   osId: number
 ) => {
-  const responseUpsert = await supabase
+  const { data, error } = await supabase
     .from("ServiceOrder")
     .upsert({
       acessorios: os.acessorios,
@@ -20,7 +20,13 @@ export const upsertOrdemServicos = async (
     })
     .select();
 
-  return responseUpsert;
+  if (error) {
+    throw Error(error?.message);
+  }
+
+  console.log(data);
+
+  return data as OrdemServicoType[];
 };
 
 export const deleteOrdemServicos = async (osId: string) => {

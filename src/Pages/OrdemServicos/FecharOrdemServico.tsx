@@ -21,6 +21,7 @@ import {
   ServicoToOrdemServico,
   ServicosData,
 } from "../../services/Types/suiteOS";
+import { KeyedMutator } from "swr";
 
 const CloseOrderService = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const CloseOrderService = () => {
 
   const context = useOutletContext<{
     ordemServico: OrdemServicoType[];
+    mutateOrdemServico: KeyedMutator<OrdemServicoType[]>;
   }>();
 
   const [title, setTitle] = useState<string>("Abrir Ordem de Servico");
@@ -87,9 +89,11 @@ const CloseOrderService = () => {
   }, [getTotalAmount]);
 
   const onSubmit = async (form: OrdemServicoType) => {
-    const { error } = await upsertOrdemServicos(form, Number(osId));
+    try {
+      const response = await upsertOrdemServicos(form, Number(osId));
 
-    if (!error) {
+      context?.mutateOrdemServico(response as OrdemServicoType[]);
+
       if (!paymentPaid) {
         if (
           !window.confirm(
@@ -105,9 +109,9 @@ const CloseOrderService = () => {
       }
 
       return onSave();
+    } catch (error) {
+      return onError(error);
     }
-
-    return onError(error.message);
   };
 
   useEffect(() => {
