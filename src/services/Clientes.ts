@@ -1,11 +1,11 @@
-import { supabase } from "./supabase/supabaseClient";
 import { ClientesData } from "./Types/suiteOS";
+import { supabase } from "./supabase/supabaseClient";
 
 export const upsertCliente = async (
   cliente: ClientesData,
   clienteId: number
 ) => {
-  const responseCliente = await supabase
+  const { data, error } = await supabase
     .from("Client")
     .upsert({
       id: clienteId ? clienteId : undefined,
@@ -21,7 +21,11 @@ export const upsertCliente = async (
     })
     .select();
 
-  return responseCliente;
+  if (error) {
+    throw Error(error?.message);
+  }
+
+  return data as ClientesData[];
 };
 export const deleteCliente = async (clienteId: string) => {
   await supabase.from("Client").delete().eq("id", clienteId);

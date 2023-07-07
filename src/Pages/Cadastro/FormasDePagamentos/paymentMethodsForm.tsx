@@ -14,7 +14,7 @@ const PaymentMethodForm = () => {
 
   const context = useOutletContext<{
     paymentMethod: PaymentMethodData[];
-    mutatePaymentMethod: KeyedMutator<PaymentMethodData>;
+    mutatePaymentMethod: KeyedMutator<PaymentMethodData[]>;
   }>();
 
   const {
@@ -26,13 +26,17 @@ const PaymentMethodForm = () => {
   });
 
   const onSubmit = async (form: PaymentMethodData) => {
-    const { error } = await paymentMethodsUpsert(form, Number(paymentmethodId));
+    try {
+      const response = await paymentMethodsUpsert(
+        form,
+        Number(paymentmethodId)
+      );
 
-    if (!error) {
+      context?.mutatePaymentMethod(response as PaymentMethodData[]);
       return onSave();
+    } catch (error) {
+      return onError(error);
     }
-
-    return onError(error.message);
   };
 
   useEffect(() => {

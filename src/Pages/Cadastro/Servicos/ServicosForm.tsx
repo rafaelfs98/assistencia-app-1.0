@@ -24,7 +24,7 @@ const ServicosForm = () => {
   const viewTrue = pathname.includes("view");
   const context = useOutletContext<{
     servicos: ServicosData[];
-    mutateCliente: KeyedMutator<ServicosData>;
+    mutateServicos: KeyedMutator<ServicosData[]>;
   }>();
 
   const {
@@ -36,13 +36,14 @@ const ServicosForm = () => {
   });
 
   const onSubmit = async (form: ServicosData) => {
-    const { error } = await upsertServicos(form, Number(servicoId));
+    try {
+      const response = await upsertServicos(form, Number(servicoId));
 
-    if (!error) {
+      context?.mutateServicos(response as ServicosData[]);
       return onSave();
+    } catch (error) {
+      return onError(error);
     }
-
-    return onError(error.message);
   };
 
   useEffect(() => {

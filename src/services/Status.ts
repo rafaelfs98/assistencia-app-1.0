@@ -2,7 +2,7 @@ import { supabase } from "./supabase/supabaseClient";
 import { StatusData } from "./Types/suiteOS";
 
 export const upsertStatus = async (status: StatusData, statusId: number) => {
-  const responseStatus = await supabase
+  const { data, error } = await supabase
     .from("Status")
     .upsert({
       id: statusId ? statusId : undefined,
@@ -10,7 +10,11 @@ export const upsertStatus = async (status: StatusData, statusId: number) => {
     })
     .select();
 
-  return responseStatus;
+  if (error) {
+    throw Error(error?.message);
+  }
+
+  return data as StatusData[];
 };
 export const deleteStatus = async (Status: string) => {
   await supabase.from("Status").delete().eq("id", Status);

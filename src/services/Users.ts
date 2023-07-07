@@ -2,7 +2,7 @@ import { supabase } from "./supabase/supabaseClient";
 import { UserInfo } from "./Types/suiteOS";
 
 export const upsertUser = async (user: UserInfo, userId: number) => {
-  const responseUser = await supabase
+  const { data, error } = await supabase
     .from("Users")
     .upsert({
       id: userId ? userId : undefined,
@@ -15,7 +15,11 @@ export const upsertUser = async (user: UserInfo, userId: number) => {
     })
     .select();
 
-  return responseUser;
+  if (error) {
+    throw Error(error?.message);
+  }
+
+  return data as UserInfo[];
 };
 export const deleteStatus = async (userId: string) => {
   await supabase.from("Users").delete().eq("id", userId);

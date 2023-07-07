@@ -13,18 +13,13 @@ import {
 import { useForm } from "react-hook-form";
 import { useOutletContext, useParams } from "react-router-dom";
 import useFormActions from "../../../hooks/useFormActions";
-import {
-  RolesData,
-  StatusData,
-  UserInfo,
-} from "../../../services/Types/suiteOS";
+import { RolesData, UserInfo } from "../../../services/Types/suiteOS";
 
+import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { KeyedMutator } from "swr";
-import { upsertStatus } from "../../../services/Status";
-import { upsertUser } from "../../../services/Users";
 import { useSupabase } from "../../../hooks/useSupabase";
-import classNames from "classnames";
+import { upsertUser } from "../../../services/Users";
 
 const UserForm = () => {
   const { userId } = useParams();
@@ -32,7 +27,7 @@ const UserForm = () => {
   const context = useOutletContext<{
     user: UserInfo[];
     roles: RolesData[];
-    mutateUser: KeyedMutator<UserInfo>;
+    mutateUser: KeyedMutator<UserInfo[]>;
   }>();
 
   const {
@@ -58,13 +53,14 @@ const UserForm = () => {
     !!context?.user;
 
   const onSubmit = async (form: UserInfo) => {
-    const { error } = await upsertUser(form, Number(userId));
+    try {
+      const response = await upsertUser(form, Number(userId));
 
-    if (!error) {
+      context?.mutateUser(response as UserInfo[]);
       return onSave();
+    } catch (error) {
+      return onError(error);
     }
-
-    return onError(error.message);
   };
 
   const { data: roles } = useSupabase<RolesData>({

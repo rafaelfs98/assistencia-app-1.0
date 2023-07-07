@@ -5,7 +5,7 @@ export const paymentMethodsUpsert = async (
   paymentMethod: PaymentMethodData,
   paymentMethodsid: number
 ) => {
-  const responseUpsert = await supabase
+  const { data, error } = await supabase
     .from("PaymentMethods")
     .upsert({
       id: paymentMethodsid ? paymentMethodsid : undefined,
@@ -13,7 +13,11 @@ export const paymentMethodsUpsert = async (
     })
     .select();
 
-  return responseUpsert;
+  if (error) {
+    throw Error(error?.message);
+  }
+
+  return data as PaymentMethodData[];
 };
 
 export const deletePaymentMethods = async (id: string) => {
