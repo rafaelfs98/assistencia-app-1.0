@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Button,
@@ -14,15 +14,14 @@ import {
 } from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { UserInfo } from "../../services/Types/suiteOS";
-import { supabase } from "../../services/supabase/supabaseClient";
+import { LoginInfo } from "../../services/Types/suiteOS";
+import { loginUser } from "../../services/Users";
 
 const Login = () => {
   const navigate = useNavigate();
   const theme = useMantineTheme();
-  const { handleSubmit, register } = useForm<UserInfo>();
+  const { handleSubmit, register } = useForm<LoginInfo>();
   const [error, setError] = useState<string>("");
-  const [isChecked, setIsChecked] = useState(false);
 
   const handleThemeChange = () => {
     const logoSrc =
@@ -31,27 +30,19 @@ const Login = () => {
     return logoSrc;
   };
 
-  const _onSubmit = async (form: UserInfo) => {
-    const { data: users, error } = await supabase
-      .from("Users")
-      .select()
-      .eq("usuario", form.usuario)
-      .eq("senha", form.senha)
-      .single();
+  const _onSubmit = async (form: LoginInfo) => {
+    try {
+      const response = await loginUser(form.email, form.password);
 
-    if (error || !users) {
-      setError(error.message);
-      alert("Erro ao fazer login");
-      return;
-    } else {
-      alert("Login bem-sucedido");
-      if (isChecked) {
-        localStorage.setItem("user", JSON.stringify(users));
-        return navigate("/");
+      if (response.error) {
+        setError("Erro ao fazer login");
+      } else {
+        sessionStorage.setItem("user", JSON.stringify(response));
+
+        navigate("/");
       }
-
-      sessionStorage.setItem("user", JSON.stringify(users));
-      navigate("/");
+    } catch (error) {
+      setError("Erro ao fazer login");
     }
   };
 
@@ -82,25 +73,19 @@ const Login = () => {
               <Title className="login__title">Login</Title>
             </Group>
             <TextInput
-              label="Usuario"
-              placeholder="Digite o nome do usuario..."
+              label="Email"
+              placeholder="Digite o Email do usuario..."
+              type="email"
               required
-              {...register("usuario")}
+              {...register("email")}
             />
             <PasswordInput
               label="Password"
               placeholder="Digite a senha..."
               required
               mt="md"
-              {...register("senha")}
+              {...register("password")}
             />
-            <Group position="apart" mt="lg">
-              <Checkbox
-                label="Manter-me Logado"
-                checked={isChecked}
-                onChange={(event) => setIsChecked(event.currentTarget.checked)}
-              />
-            </Group>
             <Button type="submit" fullWidth mt="xl">
               Entrar
             </Button>

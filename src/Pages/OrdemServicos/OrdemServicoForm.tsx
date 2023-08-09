@@ -211,7 +211,7 @@ const OrderServicosForm = () => {
                 data={
                   clientes
                     ? clientes.map((item) => ({
-                        label: item.name + " - " + item.telefone,
+                        label: item.nome + " - " + item.telefone,
                         value: String(item.id),
                       }))
                     : []

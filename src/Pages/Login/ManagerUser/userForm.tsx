@@ -102,7 +102,7 @@ const UserForm = () => {
               placeholder="Digite a senha..."
               required
               mt="md"
-              {...register("senha")}
+              {...register("password")}
             />
           </Group>
           <Stack mt="xs">
@@ -113,13 +113,13 @@ const UserForm = () => {
                 className={classNames({
                   disabled: disabledCheckBox(id),
                 })}
-                defaultChecked={id === context?.user[0]?.role_id}
+                defaultChecked={id === context?.user[0]?.roleId}
                 label={Role}
                 value={id}
                 key={index}
                 disabled={disabledCheckBox(id)}
                 onChange={() => {
-                  setValue("role_id", id);
+                  setValue("roleId", id);
                   handleCheckboxChange(id);
                 }}
               />

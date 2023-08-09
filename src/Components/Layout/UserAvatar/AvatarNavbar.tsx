@@ -36,7 +36,7 @@ const AvatarNavbar = () => {
 
     const userLoggedIn = JSON.parse(userSessionStorage as string);
 
-    setUsuario(userLoggedIn);
+    setUsuario(userLoggedIn.user);
   };
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const AvatarNavbar = () => {
           </Group>
         </Menu.Item>
 
-        {usuario?.role_id === 1 && (
+        {usuario?.roleId === 1 && (
           <Menu.Item
             icon={<IconUsers size={14} />}
             onClick={() => navigateTo("users")}

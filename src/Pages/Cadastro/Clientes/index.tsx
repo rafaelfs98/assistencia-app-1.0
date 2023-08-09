@@ -15,13 +15,16 @@ import { ClientesData } from "../../../services/Types/suiteOS";
 
 import ClientesActions from "./ClientesActions";
 import { useEffect } from "react";
+import { useFetcher } from "../../../hooks/useFetcher";
 
 const Clientes: React.FC = () => {
   const navigate = useNavigate();
 
-  const { data, isLoading } = useSupabase<ClientesData>({
-    uri: `/Client?order=id.asc`,
+  const { data, isLoading } = useFetcher<ClientesData>({
+    uri: `/clientes`,
   });
+
+  console.log(data);
 
   const ths = (
     <tr>
@@ -33,7 +36,7 @@ const Clientes: React.FC = () => {
 
   const rows = data?.map((item, index) => (
     <tr key={index}>
-      <td onClick={() => navigate(`${item?.id}/view`)}>{item.name}</td>
+      <td onClick={() => navigate(`${item?.id}/view`)}>{item.nome}</td>
       <td>{item.telefone}</td>
 
       <td>

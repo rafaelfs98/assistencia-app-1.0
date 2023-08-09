@@ -43,7 +43,7 @@ const OrdemServicos: React.FC = () => {
         {item.documento}
       </td>
       <td>{item.status}</td>
-      <td>{item?.Equipment?.Client?.name}</td>
+      <td>{item?.Equipment?.Client?.nome}</td>
       <td>
         <OrdemServicoActions osId={String(item.documento)} />
       </td>

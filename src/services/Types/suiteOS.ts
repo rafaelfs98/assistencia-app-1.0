@@ -6,7 +6,7 @@ export type ClientesData = {
   complemento: string;
   email: string;
   logradouro: string;
-  name: string;
+  nome: string;
   numero: number;
   telefone: string;
 };
@@ -42,9 +42,14 @@ export type UserInfo = {
   usuario?: string;
   name?: string;
   email?: string;
-  senha?: string;
-  role_id?: number;
+  password?: string;
+  roleId?: number;
   Roles?: RolesData;
+};
+
+export type LoginInfo = {
+  email: string;
+  password: string;
 };
 
 export type EmpresaData = {

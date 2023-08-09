@@ -11,8 +11,7 @@ export default function AppShellDemo() {
 
   useEffect(() => {
     const isLoggedIn = () => {
-      const user =
-        sessionStorage.getItem("user") ?? localStorage.getItem("user");
+      const user = sessionStorage.getItem("user");
 
       if (!user) {
         navigate("login");
