@@ -12,7 +12,6 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { supabase } from "../../../services/supabase/supabaseClient";
 import { useEffect, useState } from "react";
 import { UserInfo } from "../../../services/Types/suiteOS";
 
@@ -35,12 +34,11 @@ const AvatarFooter: React.FC = () => {
   const navigate = useNavigate();
 
   const getUser = async () => {
-    const userSessionStorage =
-      sessionStorage.getItem("user") ?? localStorage.getItem("user");
+    const userSessionStorage = sessionStorage.getItem("user");
 
     const userLoggedIn = JSON.parse(userSessionStorage as string);
 
-    setUsuario(userLoggedIn);
+    setUsuario(userLoggedIn?.user);
   };
 
   useEffect(() => {
@@ -83,7 +81,7 @@ const AvatarFooter: React.FC = () => {
           </Group>
         </Menu.Item>
         <Divider my="sm" />
-        {usuario?.role_id === 1 && (
+        {usuario?.roleId === 1 && (
           <Menu.Item
             icon={<IconUsers size={14} />}
             onClick={() => navigateTo("users")}

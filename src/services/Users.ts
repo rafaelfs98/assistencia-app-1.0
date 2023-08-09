@@ -1,3 +1,4 @@
+import axios from "axios";
 import { supabase } from "./supabase/supabaseClient";
 import { UserInfo } from "./Types/suiteOS";
 
@@ -8,9 +9,9 @@ export const upsertUser = async (user: UserInfo, userId: number) => {
       id: userId ? userId : undefined,
       name: user.name,
       email: user.email,
-      senha: user.senha,
+      senha: user.password,
       usuario: user.usuario,
-      role_id: user.role_id,
+      role_id: user.roleId,
       empresa_id: 1,
     })
     .select();
@@ -23,4 +24,18 @@ export const upsertUser = async (user: UserInfo, userId: number) => {
 };
 export const deleteStatus = async (userId: string) => {
   await supabase.from("Users").delete().eq("id", userId);
+};
+
+export const loginUser = async (email: string, password: string) => {
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND}/login`, {
+      email,
+      password,
+    });
+
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    return { error: "Erro ao fazer login" };
+  }
 };

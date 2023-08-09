@@ -14,9 +14,10 @@ import { IMaskInput } from "react-imask";
 import { useLocation, useOutletContext, useParams } from "react-router-dom";
 import { KeyedMutator } from "swr";
 import useFormActions from "../../../hooks/useFormActions";
-import { upsertCliente } from "../../../services/Clientes";
+
 import { ClientesData } from "../../../services/Types/suiteOS";
 import apiBuscaCep from "../../../services/buscaCep/apiBuscaCep";
+import { insertOrUpdateClient } from "../../../services/Clientes";
 
 type Endereco = {
   bairro: string;
@@ -30,8 +31,8 @@ const ClientesForm = () => {
   const { pathname } = useLocation();
   const viewTrue = pathname.includes("view");
   const context = useOutletContext<{
-    cliente: ClientesData[];
-    mutateCliente: KeyedMutator<ClientesData[]>;
+    cliente: ClientesData;
+    mutateCliente: KeyedMutator<ClientesData>;
   }>();
 
   const [cep, setCep] = useState<Endereco>();
@@ -42,16 +43,18 @@ const ClientesForm = () => {
   } = useFormActions();
 
   const { handleSubmit, register, setValue, watch } = useForm<ClientesData>({
-    defaultValues: context ? context?.cliente[0] : {},
+    defaultValues: context ? context?.cliente : {},
   });
 
   const cepWatch = watch("cep");
 
   const onSubmit = async (form: ClientesData) => {
     try {
-      const response = await upsertCliente(form, Number(clienteId));
+      const response = await insertOrUpdateClient(form, clienteId);
+      context?.mutateCliente(response as any);
 
-      context?.mutateCliente(response as ClientesData[]);
+      console.log(response);
+
       return onSave();
     } catch (error) {
       return onError(error);
@@ -72,9 +75,11 @@ const ClientesForm = () => {
     }
   };
 
+  console.log(context?.cliente);
+
   useEffect(() => {
     if (context?.cliente) {
-      document.title = `${context?.cliente?.map((item) => item.name)}`;
+      document.title = `${context?.cliente?.nome}`;
       setTitle("Editar Cliente");
     }
   }, []);
@@ -85,7 +90,7 @@ const ClientesForm = () => {
         <Title order={4}>{title}</Title>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextInput
-            {...register("name")}
+            {...register("nome")}
             label="Nome"
             mt="md"
             readOnly={viewTrue}
@@ -107,7 +112,7 @@ const ClientesForm = () => {
               mask="(00) 0000-0000"
               mt="md"
               onAccept={(value) => setValue("telefone", value as string)}
-              value={context?.cliente[0]?.telefone}
+              value={context?.cliente?.telefone}
             />
           </Group>
 
